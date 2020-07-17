@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:guimyapp/src/Pages/AuthUser/LoginUser.dart';
+import 'package:guimyapp/src/Pages/AuthUser/RegisterUser.dart';
 import 'package:guimyapp/src/Pages/SplashPage.dart';
  
 void main() => runApp(MyApp());
@@ -14,6 +15,7 @@ class MyApp extends StatelessWidget {
       routes: {
         "/splash" : (BuildContext context) => SplashPage(),
         "/Login" : (BuildContext context) => LoginUser(),
+        "/Register" : (BuildContext context) => RegisterUser(),
       },
     );
   }

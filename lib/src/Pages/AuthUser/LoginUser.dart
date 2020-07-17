@@ -25,13 +25,24 @@ class _LoginUserState extends State<LoginUser> {
   }
   Widget _createBackground(BuildContext context){
     Size size = MediaQuery.of(context).size;
+    Image imagen = Image.asset("lib/src/Sources/Logos/LogoGuimy.png");
     return Stack(
       children: [
         BackGroundWidget(size),
         Container(
           //color: Colors.blue,
+          height: 200.0,
           width: double.infinity,
-          child: Hero(tag: "keyLogo",child: Image.asset("lib/src/Sources/Logos/LogoGuimy.png"))
+          child: Hero(
+            tag: "keyLogo",
+            child: Container(
+              decoration: BoxDecoration( image:  DecorationImage(image: imagen.image)),
+            ),
+          )
+          
+          
+          
+          //Hero(tag: "keyLogo",child: Image.asset("lib/src/Sources/Logos/LogoGuimy.png"))
         ),
 
       ],
@@ -54,7 +65,7 @@ class _LoginUserState extends State<LoginUser> {
              SizedBox(height: 15.0,),
           Container(
             width: size.width * 0.8,
-            height: size.height * 0.6,
+            //height: size.height * 0.6,
             //color: Colors.blue,
             child: Column(
               children: [
@@ -64,7 +75,7 @@ class _LoginUserState extends State<LoginUser> {
                 _botonLogin(),
                 //Text("¿Olvidaste tu contraseña? ")
                 _textoBajo(),
-                _textoRegistrate()
+                _textoRegistrate(context)
               ],
             ),
           )
@@ -146,17 +157,21 @@ class _LoginUserState extends State<LoginUser> {
       ),
     );
   }
-  Widget _textoRegistrate(){
-    return Padding(
+  Widget _textoRegistrate(BuildContext context){
+    return Container(
+      margin: EdgeInsets.only(bottom: 10.0),
       padding: const EdgeInsets.all(8.0),
-      child: RichText(
-        text: TextSpan(
-          style: TextStyle(color: Colors.orange[800]),
-          children: [
-            TextSpan(text: '¿No tienes una Cuenta? '),
-            TextSpan(text: 'Registrate',style: TextStyle(fontWeight: FontWeight.bold)),
-          ]
-        )
+      child: GestureDetector(
+        onTap: ()=>Navigator.pushNamed(context, "/Register"),
+        child: RichText(
+          text: TextSpan(
+            style: TextStyle(color: Colors.orange[800]),
+            children: [
+              TextSpan(text: '¿No tienes una Cuenta? '),
+              TextSpan(text: 'Registrate',style: TextStyle(fontWeight: FontWeight.bold)),
+            ]
+          )
+        ),
       ),
     );
   }
