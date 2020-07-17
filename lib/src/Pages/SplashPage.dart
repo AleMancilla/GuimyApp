@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:guimyapp/src/Widgets/BackGroundWidget.dart';
 
 class SplashPage extends StatefulWidget {
 
@@ -25,11 +26,11 @@ class _SplashPageState extends State<SplashPage> {
     Size size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Color.fromRGBO(239,241,250, 1.0),
+        //backgroundColor: Color.fromRGBO(239,241,250, 1.0),
         //backgroundColor: Colors.black,
         body: Stack(
           children: [
-            _background(size),
+            BackGroundWidget(size),
             Center( child: Hero(tag: "keyLogo",child: Image.asset("lib/src/Sources/Logos/LogoGuimy.png")), ),
           ],
         ),
