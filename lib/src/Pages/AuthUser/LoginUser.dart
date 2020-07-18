@@ -124,22 +124,25 @@ class _LoginUserState extends State<LoginUser> {
   }
   
   Widget _botonLogin(){
-    return Container(
-      width: double.infinity,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(50.0),
-        color: Color.fromRGBO(235,122,39, 1.0),
-        
-      ),
-      child: Text("Login",style: TextStyle(
-               color: Colors.white,
-               fontSize: 20.0,
-               fontWeight: FontWeight.bold,
+    return GestureDetector(
+      onTap: ()=>Navigator.pushNamed(context, "/homePage"),
+      child: Container(
+        width: double.infinity,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(50.0),
+          color: Color.fromRGBO(235,122,39, 1.0),
+          
+        ),
+        child: Text("Login",style: TextStyle(
+                 color: Colors.white,
+                 fontSize: 20.0,
+                 fontWeight: FontWeight.bold,
 
-             ),),
-      margin: EdgeInsets.all(8.0),
-      padding: EdgeInsets.symmetric(horizontal: 20.0,vertical: 20.0),
-      alignment: Alignment.center,
+               ),),
+        margin: EdgeInsets.all(8.0),
+        padding: EdgeInsets.symmetric(horizontal: 20.0,vertical: 20.0),
+        alignment: Alignment.center,
+      ),
     );
   }
 

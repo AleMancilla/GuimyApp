@@ -155,7 +155,7 @@ class RegisterUser extends StatelessWidget {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
-        border: new Border.all(color: Colors.grey,width: 1.5),
+        border: new Border.all(color: Colors.grey[600],width: 1.0),
         borderRadius: BorderRadius.circular(50.0),
         color: Colors.white,
         
@@ -164,7 +164,7 @@ class RegisterUser extends StatelessWidget {
       padding: EdgeInsets.symmetric(vertical: 5.0),
       alignment: Alignment.center,
       child: CountryCodePicker(
-        textStyle: TextStyle(fontWeight: FontWeight.normal,fontSize: 25.0,color: Colors.grey[900]),
+        textStyle: TextStyle(fontWeight: FontWeight.normal,fontSize: 25.0,color: Colors.grey[600]),
         onChanged: (x){
           String line = "$x";
           //print("#############${x.name}");
