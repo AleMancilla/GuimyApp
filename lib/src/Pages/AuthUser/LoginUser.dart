@@ -14,7 +14,6 @@ class _LoginUserState extends State<LoginUser> {
       child: Scaffold(
          body: Stack(
            children:[
-             
               _createBackground(context),
               _centerPart(context),
            ] 

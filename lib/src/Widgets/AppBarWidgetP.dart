@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:guimyapp/src/Provider/ModelProvider.dart';
+import 'package:provider/provider.dart';
 
 class AppBarWidgetP extends StatelessWidget {
   
@@ -7,7 +9,7 @@ class AppBarWidgetP extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return Container(
       height: 80.0,
-      width: double.infinity,
+      width: size.width,
       //decoration: BoxDecoration(
       //  color: Colors.blue,
       //  borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20.0), bottomRight:Radius.circular(20.0) )
@@ -19,7 +21,7 @@ class AppBarWidgetP extends StatelessWidget {
         margin: EdgeInsets.only(left: 0.0,right: 0.0, top: 0.0,bottom: 5.0),
         elevation: 10.0,
         child: Container(
-          width: double.infinity,
+          width: size.width,
           height: 80.0,
           //color: Colors.red,
           child: Container(
@@ -32,7 +34,7 @@ class AppBarWidgetP extends StatelessWidget {
               ),
               borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20.0), bottomRight:Radius.circular(20.0)) 
             ) ,
-            child: _contenidoAppBar(),
+            child: _contenidoAppBar(context),
             //color: Colors.blue,
           ),
         )
@@ -40,7 +42,7 @@ class AppBarWidgetP extends StatelessWidget {
     );
   }
 
-  Widget _contenidoAppBar(){
+  Widget _contenidoAppBar(BuildContext context){
     //final img = (NetworkImage("https://cdn3.iconfinder.com/data/icons/avatars-round-flat/33/avat-01-512.png") == null)?AssetImage("lib/src/Sources/IconsBar/Pasteles.png",):NetworkImage("https://cdn3.iconfinder.com/data/icons/avatars-round-flat/33/avat-01-512.png");
 
     final tamIconAvatar = 25.0;
@@ -71,7 +73,7 @@ class AppBarWidgetP extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text("Hola"),
-                  Text("Mundo",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20.0),)
+                  Text("Mundo",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20.0),overflow: TextOverflow.ellipsis,)
                 ],
               ),
             ),
@@ -79,30 +81,67 @@ class AppBarWidgetP extends StatelessWidget {
 
           // ########################
 
-           CircleAvatar(
-            radius: tamIconAvatar,
-            backgroundImage: AssetImage("lib/src/Sources/IconsBar/AvatarRegalo.png"),
-            //backgroundColor: Colors.transparent,
-            //backgroundColor: Colors.blue,
+           InkWell(
+             onTap: (){
+               Provider.of<ModelProvider>(context,listen: false).indexPage=5;
+             },
+             child: Card(
+               shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(50.0)) ,
+                ),
+                margin: EdgeInsets.only(left: 0.0,right: 0.0, top: 0.0,bottom: 5.0),
+               elevation: 10.0,
+               child: CircleAvatar(
+                radius: tamIconAvatar,
+                backgroundImage: AssetImage("lib/src/Sources/IconsBar/AvatarRegalo.png"),
+                backgroundColor: Colors.transparent,
+                //backgroundColor: Colors.blue,
           ),
+             ),
+           ),
 
           // #########################
-
-           CircleAvatar(
-            radius: tamIconAvatar,
-            backgroundImage: AssetImage("lib/src/Sources/IconsBar/AvatarTicket.png"),
-            //backgroundColor: Colors.transparent,
-            //backgroundColor: Colors.blue,
+          SizedBox(width: 5.0,),
+           InkWell(
+             onTap: (){
+               Provider.of<ModelProvider>(context,listen: false).indexPage=6;
+             },
+             child: Card(
+               shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(50.0)) ,
+                ),
+                margin: EdgeInsets.only(left: 0.0,right: 0.0, top: 0.0,bottom: 5.0),
+               elevation: 10.0,
+               child: CircleAvatar(
+                radius: tamIconAvatar,
+                backgroundImage: AssetImage("lib/src/Sources/IconsBar/AvatarTicket.png"),
+                backgroundColor: Colors.transparent,
+                //backgroundColor: Colors.blue,
           ),
+             ),
+           ),
 
           // #########################
+          SizedBox(width: 5.0,),
+           InkWell(
+             onTap: (){
+               Provider.of<ModelProvider>(context,listen: false).indexPage=7;
+             },
+             child: Card(
 
-           CircleAvatar(
-            radius: tamIconAvatar,
+               shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(50.0)) ,
+                ),
+                margin: EdgeInsets.only(left: 0.0,right: 0.0, top: 0.0,bottom: 5.0),
+               elevation: 10.0,
+               child: CircleAvatar(
+                radius: tamIconAvatar,
 
-            backgroundImage: AssetImage("lib/src/Sources/IconsBar/AvatarCampana.png",),
-            //backgroundColor: Colors.transparent,
+                backgroundImage: AssetImage("lib/src/Sources/IconsBar/AvatarCampana.png",),
+                backgroundColor: Colors.transparent,
           ),
+             ),
+           ),
         ],
       ),
     );
