@@ -17,6 +17,35 @@ class ModelProvider extends ChangeNotifier{
   String get email => this._email;
 
   FirebaseAuth _auth = FirebaseAuth.instance;
+  //#############################################33
+
+  Future<String> onStartUp()async{
+    String retVal = "error";
+    try {
+      FirebaseUser _firebaseUser = await _auth.currentUser();
+      _uid = _firebaseUser.uid;
+      _email = _firebaseUser.email;
+      retVal = "success";
+    } catch (e) {
+      print("nuevo error encontrado en $e");
+    }
+    return retVal;
+  }
+
+  Future<String> signOut()async{
+    String retVal = "error";
+    try {
+      await _auth.signOut();
+      _uid = null;
+      _email = null;
+      retVal = "success";
+    } catch (e) {
+      print("nuevo error encontrado en $e");
+    }
+    return retVal;
+  }
+
+  //#############################################33
 
   Future<bool> signUpUser (String email, String password) async {
     bool retVal = false;

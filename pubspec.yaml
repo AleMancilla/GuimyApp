@@ -32,6 +32,7 @@ dependencies:
   font_awesome_flutter: ^8.8.1
   provider: ^4.3.1
   firebase_auth:
+  shared_preferences:
   
 
 dev_dependencies:
