@@ -1,7 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:guimyapp/src/Provider/ModelProvider.dart';
 import 'package:guimyapp/src/Widgets/BackGroundWidget.dart';
 import 'package:country_code_picker/country_code_picker.dart';
-class RegisterUser extends StatelessWidget {
+import 'package:provider/provider.dart';
+class RegisterUser extends StatefulWidget {
+  @override
+  _RegisterUserState createState() => _RegisterUserState();
+}
+
+class _RegisterUserState extends State<RegisterUser> {
+
+  TextEditingController _fullNameController = TextEditingController();
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passController = TextEditingController();
+  TextEditingController _countryController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -17,6 +29,7 @@ class RegisterUser extends StatelessWidget {
     );
 
   }
+
   Widget _createBackground(BuildContext context){
     Size size = MediaQuery.of(context).size;
     Image imagen = Image.asset("lib/src/Sources/Logos/LogoGuimy.png");
@@ -65,7 +78,7 @@ class RegisterUser extends StatelessWidget {
                 _inputPass(),
                 _inputPais(),
                 //SizedBox(height: 5.0,),
-                _botonLogin(),
+                _botonSingUp(context),
                 //Text("¿Olvidaste tu contraseña? ")
                 _textoYaTienesCuenta(context),
                 //_textoRegistrate(context)
@@ -81,6 +94,7 @@ class RegisterUser extends StatelessWidget {
     return Container(
       margin: EdgeInsets.all(8.0),
       child: TextField(
+        controller: _fullNameController,
         decoration: InputDecoration(
           fillColor: Colors.white,
           border: OutlineInputBorder(
@@ -95,10 +109,12 @@ class RegisterUser extends StatelessWidget {
       ),
     );
   }
+
   Widget _inputEmail(){
     return Container(
       margin: EdgeInsets.all(8.0),
       child: TextField(
+        controller: _emailController,
         decoration: InputDecoration(
           fillColor: Colors.white,
           border: OutlineInputBorder(
@@ -118,6 +134,7 @@ class RegisterUser extends StatelessWidget {
     return Container(
       margin: EdgeInsets.all(8.0),
       child: TextField(
+        controller: _passController,
         decoration: InputDecoration(
           fillColor: Colors.white,
           border: OutlineInputBorder(
@@ -133,25 +150,9 @@ class RegisterUser extends StatelessWidget {
       ),
     );
   }
+
   Widget _inputPais(){
-
-    Widget txal = Container(
-      margin: EdgeInsets.all(8.0),
-      child: TextField(
-        decoration: InputDecoration(
-          fillColor: Colors.white,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(50.0)
-          ),
-          hintText: "Pais",
-          alignLabelWithHint: false,
-          filled: true
-        ),
-        keyboardType: TextInputType.text,
-        textInputAction: TextInputAction.done,
-      ),
-    );
-
+    // falta controller
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
@@ -184,41 +185,32 @@ class RegisterUser extends StatelessWidget {
 
     
   }
-  
-  Widget _botonLogin(){
-    return Container(
-      width: double.infinity,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(50.0),
-        color: Color.fromRGBO(235,122,39, 1.0),
-        
-      ),
-      child: Text("Register",style: TextStyle(
-               color: Colors.white,
-               fontSize: 20.0,
-               fontWeight: FontWeight.bold,
 
-             ),),
-      margin: EdgeInsets.all(8.0),
-      padding: EdgeInsets.symmetric(horizontal: 20.0,vertical: 20.0),
-      alignment: Alignment.center,
+  Widget _botonSingUp(BuildContext context){
+    return InkWell(
+      onTap: (){
+        _signUpUser(_emailController.text, _passController.text, context);
+      },
+      child: Container(
+        width: double.infinity,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(50.0),
+          color: Color.fromRGBO(235,122,39, 1.0),
+          
+        ),
+        child: Text("Register",style: TextStyle(
+                 color: Colors.white,
+                 fontSize: 20.0,
+                 fontWeight: FontWeight.bold,
+
+               ),),
+        margin: EdgeInsets.all(8.0),
+        padding: EdgeInsets.symmetric(horizontal: 20.0,vertical: 20.0),
+        alignment: Alignment.center,
+      ),
     );
   }
 
-  // Widget _textoBajo(){
-  //   return Padding(
-  //     padding: const EdgeInsets.symmetric(vertical: 8.0),
-  //     child: RichText(
-  //       text: TextSpan(
-  //         style: TextStyle(color: Colors.orange[800]),
-  //         children: [
-  //           TextSpan(text: '¿Ya tienes una cuenta? '),
-  //           TextSpan(text: 'Iniciar Sesion',style: TextStyle(fontWeight: FontWeight.bold)),
-  //         ]
-  //       )
-  //     ),
-  //   );
-  // }
   Widget _textoYaTienesCuenta(BuildContext context){
     return Container(
       margin: EdgeInsets.only(bottom: 15.0),
@@ -236,5 +228,16 @@ class RegisterUser extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+void _signUpUser(String email, String pass, BuildContext context) async {
+  ModelProvider _currentUser = Provider.of<ModelProvider>(context, listen: false);
+  try {
+    if(await _currentUser.signUpUser(email, pass)){
+      Navigator.pushReplacementNamed(context, "/homePage");
+    }
+  } catch (e) {
+    print(e);
   }
 }

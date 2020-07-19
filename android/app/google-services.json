@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "967340234954",
+    "firebase_url": "https://guimyapp-ef820.firebaseio.com",
+    "project_id": "guimyapp-ef820",
+    "storage_bucket": "guimyapp-ef820.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:967340234954:android:9f71f053c4583ad09f3c33",
+        "android_client_info": {
+          "package_name": "com.example.guimyapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "967340234954-69qqpfp3mb3f173us2ir1n5g11930np9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBSjmdMoNrmAVJX24x7taabn4W4JLjR9ZQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "967340234954-69qqpfp3mb3f173us2ir1n5g11930np9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

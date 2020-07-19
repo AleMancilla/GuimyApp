@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:guimyapp/src/Provider/ModelProvider.dart';
 import 'package:guimyapp/src/Widgets/BackGroundWidget.dart';
+import 'package:provider/provider.dart';
 
 class LoginUser extends StatefulWidget {
 
@@ -8,6 +10,10 @@ class LoginUser extends StatefulWidget {
 }
 
 class _LoginUserState extends State<LoginUser> {
+
+  TextEditingController _email = TextEditingController();
+  TextEditingController _password = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -71,7 +77,7 @@ class _LoginUserState extends State<LoginUser> {
                 _inputEmail(),
                 _inputPass(),
                 //SizedBox(height: 5.0,),
-                _botonLogin(),
+                _botonLogin(context),
                 //Text("¿Olvidaste tu contraseña? ")
                 _textoBajo(),
                 _textoRegistrate(context)
@@ -87,6 +93,7 @@ class _LoginUserState extends State<LoginUser> {
     return Container(
       margin: EdgeInsets.all(8.0),
       child: TextField(
+        controller: _email,
         decoration: InputDecoration(
           fillColor: Colors.white,
           border: OutlineInputBorder(
@@ -106,6 +113,7 @@ class _LoginUserState extends State<LoginUser> {
     return Container(
       margin: EdgeInsets.all(8.0),
       child: TextField(
+        controller: _password,
         decoration: InputDecoration(
           fillColor: Colors.white,
           border: OutlineInputBorder(
@@ -122,9 +130,11 @@ class _LoginUserState extends State<LoginUser> {
     );
   }
   
-  Widget _botonLogin(){
+  Widget _botonLogin(BuildContext context){
     return GestureDetector(
-      onTap: ()=>Navigator.pushNamed(context, "/homePage"),
+      onTap: (){
+        _loginUser(_email.text, _password.text, context);
+      },
       child: Container(
         width: double.infinity,
         decoration: BoxDecoration(
@@ -177,4 +187,19 @@ class _LoginUserState extends State<LoginUser> {
       ),
     );
   }
+}
+
+void _loginUser(String email, String password, BuildContext context) async{
+  ModelProvider _modelProvider = Provider.of<ModelProvider>(context,listen: false);
+
+  try {
+    if(await _modelProvider.loginUser(email, password)){
+      Navigator.of(context).pushReplacementNamed("/homePage");
+    }else{
+      print("############## no puedes iniciar session");
+    }
+  } catch (e) {
+    print("##\$## error: $e");
+  }
+
 }
