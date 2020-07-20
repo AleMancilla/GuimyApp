@@ -33,6 +33,8 @@ dependencies:
   provider: ^4.3.1
   firebase_auth:
   shared_preferences:
+  graphql_flutter: ^3.0.0
+  
   
 
 dev_dependencies:

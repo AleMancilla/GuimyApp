@@ -9,6 +9,7 @@ class ModelProvider extends ChangeNotifier{
     notifyListeners();
   }
 
+  //##################### auth ########################33
   // Current State User
   String _uid;
   String _email;
@@ -17,7 +18,6 @@ class ModelProvider extends ChangeNotifier{
   String get email => this._email;
 
   FirebaseAuth _auth = FirebaseAuth.instance;
-  //#############################################33
 
   Future<String> onStartUp()async{
     String retVal = "error";
@@ -78,5 +78,53 @@ class ModelProvider extends ChangeNotifier{
     }
     return retVal;
   }
+
+
+
+  // ################################################################
+  // ############     RESERVADO PARA DATOS DE USUARIO   #############
+  // ################################################################
+
+  String _userName ; 
+  String _userEmail ;
+  String _userPassword ;
+  String _userCountry ;
+  String _userAvatar ; 
+  String _userPhone;
+
+
+  String get userPhone => this._userPhone;
+  String get userName => this._userName;
+  String get userEmail => this._userEmail;
+  String get userPassword => this._userPassword;
+  String get userCountry => this._userCountry;
+  String get userAvatar => this._userAvatar;
+
+  set userName(String userName){
+    this._userName = userName;
+    //notifyListeners();
+  }
+  set userEmail(String userEmail){
+    this._userEmail = userEmail;
+    //notifyListeners();
+  }
+  set userPassword(String userPassword){
+    this._userPassword = userPassword;
+    //notifyListeners();
+  }
+  set userCountry(String userCountry){
+    this._userCountry = userCountry;
+    //notifyListeners();
+  }
+  set userAvatar(String userAvatar){
+    this._userAvatar = userAvatar;
+    //notifyListeners();
+  }
+
+  set userPhone(String phone){
+    this._userPhone = phone;
+    // notifyListeners();
+  }
+    
   
 }

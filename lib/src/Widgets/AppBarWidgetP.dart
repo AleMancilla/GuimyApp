@@ -53,11 +53,16 @@ class AppBarWidgetP extends StatelessWidget {
         children: [
           // ########################
 
-          CircleAvatar(
-            radius: 30.0,
-            //backgroundColor: Colors.black,
-            backgroundImage: NetworkImage("https://i.pravatar.cc/200"),
-            //backgroundColor: Colors.blue,
+          InkWell(
+            onTap: (){
+               Provider.of<ModelProvider>(context,listen: false).indexPage=8;
+             },
+            child: CircleAvatar(
+              radius: 30.0,
+              //backgroundColor: Colors.black,
+              backgroundImage: NetworkImage("https://i.pravatar.cc/200"),
+              //backgroundColor: Colors.blue,
+            ),
           ),
 
           //Image.network("https://d2gg9evh47fn9z.cloudfront.net/800px_COLOURBOX24476126.jpg"),

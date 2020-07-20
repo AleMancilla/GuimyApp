@@ -38,11 +38,8 @@ class _LoginUserState extends State<LoginUser> {
           //color: Colors.blue,
           height: 200.0,
           width: double.infinity,
-          child: Hero(
-            tag: "keyLogo",
-            child: Container(
-              decoration: BoxDecoration( image:  DecorationImage(image: imagen.image)),
-            ),
+          child: Container(
+            decoration: BoxDecoration( image:  DecorationImage(image: imagen.image)),
           )
           
           

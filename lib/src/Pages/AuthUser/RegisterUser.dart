@@ -1,8 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:guimyapp/src/Provider/ModelProvider.dart';
 import 'package:guimyapp/src/Widgets/BackGroundWidget.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:provider/provider.dart';
+
+final String _insertUser = """
+  mutation insertUser(\$country : String, \$email: String, \$name: name, \$pass:String, \$phone:String) {
+  insert_users_one(object:{
+    country : \$country
+    email: \$email
+    name : \$name
+    password : \$pass
+    phone : \$phone
+  }){
+    id
+    email
+    name
+  }
+}
+  """;
+
+
 class RegisterUser extends StatefulWidget {
   @override
   _RegisterUserState createState() => _RegisterUserState();
@@ -10,10 +29,11 @@ class RegisterUser extends StatefulWidget {
 
 class _RegisterUserState extends State<RegisterUser> {
 
-  TextEditingController _fullNameController = TextEditingController();
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _passController = TextEditingController();
-  TextEditingController _countryController = TextEditingController();
+  TextEditingController _fullNameController   = TextEditingController();
+  TextEditingController _emailController      = TextEditingController();
+  TextEditingController _passController       = TextEditingController();
+  String                _countryController    = "Peru";
+  TextEditingController _phoneNumber          = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -77,6 +97,7 @@ class _RegisterUserState extends State<RegisterUser> {
                 _inputEmail(),
                 _inputPass(),
                 _inputPais(),
+                _inputPhone(),
                 //SizedBox(height: 5.0,),
                 _botonSingUp(context),
                 //Text("¿Olvidaste tu contraseña? ")
@@ -150,6 +171,26 @@ class _RegisterUserState extends State<RegisterUser> {
       ),
     );
   }
+  Widget _inputPhone(){
+    return Container(
+      margin: EdgeInsets.all(8.0),
+      child: TextField(
+        controller: _phoneNumber,
+        decoration: InputDecoration(
+          fillColor: Colors.white,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(50.0)
+          ),
+          hintText: "Numero de celular",
+          alignLabelWithHint: false,
+          filled: true
+        ),
+        keyboardType: TextInputType.number,
+        textInputAction: TextInputAction.done,
+      ),
+    );
+  }
+
 
   Widget _inputPais(){
     // falta controller
@@ -167,13 +208,13 @@ class _RegisterUserState extends State<RegisterUser> {
       child: CountryCodePicker(
         textStyle: TextStyle(fontWeight: FontWeight.normal,fontSize: 25.0,color: Colors.grey[600]),
         onChanged: (x){
-          String line = "$x";
+          _countryController = x.name;
           //print("#############${x.name}");
           return print(x);
         },
            // Initial selection and favorite can be one of code ('IT') OR dial_code('+39')
-           initialSelection: 'MX',
-           favorite: ['+52','MX'],
+           initialSelection: 'PE',
+           favorite: ['+52','MX','+51','PE','+591','BO',],
            // optional. Shows only country name and flag
            showCountryOnly: true,
            // optional. Shows only country name and flag when popup is closed.
@@ -187,28 +228,75 @@ class _RegisterUserState extends State<RegisterUser> {
   }
 
   Widget _botonSingUp(BuildContext context){
-    return InkWell(
-      onTap: (){
-        _signUpUser(_emailController.text, _passController.text, context);
-      },
-      child: Container(
-        width: double.infinity,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(50.0),
-          color: Color.fromRGBO(235,122,39, 1.0),
-          
-        ),
-        child: Text("Register",style: TextStyle(
-                 color: Colors.white,
-                 fontSize: 20.0,
-                 fontWeight: FontWeight.bold,
+    ModelProvider _currentUser = Provider.of<ModelProvider>(context, listen: false); 
 
-               ),),
-        margin: EdgeInsets.all(8.0),
-        padding: EdgeInsets.symmetric(horizontal: 20.0,vertical: 20.0),
-        alignment: Alignment.center,
-      ),
-    );
+    //#######################
+    return Mutation(
+        options: MutationOptions(
+          documentNode: gql(_insertUser), // this is the mutation string you just created
+          // you can update the cache based on results
+          // update: (Cache cache, QueryResult result) {
+          //   return cache;
+          // },
+          // or do something with the result.data on completion
+          onCompleted: (dynamic resultData) {
+            print(resultData);
+          },
+        ),
+        builder: (
+          RunMutation runMutation,
+          QueryResult result,
+        ) {
+          
+          return InkWell(
+            onTap: (){
+
+              // print("###########  ${_fullNameController.text}");
+              // print("###########  ${_emailController.text}");
+              // print("###########  ${_passController.text}");
+              // print("###########  ${_countryController.toString()}");
+              // print("###########  ${_phoneNumber.text}");
+
+              _currentUser.userName = _fullNameController.text;
+              _currentUser.userEmail = _emailController.text;
+              _currentUser.userPassword = _passController.text;
+              _currentUser.userCountry = _countryController.toString();
+              _currentUser.userPhone = _phoneNumber.text;
+
+
+              print("#############______ ENVIO A GRAPQL ______#############");
+              runMutation({
+                  "country": _currentUser.userCountry,
+                  "email": _currentUser.userEmail,
+                  "name": _currentUser.userName,
+                  "pass": _currentUser.userPassword,
+                  "phone": _currentUser.userPhone
+                });
+              
+              _signUpUser(_emailController.text, _passController.text, context);
+            },
+            child: Container(
+              width: double.infinity,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(50.0),
+                color: Color.fromRGBO(235,122,39, 1.0),
+                
+              ),
+              child: Text("Register",style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.bold,
+
+                    ),),
+              margin: EdgeInsets.all(8.0),
+              padding: EdgeInsets.symmetric(horizontal: 20.0,vertical: 20.0),
+              alignment: Alignment.center,
+            ),
+          );
+        },
+      );
+    //#######################
+    
   }
 
   Widget _textoYaTienesCuenta(BuildContext context){
@@ -232,9 +320,48 @@ class _RegisterUserState extends State<RegisterUser> {
 }
 
 void _signUpUser(String email, String pass, BuildContext context) async {
+
   ModelProvider _currentUser = Provider.of<ModelProvider>(context, listen: false);
   try {
     if(await _currentUser.signUpUser(email, pass)){
+
+
+      // ####################################
+      // Mutation(
+      //   options: MutationOptions(
+      //     documentNode: gql(_insertUser), // this is the mutation string you just created
+      //     // you can update the cache based on results
+      //     update: (Cache cache, QueryResult result) {
+      //       return cache;
+      //     },
+      //     // or do something with the result.data on completion
+      //     onCompleted: (dynamic resultData) {
+      //       print(resultData);
+      //     },
+      //   ),
+      //   builder: (
+      //     RunMutation runMutation,
+      //     QueryResult result,
+      //   ) {
+      //     print("#############_____________#############");
+      //     runMutation({
+      //         "country": _currentUser.userCountry,
+      //         "email": _currentUser.userEmail,
+      //         "name": _currentUser.userName,
+      //         "pass": _currentUser.userPassword,
+      //         "phone": _currentUser.userPhone
+      //       });
+      //     return Container();
+      //   },
+      // );
+      // ####################################
+
+      print("## ${_currentUser.userName}"); 
+      print("## ${_currentUser.userEmail}"); 
+      print("## ${_currentUser.userPassword}"); 
+      print("## ${_currentUser.userCountry}"); 
+      print("## ${_currentUser.userPhone}"); 
+      
       Navigator.pushReplacementNamed(context, "/homePage");
     }
   } catch (e) {
