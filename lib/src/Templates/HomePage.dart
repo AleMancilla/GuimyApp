@@ -5,6 +5,7 @@ import 'package:guimyapp/src/Pages/Body/HomeBody.dart';
 import 'package:guimyapp/src/Pages/Body/LocarionBody.dart';
 import 'package:guimyapp/src/Pages/Body/NotificationBody.dart';
 import 'package:guimyapp/src/Pages/Body/PerfilBody.dart';
+import 'package:guimyapp/src/Pages/Body/RankCupBody.dart';
 import 'package:guimyapp/src/Pages/Body/RankUserBody.dart';
 import 'package:guimyapp/src/Pages/Body/RegaloBody.dart';
 import 'package:guimyapp/src/Pages/Body/StarBody.dart';
@@ -51,7 +52,7 @@ class HomePage extends StatelessWidget {
         return LocationBody();
         break;
       case 4:
-        return CuponBody();
+        return RankCupBody();
         break;
       case 5:
         return RegaloBody();
