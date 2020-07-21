@@ -214,7 +214,7 @@ class _RegisterUserState extends State<RegisterUser> {
         },
            // Initial selection and favorite can be one of code ('IT') OR dial_code('+39')
            initialSelection: 'PE',
-           favorite: ['+52','MX','+51','PE','+591','BO',],
+           favorite: ['+51','PE','+52','MX','+591','BO',],
            // optional. Shows only country name and flag
            showCountryOnly: true,
            // optional. Shows only country name and flag when popup is closed.
