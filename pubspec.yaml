@@ -59,6 +59,7 @@ flutter:
     - lib/src/Sources/Elements/
     - lib/src/Sources/IconsBar/
     - lib/src/Sources/Rangos/
+    - lib/src/Sources/iconsCoins/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

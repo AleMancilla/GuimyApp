@@ -17,16 +17,21 @@ import 'package:provider/provider.dart';
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     final int index = Provider.of<ModelProvider>(context).indexPage;
     return SafeArea(
       child: Scaffold(
-        body: Stack(
-          children: [
-            _returnPage(index),
-            Positioned(child: AppBarWidgetP(),top: 0.0,left: 0.0,),
-            Positioned(child: BottomBarWidget(),bottom: 0.0,left: 0.0,),
-            //Text("#######$index"),
-          ],
+        body: Container(
+          width: size.width,
+          height: size.height,
+          child: Stack(
+            children: [
+              _returnPage(index),
+              Positioned(child: AppBarWidgetP(),top: 0.0,left: 0.0,),
+              Positioned(child: BottomBarWidget(),bottom: 0.0,left: 0.0,),
+              //Text("#######$index"),
+            ],
+          ),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: FloatingActionButton(

@@ -7,13 +7,14 @@ class PerfilBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(top: 90.0,bottom: 50.0),
+      padding: EdgeInsets.only(top: 60.0,bottom: 50.0),
       color: Colors.grey[300],
       height: double.infinity,
       // child: _CerrarSesion(),
       child: SingleChildScrollView(
         child: Column(
           children: [
+            SizedBox(height: 30.0,),
             _PerfilSuperior(),
             Divider(),
             InformacionUsuarioWidget(),
