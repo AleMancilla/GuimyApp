@@ -38,8 +38,10 @@ class MyApp extends StatelessWidget {
 
     return GraphQLProvider(
       client: client,
-      child: ChangeNotifierProvider(
-        create: (context) => new ModelProvider(),
+      child: MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (context) => new ModelProvider()),
+        ],
         child: MaterialApp(
           title: 'Guimy',
           debugShowCheckedModeBanner: false,

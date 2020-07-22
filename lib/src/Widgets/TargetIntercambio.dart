@@ -8,6 +8,7 @@ class TargetIntercambio extends StatelessWidget {
   TargetIntercambio({@required this.icon, this.promo = "Cargando...",@required this.comprar,@required this.regalar, @required this.precio});
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Container(
       // width: 100.0,
       // height: 300.0,
@@ -15,10 +16,23 @@ class TargetIntercambio extends StatelessWidget {
         children: [
           Image(image: AssetImage("lib/src/Sources/iconsCoins/$icon.png")),
           
-          Row(
+          Stack(
             children: [
-              Image(image: AssetImage("lib/src/Sources/iconsCoins/guimiCoin.png"),width: 20.0,),
-              Text("$precio",style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold,fontSize: 25.0),)
+              Positioned(
+                right: 0.0,
+                child:Icon(Icons.info,color: Colors.orange,size: 15.0,) 
+              ),
+              Column(
+                children: [
+                  Container(width: size.width / 3.5,),
+                  Row(
+                    children: [
+                      Image(image: AssetImage("lib/src/Sources/iconsCoins/guimiCoin.png"),width: 20.0,),
+                      Text("$precio",style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold,fontSize: 25.0),)
+                    ],
+                  ),
+                ],
+              ),
             ],
           ),
 

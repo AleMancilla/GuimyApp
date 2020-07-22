@@ -27,6 +27,7 @@ class RankCupBody extends StatelessWidget {
             Divider(),
             RetosProgress(title: "Escanear 20 restaurantes diferentes",progress: "1/20",porcentageProg: 20,),
             Divider(),
+            SizedBox(height: 30.0,),
           ],
         ),
       ),
