@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 class TargetIntercambio extends StatelessWidget {
+  final String precio;
   final String icon;
   final String promo;
   final Function comprar;
   final Function regalar;
-  TargetIntercambio({@required this.icon, this.promo = "Cargando...",@required this.comprar,@required this.regalar});
+  TargetIntercambio({@required this.icon, this.promo = "Cargando...",@required this.comprar,@required this.regalar, @required this.precio});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -17,7 +18,7 @@ class TargetIntercambio extends StatelessWidget {
           Row(
             children: [
               Image(image: AssetImage("lib/src/Sources/iconsCoins/guimiCoin.png"),width: 20.0,),
-              Text("45",style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold,fontSize: 25.0),)
+              Text("$precio",style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold,fontSize: 25.0),)
             ],
           ),
 

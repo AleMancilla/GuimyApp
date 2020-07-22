@@ -28,18 +28,18 @@ class RegaloBody extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    TargetIntercambio(icon: "15descuento",promo: "15% descuento"  ,comprar: (){print("hola");},regalar: (){},),
-                    TargetIntercambio(icon: "bebida",promo: "1 bebida gratis"     ,comprar: (){},regalar: (){},),
-                    TargetIntercambio(icon: "postre",promo: "1 postre gratis"     ,comprar: (){},regalar: (){},),
+                    TargetIntercambio(precio: "45" ,  icon: "15descuento",promo: "15% descuento"  ,comprar: (){print("hola");},regalar: (){},),
+                    TargetIntercambio(precio: "25" ,  icon: "bebida",promo: "1 bebida gratis"     ,comprar: (){},regalar: (){},),
+                    TargetIntercambio(precio:  "50",  icon: "postre",promo: "1 postre gratis"     ,comprar: (){},regalar: (){},),
                   ],
                 ),
                 SizedBox(height: 30.0,),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    TargetIntercambio(icon: "bebidaAlcoholica",promo: "1 bebida alcoholica" ,comprar: (){},regalar: (){},),
-                    TargetIntercambio(icon: "Envio",promo: "1 envio gratis"                 ,comprar: (){},regalar: (){},),
-                    TargetIntercambio(icon: "25Descuento",promo: "25% descuento"            ,comprar: (){},regalar: (){},),
+                    TargetIntercambio(precio: "150",icon: "bebidaAlcoholica",promo: "1 bebida alcoholica" ,comprar: (){},regalar: (){},),
+                    TargetIntercambio(precio: "40",icon: "Envio",promo: "1 envio gratis"                 ,comprar: (){},regalar: (){},),
+                    TargetIntercambio(precio: "100",icon: "25Descuento",promo: "25% descuento"            ,comprar: (){},regalar: (){},),
                   ],
                 )
               ],
