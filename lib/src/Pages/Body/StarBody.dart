@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:guimyapp/src/Pages/Body/Local.dart';
+import 'package:guimyapp/src/Pages/Body/starBodyParts/Local.dart';
 import 'package:guimyapp/src/Pages/Body/starBodyParts/Global.dart';
 import 'package:guimyapp/src/Pages/Body/starBodyParts/Regional.dart';
 import 'package:guimyapp/src/Provider/ModelTopRest.dart';

@@ -25,6 +25,7 @@ class LocalWidget extends StatelessWidget {
               _ItemPageView(1),
               _ItemPageView(2),
               _ItemPageView(3),
+              _ItemPageViewRecomendacion()
             ],
           ),
         ),
@@ -125,6 +126,40 @@ class _ItemPageView extends StatelessWidget {
                   child: Text("Visitar",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 25.0),),
                   alignment: Alignment.center,
                 )
+      ],
+    );
+  }
+}
+
+
+
+class _ItemPageViewRecomendacion extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Icon(Icons.star,color: Colors.orange,size: 30.0,),
+        Text("Recomendacion por",style: TextStyle(color: Colors.orange, fontSize: 20.0,fontWeight: FontWeight.bold),),
+        Text("Guimy",style: TextStyle(color: Colors.orange, fontSize: 30.0,fontWeight: FontWeight.bold),),
+        CircleAvatar(
+          radius: 80.0,
+          backgroundColor: Colors.red,
+        ),
+        SizedBox(height: 5.0,),
+        Text("Astrid & Gaston",style: TextStyle(color: Colors.orange, fontSize: 30.0,fontWeight: FontWeight.bold),),
+
+        Container(
+          margin: EdgeInsets.symmetric(horizontal: 50.0,vertical: 10.0),
+          padding: EdgeInsets.symmetric(horizontal: 20.0,vertical: 10.0),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(50.0),
+            color: Colors.orange,
+
+          ),
+          child: Text("Visitar",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 25.0),),
+          alignment: Alignment.center,
+        )
       ],
     );
   }
