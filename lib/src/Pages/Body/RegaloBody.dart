@@ -25,23 +25,27 @@ class RegaloBody extends StatelessWidget {
             SizedBox(height: 20.0,),
             Column(
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                Wrap(alignment: WrapAlignment.center,
+                  // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     TargetIntercambio(precio: "45" ,  icon: "15descuento",promo: "15% descuento"  ,comprar: (){print("hola");},regalar: (){},),
                     TargetIntercambio(precio: "25" ,  icon: "bebida",promo: "1 bebida gratis"     ,comprar: (){},regalar: (){},),
                     TargetIntercambio(precio:  "50",  icon: "postre",promo: "1 postre gratis"     ,comprar: (){},regalar: (){},),
-                  ],
-                ),
-                SizedBox(height: 30.0,),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
                     TargetIntercambio(precio: "150",icon: "bebidaAlcoholica",promo: "1 bebida alcoholica" ,comprar: (){},regalar: (){},),
                     TargetIntercambio(precio: "40",icon: "Envio",promo: "1 envio gratis"                 ,comprar: (){},regalar: (){},),
                     TargetIntercambio(precio: "100",icon: "25Descuento",promo: "25% descuento"            ,comprar: (){},regalar: (){},),
+                    
                   ],
-                )
+                ),
+                // SizedBox(height: 30.0,),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                //   children: [
+                //     TargetIntercambio(precio: "150",icon: "bebidaAlcoholica",promo: "1 bebida alcoholica" ,comprar: (){},regalar: (){},),
+                //     TargetIntercambio(precio: "40",icon: "Envio",promo: "1 envio gratis"                 ,comprar: (){},regalar: (){},),
+                //     TargetIntercambio(precio: "100",icon: "25Descuento",promo: "25% descuento"            ,comprar: (){},regalar: (){},),
+                //   ],
+                // )
               ],
             ),
             Divider(),

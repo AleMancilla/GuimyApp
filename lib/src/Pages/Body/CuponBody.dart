@@ -5,14 +5,17 @@ import 'package:toast/toast.dart';
 class CuponBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
     return Container(
       padding: EdgeInsets.only(top: 60.0,bottom: 40.0),
       // color: Colors.grey[300],
-      height: size.height,
+      // height: size.height,
+      
       child: SingleChildScrollView(
-        child: Container(
-        height: size.height,
+        child: ConstrainedBox(
+        constraints: BoxConstraints(
+          minHeight: 580.0,
+          maxHeight: 600.0
+        ),
           child: Stack(
             children: [
               HeaderEnCurve(),
@@ -29,7 +32,7 @@ class CuponBody extends StatelessWidget {
                   _SeccionCopyShare("CODIG COPIADO"),
 
                   // CustomToolTip(text: "CODIGO",),
-                  Container(height: 100.0,)
+                  Container(height: 20.0,)
                 ],
               ),
             ],

@@ -17,7 +17,7 @@ class RetosProgress extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text("$title", style: TextStyle(color: Colors.redAccent,fontWeight: FontWeight.bold),),
+              Expanded(child: Text("$title", style: TextStyle(color: Colors.redAccent,fontWeight: FontWeight.bold),overflow: TextOverflow.clip,)),
               Text("100 pts", style: TextStyle(color: Colors.redAccent,fontWeight: FontWeight.bold,fontSize: 18.0),)
             ],
           ),
