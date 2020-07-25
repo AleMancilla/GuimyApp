@@ -8,6 +8,7 @@ import 'package:guimyapp/src/Pages/Body/PerfilBody.dart';
 import 'package:guimyapp/src/Pages/Body/RankCupBody.dart';
 import 'package:guimyapp/src/Pages/Body/RankUserBody.dart';
 import 'package:guimyapp/src/Pages/Body/RegaloBody.dart';
+import 'package:guimyapp/src/Pages/Body/ReportarBody.dart';
 import 'package:guimyapp/src/Pages/Body/StarBody.dart';
 import 'package:guimyapp/src/Provider/ModelProvider.dart';
 import 'package:guimyapp/src/Widgets/AppBarWidgetP.dart';
@@ -33,6 +34,7 @@ class HomePage extends StatelessWidget {
             ],
           ),
         ),
+        
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: FloatingActionButton(
           elevation: 5.0,
@@ -73,6 +75,9 @@ class HomePage extends StatelessWidget {
         break;
       case 9:
         return RankUserBody();
+        break;
+      case 10:
+        return ReportarBody();
         break;
       default:
         return HomeBody();

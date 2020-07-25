@@ -146,6 +146,7 @@ class __PerfilSuperiorState extends State<_PerfilSuperior> {
 
   @override
   Widget build(BuildContext context) {
+    ModelProvider provider = Provider.of<ModelProvider>(context);
     return Container(
       width: double.infinity,
       child: Column(
@@ -175,11 +176,16 @@ class __PerfilSuperiorState extends State<_PerfilSuperior> {
               Positioned(
                 top: 0.0,
                 right: 20.0,
-                child: Row(
-                  children: [
-                    Icon(Icons.question_answer,color: _color,),
-                    Text("Reportar",style: TextStyle(fontSize: 16.0,fontWeight: FontWeight.w400,color: _color),)
-                  ],
+                child: InkWell(
+                  onTap: () {
+                    provider.indexPage =10;
+                  },
+                  child: Row(
+                    children: [
+                      Icon(Icons.question_answer,color: _color,),
+                      Text("Reportar",style: TextStyle(fontSize: 16.0,fontWeight: FontWeight.w400,color: _color),)
+                    ],
+                  ),
                 ),
               )
             ],

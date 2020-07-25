@@ -58,6 +58,7 @@ class _BotonComprar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      splashColor: Colors.black,
       onTap: comprar,
       child: ConstrainedBox(
         constraints: BoxConstraints(
