@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:guimyapp/src/Provider/ModelReportConsultasMensajeria.dart';
+import 'package:provider/provider.dart';
 
 class ConsultasBody extends StatelessWidget {
   @override
@@ -6,12 +8,12 @@ class ConsultasBody extends StatelessWidget {
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
-          _ItemConsultas("Tuve un problema con mi pedido"),
-          _ItemConsultas("Mis Canjes y promiciones no funcionan"),
-          _ItemConsultas("Tuve una mala experiencia con el repartidor"),
-          _ItemConsultas("¿Cómo puedo asociar mi restaurante a Guimy?"),
-          _ItemConsultas("Tengo un problema con el pago"),
-          _ItemConsultas("otros"),
+          _ItemConsultas("Tuve un problema con mi pedido",1),
+          _ItemConsultas("Mis Canjes y promiciones no funcionan",2),
+          _ItemConsultas("Tuve una mala experiencia con el repartidor",3),
+          _ItemConsultas("¿Cómo puedo asociar mi restaurante a Guimy?",4),
+          _ItemConsultas("Tengo un problema con el pago",5),
+          _ItemConsultas("otros",6),
           
           
         ],
@@ -23,11 +25,13 @@ class ConsultasBody extends StatelessWidget {
 class _ItemConsultas extends StatelessWidget {
 
   final String texto;
-
-  _ItemConsultas(this.texto);
+  final int index;
+  _ItemConsultas(this.texto,this.index);
   
   @override
   Widget build(BuildContext context) {
+    ModelReportConsultasMensajerias providerBody = Provider.of<ModelReportConsultasMensajerias>(context);
+    
     return Container(
       margin: EdgeInsets.symmetric(vertical: 5.0),
       child: ConstrainedBox(
@@ -39,7 +43,7 @@ class _ItemConsultas extends StatelessWidget {
           color: Colors.transparent,
           child: InkWell(
             onTap: () {
-              
+              providerBody.bodyPage = index;
             },
             
             child: Ink(

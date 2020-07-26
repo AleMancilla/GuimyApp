@@ -1,12 +1,20 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:guimyapp/src/Pages/Body/ConsultasMensajerias/ConsultasBody.dart';
+import 'package:guimyapp/src/Pages/Body/ConsultasMensajerias/ItemConsultasFive.dart';
+import 'package:guimyapp/src/Pages/Body/ConsultasMensajerias/ItemConsultasFour.dart';
+import 'package:guimyapp/src/Pages/Body/ConsultasMensajerias/ItemConsultasOne.dart';
+import 'package:guimyapp/src/Pages/Body/ConsultasMensajerias/ItemConsultasSix.dart';
+import 'package:guimyapp/src/Pages/Body/ConsultasMensajerias/ItemConsultasTree.dart';
+import 'package:guimyapp/src/Pages/Body/ConsultasMensajerias/ItemConsultasTwo.dart';
 import 'package:guimyapp/src/Pages/Body/ConsultasMensajerias/MensajeriaBody.dart';
+import 'package:guimyapp/src/Provider/ModelProvider.dart';
 import 'package:guimyapp/src/Provider/ModelReportConsultasMensajeria.dart';
 import 'package:provider/provider.dart';
 class ReportarBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    ModelProvider provider = Provider.of<ModelProvider>(context);
     return Container(
       padding: EdgeInsets.only(top: 60.0,bottom: 50.0),
       color: Colors.grey[300],
@@ -18,26 +26,44 @@ class ReportarBody extends StatelessWidget {
           child: Column(
             children: [
               SizedBox(height: 30.0,),
-              Row(children: <Widget>[Icon(Icons.chevron_left),Text("Atrás")],),
+              GestureDetector(
+                onTap: () {
+                  provider.indexPage=8;
+                  Provider.of<ModelReportConsultasMensajerias>(context, listen: false).currentPage = 0;
+                  Provider.of<ModelReportConsultasMensajerias>(context, listen: false).bodyPage = 0;
+                },
+                child: Row(children: <Widget>[Icon(Icons.chevron_left),Text("Atrás")],)
+              ),
               SizedBox(height: 15.0,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
                   GestureDetector(
                     onTap: () {
-                      Provider.of<ModelReportConsultasMensajerias>(context, listen: false).currentPage = 0;
-                      PageController contr =  Provider.of<ModelReportConsultasMensajerias>(context, listen: false).pageViewController;
-                      contr.jumpToPage(0);
-                      Provider.of<ModelReportConsultasMensajerias>(context, listen: false).pageViewController = contr;
+                      int numAux = Provider.of<ModelReportConsultasMensajerias>(context, listen: false).bodyPage;
+                      if(numAux ==0){
+                        Provider.of<ModelReportConsultasMensajerias>(context, listen: false).currentPage = 0;
+                        PageController contr =  Provider.of<ModelReportConsultasMensajerias>(context, listen: false).pageViewController;
+                        contr.jumpToPage(0);
+                        Provider.of<ModelReportConsultasMensajerias>(context, listen: false).pageViewController = contr;
+                      }else{
+                        Provider.of<ModelReportConsultasMensajerias>(context, listen: false).bodyPage =0;
+                      }
                     },
                     child: _TopIndexPage("Consultas",0)
                   ),
                   GestureDetector(
                     onTap: () {
-                      Provider.of<ModelReportConsultasMensajerias>(context, listen: false).currentPage = 1;
-                      PageController contr =  Provider.of<ModelReportConsultasMensajerias>(context, listen: false).pageViewController;
-                      contr.jumpToPage(1);
-                      Provider.of<ModelReportConsultasMensajerias>(context, listen: false).pageViewController = contr;
+
+                      int numAux = Provider.of<ModelReportConsultasMensajerias>(context, listen: false).bodyPage;
+                      if(numAux ==0){
+                        Provider.of<ModelReportConsultasMensajerias>(context, listen: false).currentPage = 1;
+                        PageController contr =  Provider.of<ModelReportConsultasMensajerias>(context, listen: false).pageViewController;
+                        contr.jumpToPage(1);
+                        // Provider.of<ModelReportConsultasMensajerias>(context, listen: false).bodyPage = 0;
+                        Provider.of<ModelReportConsultasMensajerias>(context, listen: false).pageViewController = contr;
+                      }
+                      
 
                     },
                     child: _TopIndexPage("Mensajería",1)
@@ -50,13 +76,45 @@ class ReportarBody extends StatelessWidget {
                 color: Colors.grey,
               ),
 
-              _PageViewMensajeriaConsultas(),
+              _retornoBody(context),// _PageViewMensajeriaConsultas(),
               SizedBox(height: 15.0,),
             ],
           ),
         ),
       ),
     );
+  }
+
+
+  Widget _retornoBody(BuildContext context){
+
+    ModelReportConsultasMensajerias providerBody = Provider.of<ModelReportConsultasMensajerias>(context);
+    switch (providerBody.bodyPage) {
+      case 0:
+        return  _PageViewMensajeriaConsultas();
+        break;
+      case 1:
+        return  ItemConsultasOne();
+        break;
+      case 2:
+        return  ItemConsultasTwo();
+        break;
+      case 3:
+        return  ItemConsultasTree();
+        break;
+      case 4:
+        return  ItemConsultasFour();
+        break;
+      case 5:
+        return  ItemConsultasFive();
+        break;
+      case 6:
+        return  ItemConsultasSix();
+        break;
+      default:
+        return  _PageViewMensajeriaConsultas();
+    }
+    
   }
 }
 
@@ -74,7 +132,7 @@ class __PageViewMensajeriaConsultasState extends State<_PageViewMensajeriaConsul
   @override
   void dispose() {
     super.dispose();
-    pageViewController.dispose();
+    //pageViewController.dispose();
   }
 
   @override
@@ -88,6 +146,7 @@ class __PageViewMensajeriaConsultasState extends State<_PageViewMensajeriaConsul
 
   @override
   Widget build(BuildContext context) {
+    
     pageViewController = Provider.of<ModelReportConsultasMensajerias>(context).pageViewController;
     final size = MediaQuery.of(context).size;
     return Container(

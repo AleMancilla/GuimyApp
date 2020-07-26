@@ -9,10 +9,18 @@ class ModelReportConsultasMensajerias with ChangeNotifier{
     notifyListeners();
   }
 
+
   PageController _pageViewController = new PageController();
   PageController get pageViewController => this._pageViewController;
   set pageViewController(PageController controller){
     _pageViewController = controller;
+    // notifyListeners();
+  }
+
+  int _bodyPage = 0;
+  int get bodyPage => this._bodyPage;
+  set bodyPage(int current){
+    this._bodyPage = current;
     notifyListeners();
   }
 
