@@ -86,8 +86,9 @@ class _ItemConsultasOneState extends State<ItemConsultasOne> {
                 ),
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            Wrap(
+              // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: WrapCrossAlignment.center,
               children: <Widget>[
                 Column(
                   children: <Widget>[
@@ -101,6 +102,7 @@ class _ItemConsultasOneState extends State<ItemConsultasOne> {
                 ),
 
                 Container(
+                  margin: EdgeInsets.symmetric(vertical: 20.0),
                   padding: EdgeInsets.symmetric(horizontal: 20.0,vertical: 10.0),
                   // color: Colors.orange,
                   decoration: BoxDecoration(
