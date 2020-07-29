@@ -93,17 +93,19 @@ class ModelProvider extends ChangeNotifier{
   // ############     RESERVADO PARA DATOS DE USUARIO   #############
   // ################################################################
 
-  String _userName ; 
-  String _userEmail ;
-  String _userPassword ;
-  String _userCountry ;
-  String _userPhone;
+  String _userName = "cargando.."; 
+  String _userEmail = "cargando..";
+  String _userPassword ="cargando..";
+  String _userCountry = "PERU";
+  String _userPhone ="cargando..";
 
-  String _extencionPhone ;
-  String _userAvatar;
+  String _extencionPhone = "+51";
+  String _userAvatar ="cargando..";
+
+  String _userId ="cargando..";
   //
 
-
+  String get userId => this._userId;
   String get userAvatar => this._userAvatar;
   String get userPhone => this._userPhone;
 
@@ -174,6 +176,10 @@ class ModelProvider extends ChangeNotifier{
   set userPhone(String phone){
     this._userPhone = phone;
     // notifyListeners();
+  }
+
+  set userId(String id){
+    this.userId = id;
   }
     
   

@@ -7,6 +7,7 @@ import 'package:guimyapp/src/Widgets/BackGroundWidget.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 final String _insertUser = """
   mutation insertUser(\$country : String, \$email: String, \$name: name, \$pass:String, \$phone:String, \$extendphone:String, \$avatar:String) {
@@ -38,9 +39,9 @@ class _RegisterUserState extends State<RegisterUser> {
   TextEditingController _fullNameController   = TextEditingController();
   TextEditingController _emailController      = TextEditingController();
   TextEditingController _passController       = TextEditingController();
-  String                _countryController    = "Peru";
-  String                _extencion    = "";
-  String                _avatar    = "";
+  String                _countryController    = "PERU";
+  String                _extencion    = "+51";
+  // String                _avatar    = "";
   TextEditingController _phoneNumber          = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -323,8 +324,19 @@ class _RegisterUserState extends State<RegisterUser> {
           //   return cache;
           // },
           // or do something with the result.data on completion
-          onCompleted: (dynamic resultData) {
-            print(resultData);
+          onCompleted: (dynamic resultData) async {
+            print(" ##**## $resultData");
+            Map resultado = resultData;
+            SharedPreferences prefs = await SharedPreferences.getInstance();
+            await prefs.setString('idUser', resultado["insert_users_one"]["id"]);
+            print(" ##___## enviando dato a prefs ${resultado["insert_users_one"]["id"]}");
+            //_currentUser.userId = resultado["insert_users_one"]["id"];
+            // String idUser =  resultData.data["insert_users_one"]["id"].toString();
+            // // String idUser2 =  resultData["insert_users_one"]["id"].toString();
+            // print("  #### RESULT ### $resultado");
+            // // print("  #### RESULT ### ${resultado["insert_users_one"]["id"]}");
+            // print("  #### RESULT ### $idUser2");
+
           },
         ),
         builder: (
@@ -368,6 +380,7 @@ class _RegisterUserState extends State<RegisterUser> {
               // if(_image!= null){
               //   _currentUser = await _currentUser.subirImagen(_image);
               // }              
+              
               _signUpUser(_emailController.text, _passController.text, context);
             },
             child: Container(
