@@ -1,18 +1,23 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:guimyapp/src/Provider/ModelProvider.dart';
 import 'package:guimyapp/src/Widgets/BackGroundWidget.dart';
 import 'package:country_code_picker/country_code_picker.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 final String _insertUser = """
-  mutation insertUser(\$country : String, \$email: String, \$name: name, \$pass:String, \$phone:String) {
+  mutation insertUser(\$country : String, \$email: String, \$name: name, \$pass:String, \$phone:String, \$extendphone:String, \$avatar:String) {
   insert_users_one(object:{
     country : \$country
     email: \$email
     name : \$name
     password : \$pass
     phone : \$phone
+    extend_phone : \$extendphone
+    avatar : \$avatar
   }){
     id
     email
@@ -21,7 +26,8 @@ final String _insertUser = """
 }
   """;
 
-
+File _image;
+File _imageUrl;
 class RegisterUser extends StatefulWidget {
   @override
   _RegisterUserState createState() => _RegisterUserState();
@@ -33,6 +39,8 @@ class _RegisterUserState extends State<RegisterUser> {
   TextEditingController _emailController      = TextEditingController();
   TextEditingController _passController       = TextEditingController();
   String                _countryController    = "Peru";
+  String                _extencion    = "";
+  String                _avatar    = "";
   TextEditingController _phoneNumber          = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -93,6 +101,7 @@ class _RegisterUserState extends State<RegisterUser> {
             //color: Colors.blue,
             child: Column(
               children: [
+                _inputImage(),
                 _inputNombre(),
                 _inputEmail(),
                 _inputPass(),
@@ -109,6 +118,80 @@ class _RegisterUserState extends State<RegisterUser> {
         ],
       ),
     );
+  }
+
+  Widget _inputImage(){
+    return Container(
+      width: double.infinity,
+      child: Column(
+        children: <Widget>[
+          _mostrarFoto(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              GestureDetector(
+                onTap: () {
+                  _seleccionarFoto();
+                },
+                child: Icon(Icons.photo_size_select_large,size: 40.0,),
+              ),
+              GestureDetector(
+                onTap: () {
+                  _tomarFoto();
+                },
+                child: Icon(Icons.camera_enhance,size: 40.0,),
+              )
+            ],
+          )
+        ],
+      ),
+    );
+  }
+
+  _mostrarFoto(){
+    if(_imageUrl != null){
+      return Container();
+    }else{
+      return ClipRRect(
+        borderRadius: BorderRadius.circular(100.0),
+        child: Image(
+          image: AssetImage( _image?.path ?? "lib/src/Sources/loadingimage/no-image.png" ),
+          height: 200.0,
+          width: 200.0,
+          fit: BoxFit.cover,
+        ),
+      );
+    }
+  }
+
+  _seleccionarFoto()async{
+    final _picker = ImagePicker();
+    final PickedFile pickedFile = await _picker.getImage(source: ImageSource.gallery);
+    
+    _image = File(pickedFile.path);
+    
+    if(_image != null){
+      //limpiez 
+    }
+
+    setState(() {
+      
+    });
+  }
+
+  _tomarFoto()async{
+    final _picker = ImagePicker();
+    final PickedFile pickedFile = await _picker.getImage(source: ImageSource.camera);
+    
+    _image = File(pickedFile.path);
+    
+    if(_image != null){
+      //limpiez 
+    }
+
+    setState(() {
+      
+    });
   }
 
   Widget _inputNombre(){
@@ -209,6 +292,7 @@ class _RegisterUserState extends State<RegisterUser> {
         textStyle: TextStyle(fontWeight: FontWeight.normal,fontSize: 25.0,color: Colors.grey[600]),
         onChanged: (x){
           _countryController = x.name;
+          _extencion = x.dialCode;
           //print("#############${x.name}");
           return print(x);
         },
@@ -249,7 +333,7 @@ class _RegisterUserState extends State<RegisterUser> {
         ) {
           
           return InkWell(
-            onTap: (){
+            onTap: ()async{
 
               // print("###########  ${_fullNameController.text}");
               // print("###########  ${_emailController.text}");
@@ -262,17 +346,28 @@ class _RegisterUserState extends State<RegisterUser> {
               _currentUser.userPassword = _passController.text;
               _currentUser.userCountry = _countryController.toString();
               _currentUser.userPhone = _phoneNumber.text;
+              _currentUser.extencionPhone = _extencion;
+              
+              final dato = await _funcionCargarDatos(_currentUser);
+              // print("####### dato ### ${dato}");
+              _currentUser.userAvatar = dato;
 
 
-              print("#############______ ENVIO A GRAPQL ______#############");
+              // print("#############______ ENVIO A GRAPQL ______#############");
               runMutation({
                   "country": _currentUser.userCountry,
                   "email": _currentUser.userEmail,
                   "name": _currentUser.userName,
                   "pass": _currentUser.userPassword,
-                  "phone": _currentUser.userPhone
+                  "phone": _currentUser.userPhone,
+                  "extendphone": _currentUser.extencionPhone,
+                  "avatar": _currentUser.userAvatar
                 });
-              
+
+
+              // if(_image!= null){
+              //   _currentUser = await _currentUser.subirImagen(_image);
+              // }              
               _signUpUser(_emailController.text, _passController.text, context);
             },
             child: Container(
@@ -297,6 +392,19 @@ class _RegisterUserState extends State<RegisterUser> {
       );
     //#######################
     
+  }
+
+  Future<String> _funcionCargarDatos(ModelProvider currentUser)async{
+
+    String valor;
+
+    if(_image!= null){
+      valor = await currentUser.subirImagen(_image);
+    }else{
+      print("####### _image es null");
+      valor = "";
+    }    
+    return valor;
   }
 
   Widget _textoYaTienesCuenta(BuildContext context){
