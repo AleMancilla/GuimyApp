@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
+// import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:guimyapp/src/Pages/Body/CuponBody.dart';
 import 'package:guimyapp/src/Pages/Body/HomeBody.dart';
 import 'package:guimyapp/src/Pages/Body/LocarionBody.dart';
@@ -33,39 +33,6 @@ String readRepositories = """
   }
 """;
 
-/*
-Query(
-  options: QueryOptions(
-    documentNode: gql(readRepositories), // this is the query string you just created
-    variables: {
-      'nRepositories': 50,
-    },
-    pollInterval: 10,
-  ),
-  // Just like in apollo refetch() could be used to manually trigger a refetch
-  // while fetchMore() can be used for pagination purpose
-  builder: (QueryResult result, { VoidCallback refetch, FetchMore fetchMore }) {
-    if (result.hasException) {
-        return Text(result.exception.toString());
-    }
-
-    if (result.loading) {
-      return Text('Loading');
-    }
-
-    // it can be either Map or List
-    List repositories = result.data['viewer']['repositories']['nodes'];
-
-    return ListView.builder(
-      itemCount: repositories.length,
-      itemBuilder: (context, index) {
-        final repository = repositories[index];
-
-        return Text(repository['name']);
-    });
-  },
-);
-*/
 
 class HomePage extends StatefulWidget {
   @override
@@ -98,66 +65,40 @@ class _HomePageState extends State<HomePage> {
   }
 
 
-  _cargarProvider(){
+  // _cargarProvider(){
       
-    return FutureBuilder(
-      future: _cargarDato(),
-      builder: (context, snapshot) {
-        ModelProvider prov  = Provider.of<ModelProvider>(context);
-        // print("%%%%% $snapshot");
-        // print("%%%%% ${snapshot.data}");
-        return Query(
-          options: QueryOptions(
-            documentNode: gql(readRepositories), // this is the query string you just created
-            variables: {
-              'idx': snapshot.data,
-            },
-            // pollInterval: 10,
-          ),
-          // Just like in apollo refetch() could be used to manually trigger a refetch
-          // while fetchMore() can be used for pagination purpose
-          builder: (QueryResult result, { VoidCallback refetch, FetchMore fetchMore }) {
+  //   // return FutureBuilder(
+  //   //   future: _cargarDato(),
+  //   //   builder: (context, snapshot) {
+  //   //     ModelProvider prov  = Provider.of<ModelProvider>(context);
+  //   //     return Query(
+  //   //       options: QueryOptions(
+  //   //         documentNode: gql(readRepositories), // this is the query string you just created
+  //   //         variables: {
+  //   //           'idx': snapshot.data,
+  //   //         },
+  //   //       ),
+  //   //       builder: (QueryResult result, { VoidCallback refetch, FetchMore fetchMore }) {
           
-            if (result.hasException) {
-              // print(" !!!! #### err0r 1 ");
-              // print(" !!!! #### err0r 1 ${result.exception.toString()} ");
-                return Text(result.exception.toString());
-            }
+  //   //         if (result.hasException) {
+  //   //             return Text(result.exception.toString());
+  //   //         }
 
-            if (result.loading) {
-              // print(" !!!! #### err0r 2 ");
-              // print(" !!!! #### idid $userId ");
-              return Text('Loading');
-            }
+  //   //         if (result.loading) {
+  //   //           return Text('Loading');
+  //   //         }
 
-              print(" !!!! #### result ${result.data}");
-            // it can be either Map or List
-            Map repositories = result.data["users_by_pk"];
+  //   //           print(" !!!! #### result ${result.data}");
+  //   //         Map repositories = result.data["users_by_pk"];
             
-            // print(repositories["id"]);
-            // print(repositories["avatar"]);
-            // print(repositories["email"]);
-            // print(repositories["extend_phone"]);
-            // print(repositories["name"]);
-            // print(repositories["password"]);
-            // print(repositories["phone"]);
+  //   //         prov.futureAvatar(repositories);
 
-            prov.futureAvatar(repositories);
-
-            // prov.userId
-            // prov.userAvatar     = repositories["avatar"];
-            // prov.userEmail      = repositories["email"];
-            // prov.extencionPhone = repositories["extend_phone"];
-            // prov.userName       = repositories["name"];//       = repositories["name"];
-            // prov.userPassword   = repositories["password"];
-            // prov.userPhone      = repositories["phone"];
-
-            return Container();
-          },
-        );
-      },
-    );
-  }
+  //   //         return Container();
+  //   //       },
+  //   //     );
+  //   //   },
+  //   // );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -170,7 +111,7 @@ class _HomePageState extends State<HomePage> {
           height: size.height,
           child: Stack(
             children: [
-              _cargarProvider(),
+              // _cargarProvider(),
               _returnPage(index),
               Positioned(child: AppBarWidgetP(),top: 0.0,left: 0.0,),
               Positioned(child: BottomBarWidget(),bottom: 0.0,left: 0.0,),

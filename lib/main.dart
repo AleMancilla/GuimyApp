@@ -8,24 +8,24 @@ import 'package:guimyapp/src/Provider/ModelReportConsultasMensajeria.dart';
 import 'package:guimyapp/src/Provider/ModelTopRest.dart';
 import 'package:guimyapp/src/Templates/HomePage.dart';
 import 'package:guimyapp/src/root/root.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
+// import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:provider/provider.dart';
  
 
-final HttpLink httplink = HttpLink(uri: "https://guimy-data.herokuapp.com/v1/graphql",
-  headers: {
-    "content-type"          : "application/json",
-    "x-hasura-admin-secret" : "1qaz2wsx3edc4rfv5tgb6yhn7ujm8ik,9ol.0p"
-  }
-); 
+// final HttpLink httplink = HttpLink(uri: "https://guimy-data.herokuapp.com/v1/graphql",
+//   headers: {
+//     "content-type"          : "application/json",
+//     "x-hasura-admin-secret" : "1qaz2wsx3edc4rfv5tgb6yhn7ujm8ik,9ol.0p"
+//   }
+// ); 
 
 
-final ValueNotifier<GraphQLClient> client = new ValueNotifier<GraphQLClient>(
-  GraphQLClient(
-    cache: InMemoryCache(),
-    link: httplink, 
-  )
-);
+// final ValueNotifier<GraphQLClient> client = new ValueNotifier<GraphQLClient>(
+//   GraphQLClient(
+//     cache: InMemoryCache(),
+//     link: httplink, 
+//   )
+// );
 
 Future<void> main() async { 
   WidgetsFlutterBinding.ensureInitialized();
@@ -34,9 +34,7 @@ Future<void> main() async {
   
 
   runApp(
-    GraphQLProvider(
-      client: client,
-      child: MultiProvider(
+    MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (context) => new ModelProvider()),
           ChangeNotifierProvider(create: (context) => new ModelTopRest()),
@@ -44,7 +42,7 @@ Future<void> main() async {
         ],
         child: MyApp()
       ),
-    )
+    
   );
 }
 

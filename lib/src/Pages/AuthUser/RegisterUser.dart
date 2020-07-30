@@ -7,25 +7,9 @@ import 'package:guimyapp/src/Widgets/BackGroundWidget.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+// import 'package:shared_preferences/shared_preferences.dart';
 
-final String _insertUser = """
-  mutation insertUser(\$country : String, \$email: String, \$name: name, \$pass:String, \$phone:String, \$extendphone:String, \$avatar:String) {
-  insert_users_one(object:{
-    country : \$country
-    email: \$email
-    name : \$name
-    password : \$pass
-    phone : \$phone
-    extend_phone : \$extendphone
-    avatar : \$avatar
-  }){
-    id
-    email
-    name
-  }
-}
-  """;
+
 
 File _image;
 File _imageUrl;
@@ -313,99 +297,110 @@ class _RegisterUserState extends State<RegisterUser> {
   }
 
   Widget _botonSingUp(BuildContext context){
-    ModelProvider _currentUser = Provider.of<ModelProvider>(context, listen: false); 
+    ModelProvider _currentUser = Provider.of<ModelProvider>(context, listen: false);
+    return InkWell(
+      onTap: () async {
 
-    //#######################
-    return Mutation(
-        options: MutationOptions(
-          documentNode: gql(_insertUser), // this is the mutation string you just created
-          // you can update the cache based on results
-          // update: (Cache cache, QueryResult result) {
-          //   return cache;
-          // },
-          // or do something with the result.data on completion
-          onCompleted: (dynamic resultData) async {
-            print(" ##**## $resultData");
-            Map resultado = resultData;
-            SharedPreferences prefs = await SharedPreferences.getInstance();
-            await prefs.setString('idUser', resultado["insert_users_one"]["id"]);
-            print(" ##___## enviando dato a prefs ${resultado["insert_users_one"]["id"]}");
-            //_currentUser.userId = resultado["insert_users_one"]["id"];
-            // String idUser =  resultData.data["insert_users_one"]["id"].toString();
-            // // String idUser2 =  resultData["insert_users_one"]["id"].toString();
-            // print("  #### RESULT ### $resultado");
-            // // print("  #### RESULT ### ${resultado["insert_users_one"]["id"]}");
-            // print("  #### RESULT ### $idUser2");
+        _currentUser.userName = _fullNameController.text;
+        _currentUser.userEmail = _emailController.text;
+        _currentUser.userPassword = _passController.text;
+        _currentUser.userCountry = _countryController.toString();
+        _currentUser.userPhone = _phoneNumber.text;
+        _currentUser.extencionPhone = _extencion;
+        final dato = await _funcionCargarDatos(_currentUser);
+        _currentUser.userAvatar = dato;
+        
+         _signUpUser(_emailController.text, _passController.text, context);
 
-          },
-        ),
-        builder: (
-          RunMutation runMutation,
-          QueryResult result,
-        ) {
+      },
+      child: Container(
+        width: double.infinity,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(50.0),
+          color: Color.fromRGBO(235,122,39, 1.0),
           
-          return InkWell(
-            onTap: ()async{
+        ),
+        child: Text("Register",style: TextStyle(
+                color: Colors.white,
+                fontSize: 20.0,
+                fontWeight: FontWeight.bold,
 
-              // print("###########  ${_fullNameController.text}");
-              // print("###########  ${_emailController.text}");
-              // print("###########  ${_passController.text}");
-              // print("###########  ${_countryController.toString()}");
-              // print("###########  ${_phoneNumber.text}");
-
-              _currentUser.userName = _fullNameController.text;
-              _currentUser.userEmail = _emailController.text;
-              _currentUser.userPassword = _passController.text;
-              _currentUser.userCountry = _countryController.toString();
-              _currentUser.userPhone = _phoneNumber.text;
-              _currentUser.extencionPhone = _extencion;
-              
-              final dato = await _funcionCargarDatos(_currentUser);
-              // print("####### dato ### ${dato}");
-              _currentUser.userAvatar = dato;
-
-
-              // print("#############______ ENVIO A GRAPQL ______#############");
-              runMutation({
-                  "country": _currentUser.userCountry,
-                  "email": _currentUser.userEmail,
-                  "name": _currentUser.userName,
-                  "pass": _currentUser.userPassword,
-                  "phone": _currentUser.userPhone,
-                  "extendphone": _currentUser.extencionPhone,
-                  "avatar": _currentUser.userAvatar
-                });
-
-
-              // if(_image!= null){
-              //   _currentUser = await _currentUser.subirImagen(_image);
-              // }              
-              
-              _signUpUser(_emailController.text, _passController.text, context);
-            },
-            child: Container(
-              width: double.infinity,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(50.0),
-                color: Color.fromRGBO(235,122,39, 1.0),
-                
-              ),
-              child: Text("Register",style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.bold,
-
-                    ),),
-              margin: EdgeInsets.all(8.0),
-              padding: EdgeInsets.symmetric(horizontal: 20.0,vertical: 20.0),
-              alignment: Alignment.center,
-            ),
-          );
-        },
-      );
-    //#######################
-    
+              ),),
+        margin: EdgeInsets.all(8.0),
+        padding: EdgeInsets.symmetric(horizontal: 20.0,vertical: 20.0),
+        alignment: Alignment.center,
+      ),
+    );
   }
+
+  // Widget _botonSingUp(BuildContext context){
+  //   ModelProvider _currentUser = Provider.of<ModelProvider>(context, listen: false); 
+
+  //   //#######################
+  //   return Mutation(
+  //       options: MutationOptions(
+  //         documentNode: gql(_insertUser), 
+  //         onCompleted: (dynamic resultData) async {
+  //           print(" ##**## $resultData");
+  //           Map resultado = resultData;
+  //           SharedPreferences prefs = await SharedPreferences.getInstance();
+  //           await prefs.setString('idUser', resultado["insert_users_one"]["id"]);
+  //           print(" ##___## enviando dato a prefs ${resultado["insert_users_one"]["id"]}");
+
+  //         },
+  //       ),
+  //       builder: (
+  //         RunMutation runMutation,
+  //         QueryResult result,
+  //       ) {
+          
+  //         return InkWell(
+            // onTap: ()async{
+
+            //   _currentUser.userName = _fullNameController.text;
+            //   _currentUser.userEmail = _emailController.text;
+            //   _currentUser.userPassword = _passController.text;
+            //   _currentUser.userCountry = _countryController.toString();
+            //   _currentUser.userPhone = _phoneNumber.text;
+            //   _currentUser.extencionPhone = _extencion;
+              
+            //   final dato = await _funcionCargarDatos(_currentUser);
+            //   _currentUser.userAvatar = dato;
+              // runMutation({
+              //     "country": _currentUser.userCountry,
+              //     "email": _currentUser.userEmail,
+              //     "name": _currentUser.userName,
+              //     "pass": _currentUser.userPassword,
+              //     "phone": _currentUser.userPhone,
+              //     "extendphone": _currentUser.extencionPhone,
+              //     "avatar": _currentUser.userAvatar
+              //   });
+              
+            //   _signUpUser(_emailController.text, _passController.text, context);
+            // },
+  //           child: Container(
+  //             width: double.infinity,
+  //             decoration: BoxDecoration(
+  //               borderRadius: BorderRadius.circular(50.0),
+  //               color: Color.fromRGBO(235,122,39, 1.0),
+                
+  //             ),
+  //             child: Text("Register",style: TextStyle(
+  //                     color: Colors.white,
+  //                     fontSize: 20.0,
+  //                     fontWeight: FontWeight.bold,
+
+  //                   ),),
+  //             margin: EdgeInsets.all(8.0),
+  //             padding: EdgeInsets.symmetric(horizontal: 20.0,vertical: 20.0),
+  //             alignment: Alignment.center,
+  //           ),
+  //         );
+  //       },
+  //     );
+  //   //#######################
+    
+  // }
 
   Future<String> _funcionCargarDatos(ModelProvider currentUser)async{
 
@@ -445,44 +440,6 @@ void _signUpUser(String email, String pass, BuildContext context) async {
   ModelProvider _currentUser = Provider.of<ModelProvider>(context, listen: false);
   try {
     if(await _currentUser.signUpUser(email, pass)){
-
-
-      // ####################################
-      // Mutation(
-      //   options: MutationOptions(
-      //     documentNode: gql(_insertUser), // this is the mutation string you just created
-      //     // you can update the cache based on results
-      //     update: (Cache cache, QueryResult result) {
-      //       return cache;
-      //     },
-      //     // or do something with the result.data on completion
-      //     onCompleted: (dynamic resultData) {
-      //       print(resultData);
-      //     },
-      //   ),
-      //   builder: (
-      //     RunMutation runMutation,
-      //     QueryResult result,
-      //   ) {
-      //     print("#############_____________#############");
-      //     runMutation({
-      //         "country": _currentUser.userCountry,
-      //         "email": _currentUser.userEmail,
-      //         "name": _currentUser.userName,
-      //         "pass": _currentUser.userPassword,
-      //         "phone": _currentUser.userPhone
-      //       });
-      //     return Container();
-      //   },
-      // );
-      // ####################################
-
-      // print("## ${_currentUser.userName}"); 
-      // print("## ${_currentUser.userEmail}"); 
-      // print("## ${_currentUser.userPassword}"); 
-      // print("## ${_currentUser.userCountry}"); 
-      // print("## ${_currentUser.userPhone}"); 
-      
       Navigator.pushReplacementNamed(context, "/homePage");
     }
   } catch (e) {

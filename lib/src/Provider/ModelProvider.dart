@@ -3,11 +3,14 @@ import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:guimyapp/src/BaseDeDatos/GraphQl.dart';
 import 'package:mime_type/mime_type.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+
+GraphQLClass bdGraphQl = new GraphQLClass();
 
 class ModelProvider extends ChangeNotifier{
   
@@ -59,17 +62,36 @@ class ModelProvider extends ChangeNotifier{
 
   Future<bool> signUpUser (String email, String password) async {
     bool retVal = false;
-
     try {
-      AuthResult _authResult = 
-      await _auth.createUserWithEmailAndPassword(email: email, password: password);
+      AuthResult _authResult = await _auth.createUserWithEmailAndPassword(email: email, password: password);
+      _userId = _authResult.user.uid;
+      print("%%%%%%%%%%%%%%%%%%%%% ${_authResult.user.uid}");
       if(_authResult.user != null){
         retVal = true;
-        // this.userId = _authResult.user.uid;
+        _userId = _authResult.user.uid;
       }
     } catch (e) {
       print("Error encontrado en $e");
     }
+    print("###############################3");
+    // onStartUp();
+    // print(this._authResult.user.uid);
+    
+
+    bdGraphQl.insertarUsuario(
+      this.userId,
+      this.userAvatar,
+      this.userName,
+      this.userPassword,
+      this.extencionPhone,
+      this.userPhone,
+      this.userCountry,
+      this.userEmail
+    );
+    print("###############################3");
+
+
+    // 10bf922f-a4fb-4b75-873f-f87252e1f63a
     return retVal;
   }
   
