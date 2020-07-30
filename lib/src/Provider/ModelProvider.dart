@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:mime_type/mime_type.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 class ModelProvider extends ChangeNotifier{
@@ -33,6 +34,7 @@ class ModelProvider extends ChangeNotifier{
       FirebaseUser _firebaseUser = await _auth.currentUser();
       _uid = _firebaseUser.uid;
       _email = _firebaseUser.email;
+      
       retVal = "success";
     } catch (e) {
       print("nuevo error encontrado en $e");
@@ -63,6 +65,7 @@ class ModelProvider extends ChangeNotifier{
       await _auth.createUserWithEmailAndPassword(email: email, password: password);
       if(_authResult.user != null){
         retVal = true;
+        // this.userId = _authResult.user.uid;
       }
     } catch (e) {
       print("Error encontrado en $e");
@@ -92,7 +95,7 @@ class ModelProvider extends ChangeNotifier{
   // ################################################################
   // ############     RESERVADO PARA DATOS DE USUARIO   #############
   // ################################################################
-
+  bool _auxiliarBandera = true;
   String _userName = "cargando.."; 
   String _userEmail = "cargando..";
   String _userPassword ="cargando..";
@@ -103,6 +106,13 @@ class ModelProvider extends ChangeNotifier{
   String _userAvatar ="cargando..";
 
   String _userId ="cargando..";
+
+  Future actualizarDato()async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    // ignore: await_only_futures
+    this._userId = await prefs.getString("idUser")??"no data";
+    print("##^^## ${this._userId} ");
+  }
   //
 
   String get userId => this._userId;
@@ -148,17 +158,32 @@ class ModelProvider extends ChangeNotifier{
     return respData['secure_url'];
   }
 
+  Future<void> futureAvatar(Map repositories)async{
+    await Future.delayed(const Duration(milliseconds: 100), (){});
+    print(repositories["name"]);
+    this.userAvatar     = repositories["avatar"];
+    this.userEmail      = repositories["email"];
+    this.extencionPhone = repositories["extend_phone"];
+    this.userName       = repositories["name"];//       = repositories["name"];
+    this.userPassword   = repositories["password"];
+    this.userPhone      = repositories["phone"];
+    if(_auxiliarBandera){
+      // await Future.delayed(const Duration(milliseconds: 300), (){});
+      notifyListeners();
+      print("#### ${this.userPhone}");
+      _auxiliarBandera = false;
+    } 
+  }
 
   set userAvatar(String url){
     this._userAvatar = url;
     print(this._userAvatar);
+    //  notifyListeners();
   }
-
-  
 
   set userName(String userName){
     this._userName = userName;
-    //notifyListeners();
+    // notifyListeners();
   }
   set userEmail(String userEmail){
     this._userEmail = userEmail;

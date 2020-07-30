@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
+// import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:guimyapp/src/Provider/ModelProvider.dart';
 import 'package:guimyapp/src/Widgets/BackGroundWidget.dart';
 import 'package:country_code_picker/country_code_picker.dart';
@@ -477,11 +477,11 @@ void _signUpUser(String email, String pass, BuildContext context) async {
       // );
       // ####################################
 
-      print("## ${_currentUser.userName}"); 
-      print("## ${_currentUser.userEmail}"); 
-      print("## ${_currentUser.userPassword}"); 
-      print("## ${_currentUser.userCountry}"); 
-      print("## ${_currentUser.userPhone}"); 
+      // print("## ${_currentUser.userName}"); 
+      // print("## ${_currentUser.userEmail}"); 
+      // print("## ${_currentUser.userPassword}"); 
+      // print("## ${_currentUser.userCountry}"); 
+      // print("## ${_currentUser.userPhone}"); 
       
       Navigator.pushReplacementNamed(context, "/homePage");
     }

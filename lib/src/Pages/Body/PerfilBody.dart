@@ -114,21 +114,22 @@ class _TextoRankBeneficio extends StatelessWidget {
 class InformacionUsuarioWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    ModelProvider prov = Provider.of<ModelProvider>(context);
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 20.0),
       child: Column(
         children: [
           ListTile(
             title: Text("Correo electronico"),
-            subtitle: Text("miCorreo@gmail.com"),
+            subtitle: Text(prov.userEmail),
           ),
           ListTile(
             title: Text("Contraseña"),
-            subtitle: Text("***********"),
+            subtitle: Text(prov.userPassword),
           ),
           ListTile(
             title: Text("Celular"),
-            subtitle: Text("+591 65537461"),
+            subtitle: Text("${prov.extencionPhone} ${prov.userPhone}"),
           ),
           _CerrarSesion()
         ],
@@ -146,7 +147,7 @@ class __PerfilSuperiorState extends State<_PerfilSuperior> {
 
   @override
   Widget build(BuildContext context) {
-    ModelProvider provider = Provider.of<ModelProvider>(context);
+    ModelProvider prov = Provider.of<ModelProvider>(context);
     return Container(
       width: double.infinity,
       child: Column(
@@ -158,14 +159,15 @@ class __PerfilSuperiorState extends State<_PerfilSuperior> {
                 children: [
                   CircleAvatar(
                     radius: 65.0,
-                    child: Icon(Icons.plus_one),
+                    backgroundImage: (prov.userAvatar != "cargando..")?NetworkImage(prov.userAvatar):AssetImage("lib/src/Sources/loadingimage/jar-loading.gif"),
+                    // child: Icon(Icons.plus_one),
                   ),
                   Container(
                     margin: EdgeInsets.symmetric(vertical: 10.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text("Daniel Marin", style: TextStyle(fontSize: 25.0,fontWeight: FontWeight.w500,color: Colors.grey[850]),),
+                        Text(prov.userName, style: TextStyle(fontSize: 25.0,fontWeight: FontWeight.w500,color: Colors.grey[850]),),
                         Icon(Icons.person_pin_circle,color: _color,)
                       ],
                     ),
@@ -178,7 +180,7 @@ class __PerfilSuperiorState extends State<_PerfilSuperior> {
                 right: 20.0,
                 child: InkWell(
                   onTap: () {
-                    provider.indexPage =10;
+                    prov.indexPage =10;
                   },
                   child: Row(
                     children: [

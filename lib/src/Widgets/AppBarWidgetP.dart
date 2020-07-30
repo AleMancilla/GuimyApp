@@ -44,7 +44,7 @@ class AppBarWidgetP extends StatelessWidget {
 
   Widget _contenidoAppBar(BuildContext context){
     //final img = (NetworkImage("https://cdn3.iconfinder.com/data/icons/avatars-round-flat/33/avat-01-512.png") == null)?AssetImage("lib/src/Sources/IconsBar/Pasteles.png",):NetworkImage("https://cdn3.iconfinder.com/data/icons/avatars-round-flat/33/avat-01-512.png");
-
+    ModelProvider prov = Provider.of<ModelProvider>(context);
     final tamIconAvatar = 25.0;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 2.0),
@@ -59,8 +59,9 @@ class AppBarWidgetP extends StatelessWidget {
              },
             child: CircleAvatar(
               radius: 30.0,
+              backgroundColor: Colors.transparent,
               //backgroundColor: Colors.black,
-              backgroundImage: NetworkImage("https://i.pravatar.cc/200"),
+              backgroundImage: (prov.userAvatar != "cargando..")?NetworkImage(prov.userAvatar):AssetImage("lib/src/Sources/loadingimage/jar-loading.gif"),
               //backgroundColor: Colors.blue,
             ),
           ),
@@ -78,7 +79,7 @@ class AppBarWidgetP extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text("Hola"),
-                  Text("Mundo",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20.0),overflow: TextOverflow.ellipsis,)
+                  Text("${prov.userName}",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20.0),overflow: TextOverflow.ellipsis,)
                 ],
               ),
             ),

@@ -33,7 +33,7 @@ dependencies:
   provider: ^4.3.1
   firebase_auth:
   shared_preferences: ^0.5.8
-  graphql_flutter: ^3.0.0
+  # graphql_flutter: ^3.0.0
   toast: ^0.1.5
   share: ^0.6.4+3
   animate_do: ^1.7.2

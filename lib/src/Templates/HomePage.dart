@@ -17,10 +17,11 @@ import 'package:guimyapp/src/Widgets/BottomBarWidget.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-String userId = "";
+
+String userId ="--";
 String readRepositories = """
-  query MyQuery {
-    users_by_pk(id: \$id) {
+  query MyQuery (\$idx: uuid!){
+    users_by_pk(id:  \$idx) {
       id
       avatar
       email
@@ -81,49 +82,79 @@ class _HomePageState extends State<HomePage> {
   }
 
   _cargarPreferencias()async{
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    userId = await prefs.getString("idUser")??"no data";
+    Provider.of<ModelProvider>(context,listen: false).actualizarDato();
+    userId =  Provider.of<ModelProvider>(context,listen: false).userId;
     print("## DATO RECUPERADO ## : $userId");
     //_cargarProvider();
   }
+  Future _cargarDato()async{
+    // Provider.of<ModelProvider>(context,listen: false).actualizarDato();
+    // userId =  Provider.of<ModelProvider>(context,listen: false).userId;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    // ignore: await_only_futures
+    final dato = await prefs.getString("idUser")??"no data";
+    return dato;
+    //_cargarProvider();
+  }
+
 
   _cargarProvider(){
-    return Query(
-      options: QueryOptions(
-        documentNode: gql(readRepositories), // this is the query string you just created
-        variables: {
-          'id': userId,
-        },
-        // pollInterval: 10,
-      ),
-      // Just like in apollo refetch() could be used to manually trigger a refetch
-      // while fetchMore() can be used for pagination purpose
-      builder: (QueryResult result, { VoidCallback refetch, FetchMore fetchMore }) {
-        print(" !!!! #### idid $userId ");
-        if (result.hasException) {
-          print(" !!!! #### err0r 1 ");
-          print(" !!!! #### err0r 1 ${result.exception.toString()} ");
-            return Text(result.exception.toString());
-        }
+      
+    return FutureBuilder(
+      future: _cargarDato(),
+      builder: (context, snapshot) {
+        ModelProvider prov  = Provider.of<ModelProvider>(context);
+        // print("%%%%% $snapshot");
+        // print("%%%%% ${snapshot.data}");
+        return Query(
+          options: QueryOptions(
+            documentNode: gql(readRepositories), // this is the query string you just created
+            variables: {
+              'idx': snapshot.data,
+            },
+            // pollInterval: 10,
+          ),
+          // Just like in apollo refetch() could be used to manually trigger a refetch
+          // while fetchMore() can be used for pagination purpose
+          builder: (QueryResult result, { VoidCallback refetch, FetchMore fetchMore }) {
+          
+            if (result.hasException) {
+              // print(" !!!! #### err0r 1 ");
+              // print(" !!!! #### err0r 1 ${result.exception.toString()} ");
+                return Text(result.exception.toString());
+            }
 
-        if (result.loading) {
-          print(" !!!! #### err0r 2 ");
-          return Text('Loading');
-        }
+            if (result.loading) {
+              // print(" !!!! #### err0r 2 ");
+              // print(" !!!! #### idid $userId ");
+              return Text('Loading');
+            }
 
-        // it can be either Map or List
-        Map repositories = result.data['"data"']["users_by_pk"];
-        
-        print(repositories["id"]);
-        print(repositories["avatar"]);
-        print(repositories["email"]);
-        print(repositories["extend_phone"]);
-        print(repositories["name"]);
-        print(repositories["password"]);
-        print(repositories["phone"]);
+              print(" !!!! #### result ${result.data}");
+            // it can be either Map or List
+            Map repositories = result.data["users_by_pk"];
+            
+            // print(repositories["id"]);
+            // print(repositories["avatar"]);
+            // print(repositories["email"]);
+            // print(repositories["extend_phone"]);
+            // print(repositories["name"]);
+            // print(repositories["password"]);
+            // print(repositories["phone"]);
 
+            prov.futureAvatar(repositories);
 
-        return Container();
+            // prov.userId
+            // prov.userAvatar     = repositories["avatar"];
+            // prov.userEmail      = repositories["email"];
+            // prov.extencionPhone = repositories["extend_phone"];
+            // prov.userName       = repositories["name"];//       = repositories["name"];
+            // prov.userPassword   = repositories["password"];
+            // prov.userPhone      = repositories["phone"];
+
+            return Container();
+          },
+        );
       },
     );
   }
