@@ -20,33 +20,30 @@ final GraphQLClient _client = GraphQLClient(
         link: _link,
     );
 
-
+// ################# query
 
 const String readRepositories = r'''
-  query MyQuery {
-  users {
+  query MyQuery ( $token: String){
+  users(where: {tokenUser: {_eq: $token}}) {
     id
     name
     password
     phone
+    extend_phone
+    email
+    avatar
   }
 }
 ''';
 
-final QueryOptions options = QueryOptions(
-    documentNode: gql(readRepositories),
-    // variables: <String, dynamic>{
-      
-    // },
-);
 
 
 // ####### mutacion #######
 
 final String _insertUser = r"""
-  mutation insertUser($tockenUser : String, $country : String, $email: String, $name: name, $pass:String, $phone:String, $extendphone:String, $avatar:String) {
+  mutation insertUser($tokenUser : String, $country : String, $email: String, $name: name, $pass:String, $phone:String, $extendphone:String, $avatar:String) {
   insert_users_one(object:{
-    tockenUser : $tockenUser
+    tokenUser : $tokenUser
     country : $country
     email: $email
     name : $name
@@ -70,14 +67,24 @@ final String _insertUser = r"""
 
 class GraphQLClass {
 
-  ejecutar()async{
+  ejecutarConsultaInicio(String token)async{
+
+    final QueryOptions options = QueryOptions(
+        documentNode: gql(readRepositories),
+        variables: <String, dynamic>{
+          "token" : token
+        },
+    );
+
     final QueryResult result = await _client.query(options);
     if (result.hasException) {
         print(result.exception.toString());
     }
-
-    final repositories = result.data;
+    print("### ${result.data}");
+    final Map repositories = result.data["users"][0];
     print("### $repositories");
+
+    return repositories;
   }
 
   insertarUsuario(
@@ -94,7 +101,7 @@ class GraphQLClass {
     final MutationOptions options = MutationOptions(
       documentNode: gql(_insertUser),
       variables: <String, dynamic>{
-        "tockenUser"    : userId,
+        "tokenUser"     : userId,
         "country"       : userCountry,
         "email"         : userEmail,
         "name"          : userName,

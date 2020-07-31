@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:guimyapp/src/BaseDeDatos/GraphQl.dart';
 // import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:guimyapp/src/Pages/Body/CuponBody.dart';
 import 'package:guimyapp/src/Pages/Body/HomeBody.dart';
@@ -15,9 +16,9 @@ import 'package:guimyapp/src/Provider/ModelProvider.dart';
 import 'package:guimyapp/src/Widgets/AppBarWidgetP.dart';
 import 'package:guimyapp/src/Widgets/BottomBarWidget.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+// import 'package:shared_preferences/shared_preferences.dart';
 
-
+GraphQLClass graphQl = new GraphQLClass();
 String userId ="--";
 String readRepositories = """
   query MyQuery (\$idx: uuid!){
@@ -49,19 +50,28 @@ class _HomePageState extends State<HomePage> {
   }
 
   _cargarPreferencias()async{
-    Provider.of<ModelProvider>(context,listen: false).actualizarDato();
+    await Provider.of<ModelProvider>(context,listen: false).actualizarDato();
     userId =  Provider.of<ModelProvider>(context,listen: false).userId;
     print("## DATO RECUPERADO ## : $userId");
-    //_cargarProvider();
+    _cargarDato(userId);
   }
-  Future _cargarDato()async{
-    // Provider.of<ModelProvider>(context,listen: false).actualizarDato();
-    // userId =  Provider.of<ModelProvider>(context,listen: false).userId;
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    // ignore: await_only_futures
-    final dato = await prefs.getString("idUser")??"no data";
-    return dato;
-    //_cargarProvider();
+  Future _cargarDato(String userId)async{
+    print("########### userId $userId");
+    Map mapa = await graphQl.ejecutarConsultaInicio(userId);
+    _renovarProvider(mapa);
+  }
+
+  _renovarProvider(Map mapa){
+    // print("### cargando Provider");
+    ModelProvider prov = Provider.of<ModelProvider>(context,listen: false);
+    prov.userAvatar = mapa["avatar"];
+    prov.userName = mapa["name"];
+    prov.userPassword = mapa["password"];
+    // print("### user name provider ${prov.userName}");
+    prov.userPhone = mapa["phone"];
+    prov.extencionPhone = mapa["extend_phone"];
+    prov.userEmail = mapa["email"];
+    // print("### cargando Provider");
   }
 
 

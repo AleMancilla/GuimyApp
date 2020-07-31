@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:guimyapp/src/Provider/ModelProvider.dart';
 import 'package:guimyapp/src/root/root.dart';
 import 'package:provider/provider.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';  
 class PerfilBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -214,6 +214,9 @@ class _CerrarSesion extends StatelessWidget {
         ModelProvider _currentUser = Provider.of<ModelProvider>(context, listen: false);
         String verif = await _currentUser.signOut();
         //Provider.of<ModelProvider>(context,listen: false).signOut();
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        // ignore: await_only_futures
+        await prefs.setString("idUser","no-data-token");
         if(verif == "success"){
           Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>OurRoot()), (route) => false);
         }
