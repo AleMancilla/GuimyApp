@@ -13,6 +13,8 @@ import 'package:provider/provider.dart';
 
 File _image;
 File _imageUrl;
+
+ 
 class RegisterUser extends StatefulWidget {
   @override
   _RegisterUserState createState() => _RegisterUserState();
@@ -134,13 +136,21 @@ class _RegisterUserState extends State<RegisterUser> {
   }
 
   _mostrarFoto(){
+    // imageCache.clear();
     if(_imageUrl != null){
-      return Container();
+      print("##### IMAGE URL ${_imageUrl.path}");
+      return CircularProgressIndicator();
     }else{
+      
+      print("##### IMAGE  ${_image?.path}");
       return ClipRRect(
         borderRadius: BorderRadius.circular(100.0),
         child: Image(
-          image: AssetImage( _image?.path ?? "lib/src/Sources/loadingimage/no-image.png" ),
+          image: 
+          (_image == null)?
+          AssetImage(  _image?.path ?? "lib/src/Sources/loadingimage/no-image.png" )
+          :
+          FileImage(_image),
           height: 200.0,
           width: 200.0,
           fit: BoxFit.cover,
@@ -149,18 +159,37 @@ class _RegisterUserState extends State<RegisterUser> {
     }
   }
 
+//   Future<void> retrieveLostData() async {
+//   final LostData response =
+//       await picker.getLostData();
+//   if (response == null) {
+//     return;
+//   }
+//   if (response.file != null) {
+//     setState(() {
+//       if (response.type == RetrieveType.video) {
+//         _handleVideo(response.file);
+//       } else {
+//         _handleImage(response.file);
+//       }
+//     });
+//   } else {
+//     _handleError(response.exception);
+//   }
+// }
+
   _seleccionarFoto()async{
     final _picker = ImagePicker();
     final PickedFile pickedFile = await _picker.getImage(source: ImageSource.gallery);
     
-    _image = File(pickedFile.path);
+   
     
     if(_image != null){
       //limpiez 
     }
 
     setState(() {
-      
+       _image = File(pickedFile.path);
     });
   }
 
