@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:guimyapp/src/Provider/ModelProvider.dart';
 import 'package:guimyapp/src/root/root.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';  
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:toast/toast.dart';  
 class PerfilBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -211,6 +212,7 @@ class _CerrarSesion extends StatelessWidget {
     return Center(
       child: GestureDetector(
         onTap: ()async{
+        Toast.show("Cerrando Sesion", context, duration: Toast.LENGTH_LONG, gravity:  Toast.BOTTOM);
         ModelProvider _currentUser = Provider.of<ModelProvider>(context, listen: false);
         String verif = await _currentUser.signOut();
         //Provider.of<ModelProvider>(context,listen: false).signOut();

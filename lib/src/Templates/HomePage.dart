@@ -20,19 +20,19 @@ import 'package:provider/provider.dart';
 
 GraphQLClass graphQl = new GraphQLClass();
 String userId ="--";
-String readRepositories = """
-  query MyQuery (\$idx: uuid!){
-    users_by_pk(id:  \$idx) {
-      id
-      avatar
-      email
-      extend_phone
-      name
-      password
-      phone
-    }
-  }
-""";
+// String readRepositories = """
+//   query MyQuery (\$idx: uuid!){
+//     users_by_pk(id:  \$idx) {
+//       id
+//       avatar
+//       email
+//       extend_phone
+//       name
+//       password
+//       phone
+//     }
+//   }
+// """;
 
 
 class HomePage extends StatefulWidget {

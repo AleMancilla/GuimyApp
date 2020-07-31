@@ -48,107 +48,107 @@ class AppBarWidgetP extends StatelessWidget {
     final tamIconAvatar = 25.0;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 2.0),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          // ########################
+      child: InkWell(
+        onTap: (){
+            Provider.of<ModelProvider>(context,listen: false).indexPage=8;
+          },
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            // ########################
 
-          InkWell(
-            onTap: (){
-               Provider.of<ModelProvider>(context,listen: false).indexPage=8;
-             },
-            child: CircleAvatar(
+            CircleAvatar(
               radius: 30.0,
               backgroundColor: Colors.transparent,
               //backgroundColor: Colors.black,
               backgroundImage: (prov.userAvatar != "cargando..")?NetworkImage(prov.userAvatar):AssetImage("lib/src/Sources/loadingimage/jar-loading.gif"),
               //backgroundColor: Colors.blue,
             ),
-          ),
 
-          //Image.network("https://d2gg9evh47fn9z.cloudfront.net/800px_COLOURBOX24476126.jpg"),
+            //Image.network("https://d2gg9evh47fn9z.cloudfront.net/800px_COLOURBOX24476126.jpg"),
 
 
-          // ########################
+            // ########################
 
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.only(left: 8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text("Hola"),
-                  Text("${prov.userName}",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20.0),overflow: TextOverflow.ellipsis,)
-                ],
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("Hola"),
+                    Text("${prov.userName}",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20.0),overflow: TextOverflow.ellipsis,)
+                  ],
+                ),
               ),
             ),
-          ),
 
-          // ########################
+            // ########################
 
-           InkWell(
-             onTap: (){
-               Provider.of<ModelProvider>(context,listen: false).indexPage=5;
-             },
-             child: Card(
-               shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(50.0)) ,
-                ),
-                margin: EdgeInsets.only(left: 0.0,right: 0.0, top: 0.0,bottom: 5.0),
-               elevation: 10.0,
-               child: CircleAvatar(
-                radius: tamIconAvatar,
-                backgroundImage: AssetImage("lib/src/Sources/IconsBar/AvatarRegalo.png"),
-                backgroundColor: Colors.transparent,
-                //backgroundColor: Colors.blue,
-          ),
+             InkWell(
+               onTap: (){
+                 Provider.of<ModelProvider>(context,listen: false).indexPage=5;
+               },
+               child: Card(
+                 shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(50.0)) ,
+                  ),
+                  margin: EdgeInsets.only(left: 0.0,right: 0.0, top: 0.0,bottom: 5.0),
+                 elevation: 10.0,
+                 child: CircleAvatar(
+                  radius: tamIconAvatar,
+                  backgroundImage: AssetImage("lib/src/Sources/IconsBar/AvatarRegalo.png"),
+                  backgroundColor: Colors.transparent,
+                  //backgroundColor: Colors.blue,
+            ),
+               ),
              ),
-           ),
 
-          // #########################
-          SizedBox(width: 5.0,),
-           InkWell(
-             onTap: (){
-               Provider.of<ModelProvider>(context,listen: false).indexPage=6;
-             },
-             child: Card(
-               shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(50.0)) ,
-                ),
-                margin: EdgeInsets.only(left: 0.0,right: 0.0, top: 0.0,bottom: 5.0),
-               elevation: 10.0,
-               child: CircleAvatar(
-                radius: tamIconAvatar,
-                backgroundImage: AssetImage("lib/src/Sources/IconsBar/AvatarTicket.png"),
-                backgroundColor: Colors.transparent,
-                //backgroundColor: Colors.blue,
-          ),
+            // #########################
+            SizedBox(width: 5.0,),
+             InkWell(
+               onTap: (){
+                 Provider.of<ModelProvider>(context,listen: false).indexPage=6;
+               },
+               child: Card(
+                 shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(50.0)) ,
+                  ),
+                  margin: EdgeInsets.only(left: 0.0,right: 0.0, top: 0.0,bottom: 5.0),
+                 elevation: 10.0,
+                 child: CircleAvatar(
+                  radius: tamIconAvatar,
+                  backgroundImage: AssetImage("lib/src/Sources/IconsBar/AvatarTicket.png"),
+                  backgroundColor: Colors.transparent,
+                  //backgroundColor: Colors.blue,
+            ),
+               ),
              ),
-           ),
 
-          // #########################
-          SizedBox(width: 5.0,),
-           InkWell(
-             onTap: (){
-               Provider.of<ModelProvider>(context,listen: false).indexPage=7;
-             },
-             child: Card(
+            // #########################
+            SizedBox(width: 5.0,),
+             InkWell(
+               onTap: (){
+                 Provider.of<ModelProvider>(context,listen: false).indexPage=7;
+               },
+               child: Card(
 
-               shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(50.0)) ,
-                ),
-                margin: EdgeInsets.only(left: 0.0,right: 0.0, top: 0.0,bottom: 5.0),
-               elevation: 10.0,
-               child: CircleAvatar(
-                radius: tamIconAvatar,
+                 shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(50.0)) ,
+                  ),
+                  margin: EdgeInsets.only(left: 0.0,right: 0.0, top: 0.0,bottom: 5.0),
+                 elevation: 10.0,
+                 child: CircleAvatar(
+                  radius: tamIconAvatar,
 
-                backgroundImage: AssetImage("lib/src/Sources/IconsBar/AvatarCampana.png",),
-                backgroundColor: Colors.transparent,
-          ),
+                  backgroundImage: AssetImage("lib/src/Sources/IconsBar/AvatarCampana.png",),
+                  backgroundColor: Colors.transparent,
+            ),
+               ),
              ),
-           ),
-        ],
+          ],
+        ),
       ),
     );
   }

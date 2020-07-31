@@ -7,6 +7,7 @@ import 'package:guimyapp/src/Widgets/BackGroundWidget.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:toast/toast.dart';
 // import 'package:shared_preferences/shared_preferences.dart';
 
 
@@ -329,7 +330,7 @@ class _RegisterUserState extends State<RegisterUser> {
     ModelProvider _currentUser = Provider.of<ModelProvider>(context, listen: false);
     return InkWell(
       onTap: () async {
-
+        Toast.show("Registrando datos espere por favor..", context, duration: Toast.LENGTH_LONG, gravity:  Toast.TOP);
         _currentUser.userName = _fullNameController.text;
         _currentUser.userEmail = _emailController.text;
         _currentUser.userPassword = _passController.text;
@@ -465,13 +466,14 @@ class _RegisterUserState extends State<RegisterUser> {
 }
 
 void _signUpUser(String email, String pass, BuildContext context) async {
-
   ModelProvider _currentUser = Provider.of<ModelProvider>(context, listen: false);
   try {
-    if(await _currentUser.signUpUser(email, pass)){
-      Navigator.pushReplacementNamed(context, "/homePage");
+    if(await _currentUser.signUpUser(email, pass,context)){
+      Toast.show("Registro Exitoso, Bienvenido", context, duration: Toast.LENGTH_LONG, gravity:  Toast.TOP);
+      Navigator.pushReplacementNamed(context, "/homePage"); 
     }
   } catch (e) {
+    Toast.show("Error inesperado: $e..", context, duration: Toast.LENGTH_LONG, gravity:  Toast.TOP);
     print(e);
   }
 }

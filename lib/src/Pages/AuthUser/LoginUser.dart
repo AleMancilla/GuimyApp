@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:guimyapp/src/Provider/ModelProvider.dart';
 import 'package:guimyapp/src/Widgets/BackGroundWidget.dart';
 import 'package:provider/provider.dart';
+import 'package:toast/toast.dart';
 
 class LoginUser extends StatefulWidget {
 
@@ -188,14 +189,17 @@ class _LoginUserState extends State<LoginUser> {
 
 void _loginUser(String email, String password, BuildContext context) async{
   ModelProvider _modelProvider = Provider.of<ModelProvider>(context,listen: false);
+  Toast.show("Validando Datos", context, duration: Toast.LENGTH_LONG, gravity:  Toast.TOP);
 
   try {
-    if(await _modelProvider.loginUser(email, password)){
+    if(await _modelProvider.loginUser(email, password, context)){
       Navigator.of(context).pushReplacementNamed("/homePage");
     }else{
+      Toast.show("Datos inexistentes", context, duration: Toast.LENGTH_LONG, gravity:  Toast.TOP);
       print("############## no puedes iniciar session");
     }
   } catch (e) {
+    Toast.show("Error inesperado $e", context, duration: Toast.LENGTH_LONG, gravity:  Toast.TOP);
     print("##\$## error: $e");
   }
 

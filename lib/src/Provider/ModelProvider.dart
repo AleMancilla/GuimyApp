@@ -8,6 +8,7 @@ import 'package:mime_type/mime_type.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:toast/toast.dart';
 
 
 GraphQLClass bdGraphQl = new GraphQLClass();
@@ -60,7 +61,7 @@ class ModelProvider extends ChangeNotifier{
 
   //#############################################33
 
-  Future<bool> signUpUser (String email, String password) async {
+  Future<bool> signUpUser (String email, String password, BuildContext context) async {
     bool retVal = false;
     try {
       AuthResult _authResult = await _auth.createUserWithEmailAndPassword(email: email, password: password);
@@ -71,13 +72,14 @@ class ModelProvider extends ChangeNotifier{
         _userId = _authResult.user.uid;
       }
     } catch (e) {
+    Toast.show("Error inesperado: $e..", context, duration: Toast.LENGTH_LONG, gravity:  Toast.TOP);
       print("Error encontrado en $e");
     }
     print("###############################3");
     // onStartUp();
     // print(this._authResult.user.uid);
     
-
+  if (retVal){
     bdGraphQl.insertarUsuario(
       this.userId,
       this.userAvatar,
@@ -92,24 +94,27 @@ class ModelProvider extends ChangeNotifier{
     // ignore: await_only_futures
     await prefs.setString("idUser",this.userId);
     print("###############################3");
-
+  }
 
     // 10bf922f-a4fb-4b75-873f-f87252e1f63a
     return retVal;
   }
   
-  Future<bool> loginUser (String email, String password) async{
+  Future<bool> loginUser (String email, String password, BuildContext context) async{
     bool retVal = false;
 
     try {
       AuthResult _authResult = 
       await _auth.signInWithEmailAndPassword(email: email, password: password);
       if(_authResult.user != null){
+
         _uid = _authResult.user.uid;
         _email = _authResult.user.email;
+        Toast.show("Bienvenido $_email", context, duration: Toast.LENGTH_LONG, gravity:  Toast.TOP);
         retVal = true;
       }
     } catch (e) {
+      Toast.show("Error inesperado #e", context, duration: Toast.LENGTH_LONG, gravity:  Toast.TOP);
       print("Error encontrado en $e");
     }
     SharedPreferences prefs = await SharedPreferences.getInstance();
