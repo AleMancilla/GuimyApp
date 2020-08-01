@@ -4,7 +4,8 @@ class AppBodyRestaurant extends StatelessWidget {
   final TextStyle _styleSubTitle = TextStyle(color: Colors.white, fontWeight: FontWeight.w500,fontSize: 14.0);
   
   final String nameRestaurant;
-  AppBodyRestaurant({@required this.nameRestaurant  });
+  final String urlLogo;
+  AppBodyRestaurant({@required this.nameRestaurant  , @required this.urlLogo});
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +39,7 @@ class AppBodyRestaurant extends StatelessWidget {
             CircleAvatar(
               backgroundColor: Colors.white,
               radius: 50.0,
+              backgroundImage: NetworkImage(urlLogo),
             )
           ],
         ),

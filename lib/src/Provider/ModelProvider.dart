@@ -145,7 +145,8 @@ class ModelProvider extends ChangeNotifier{
   String _extencionPhone = "+51";
   String _userAvatar ="cargando..";
 
-  String _userId ="cargando..";
+  String _userId ="cargando.."; // token de firebase
+  String _userIdGraphql = "cargando...";
 
   Future actualizarDato()async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -155,7 +156,8 @@ class ModelProvider extends ChangeNotifier{
   }
   //
 
-  String get userId => this._userId;
+  String get userId => this._userId; 
+  String get userIdGraphql => this._userIdGraphql; 
   String get userAvatar => this._userAvatar;
   String get userPhone => this._userPhone;
 
@@ -244,7 +246,11 @@ class ModelProvider extends ChangeNotifier{
   }
 
   set userId(String id){
-    this.userId = id;
+    this._userId = id;
+  }
+    
+  set userIdGraphql(String id){
+    this._userIdGraphql = id;
   }
     
   

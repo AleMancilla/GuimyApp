@@ -36,6 +36,31 @@ const String readRepositories = r'''
 }
 ''';
 
+const String readRestaurant = r'''
+  query MyQuery($_restaurantuid: uuid!) {
+  restaurant_categories(where: {restaurant: {_eq: $_restaurantuid}}) {
+    category
+    restaurant
+    information {
+      name
+      logo
+      description
+    }
+  }
+  restaurants_by_pk(id: $_restaurantuid) {
+    email
+    id
+    latitude
+    longitude
+    logo
+    name
+    phone
+    details
+  }
+}
+
+''';
+
 
 
 // ####### mutacion #######
@@ -130,6 +155,27 @@ class GraphQLClass {
     // }
 
 
+  }
+
+  consultarRestaurante(String idRest)async{
+    final QueryOptions options = QueryOptions(
+        documentNode: gql(readRestaurant),
+        variables: <String, dynamic>{
+          "_restaurantuid" : idRest
+        },
+    );
+
+    final QueryResult result = await _client.query(options);
+    if (result.hasException) {
+        print(result.exception.toString());
+    }
+    // print("### resultado restaurante: ${result.data}");
+    // final List restaurant_categories = result.data["restaurant_categories"];
+    // print("### mapa restaurante: $restaurant_categories");
+    // final Map restaurants_by_pk = result.data["restaurants_by_pk"];
+    // print("### mapa restaurante: $restaurants_by_pk");
+    Map resultado = result.data;
+    return resultado;
   }
 
 

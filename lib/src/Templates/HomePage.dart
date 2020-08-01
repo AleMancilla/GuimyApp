@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:guimyapp/src/BaseDeDatos/GraphQl.dart';
@@ -13,6 +15,8 @@ import 'package:guimyapp/src/Pages/Body/RegaloBody.dart';
 import 'package:guimyapp/src/Pages/Body/ReportarBody.dart';
 import 'package:guimyapp/src/Pages/Body/RestaurandBody.dart';
 import 'package:guimyapp/src/Pages/Body/StarBody.dart';
+import 'package:guimyapp/src/Provider/ClassRespQr.dart';
+import 'package:guimyapp/src/Provider/ClassRestaurant.dart';
 import 'package:guimyapp/src/Provider/ModelProvider.dart';
 import 'package:guimyapp/src/Widgets/AppBarWidgetP.dart';
 import 'package:guimyapp/src/Widgets/BottomBarWidget.dart';
@@ -73,6 +77,7 @@ class _HomePageState extends State<HomePage> {
     prov.userPhone = mapa["phone"];
     prov.extencionPhone = mapa["extend_phone"];
     prov.userEmail = mapa["email"];
+    prov.userIdGraphql = mapa["id"];
     // print("### cargando Provider");
   }
 
@@ -152,9 +157,29 @@ class _HomePageState extends State<HomePage> {
       cameraScanResult = e.toString();
     }
     if(cameraScanResult != null){
-      print(" ### $cameraScanResult");
+      // print(" ### $cameraScanResult");
       ModelProvider prov = Provider.of<ModelProvider>(context,listen: false);
+      ClassRestaurant rest = Provider.of<ClassRestaurant>(context,listen: false);
       prov.indexPage = 11;
+      //m
+      cameraScanResult = cameraScanResult.substring(1,cameraScanResult.length-1);
+      Map jsonPrueba = json.decode(cameraScanResult);
+
+
+      // print("##%## prueba Json ${jsonPrueba["restaurant"]}");
+      // print("##%## prueba Json ${jsonPrueba["sucursal"]}");
+
+      ClassRespQr resqr = Provider.of<ClassRespQr>(context,listen: false);
+      resqr.cargarRespuesta(jsonPrueba);
+      print("##%## prueba Json ${resqr.restaurantID}");
+
+      Map datos = await graphQl.consultarRestaurante(resqr.restaurantID);
+      print("### resultado DATOS: $datos");
+
+      rest.cargarDatos(datos);
+
+      
+      // print("##%## prueba Json ${resqr.sucursalID}");
     }
     
   }

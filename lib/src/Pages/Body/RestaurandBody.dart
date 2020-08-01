@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:guimyapp/src/Provider/ClassRestaurant.dart';
 import 'package:guimyapp/src/Provider/ModelProvider.dart';
 import 'package:guimyapp/src/Widgets/AppBarRestaurant.dart';
 import 'package:provider/provider.dart';
@@ -12,18 +13,20 @@ class RestaurantBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ModelProvider prov = Provider.of<ModelProvider>(context);
+    ClassRestaurant rest = Provider.of<ClassRestaurant>(context);
     return Container(
       padding: EdgeInsets.only(top: 60.0,bottom: 50.0),
       color: Colors.grey[300],
       height: double.infinity,
+      width: double.infinity,
       // child: _CerrarSesion(),
       child: SingleChildScrollView(
         child: Column(
           children: [
             // SizedBox(height: 30.0,),
-            _appBody(),
+            _appBody(rest),
             // Spacer()
-            if(prov.indexPageRestaurant == 0)_bodyRestaurant(context),
+            if(prov.indexPageRestaurant == 0)_bodyRestaurant(context,rest),
             if(prov.indexPageRestaurant == 1)_bodyRestaurantReserva(context),
           ],
         ),
@@ -33,22 +36,26 @@ class RestaurantBody extends StatelessWidget {
   }
 
 
-  Widget _appBody(){
-  return AppBodyRestaurant(nameRestaurant: "El fundo del abuelo",);
+  Widget _appBody(ClassRestaurant rest){
+  
+  return AppBodyRestaurant(nameRestaurant: rest.resName??"cargando..",urlLogo: (rest.resLogo!= null)?rest.resLogo:"https://img.icons8.com/doodle/48/000000/chef-hat--v1.png",);
   }
 
 
-  Widget _bodyRestaurant(BuildContext context){
-    return Column(
-      children: <Widget>[
-        _btnReservar(context),
-        _conocenos(),
-        _categorias(),
-        _galeria(),
-        _opiniones(),
-        _btnOpinar(context),
-        SizedBox(height: 20.0,)
-      ],
+  Widget _bodyRestaurant(BuildContext context, ClassRestaurant rest){
+    return Container(
+      width: double.infinity,
+      child: Column(
+        children: <Widget>[
+          _btnReservar(context),
+          _conocenos(rest),
+          _categorias(rest),
+          _galeria(),
+          _opiniones(),
+          _btnOpinar(context),
+          SizedBox(height: 20.0,)
+        ],
+      ),
     );
   }
 
@@ -77,20 +84,21 @@ class RestaurantBody extends StatelessWidget {
     );
   }
 
-  Widget _conocenos(){
-    return Padding(
+  Widget _conocenos(ClassRestaurant rest){
+    return Container(
+      width: double.infinity,
       padding: const EdgeInsets.all(20.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text("Conocenos",style: _title,),
-          Text("Nostrud duis amet ipsum exercitation consequat ut anim sit cupidatat duis eiusmod aliquip magna. Proident commodo nostrud non aliquip minim. Nulla laborum voluptate exercitation adipisicing consectetur do ut ex eiusmod minim excepteur. Eiusmod tempor anim occaecat ipsum minim et excepteur dolor est irure ea incididunt proident velit. Labore quis aliquip laboris eu et dolore nisi ex mollit laboris incididunt. Cupidatat enim do amet in nisi aliqua culpa Lorem occaecat.")
+          Text(rest.resDetails??"Nostrud duis amet ipsum exercitation consequat ut anim sit cupidatat duis eiusmod aliquip magna. Proident commodo nostrud non aliquip minim. Nulla laborum voluptate exercitation adipisicing consectetur do ut ex eiusmod minim excepteur. Eiusmod tempor anim occaecat ipsum minim et excepteur dolor est irure ea incididunt proident velit. Labore quis aliquip laboris eu et dolore nisi ex mollit laboris incididunt. Cupidatat enim do amet in nisi aliqua culpa Lorem occaecat.")
         ],
       ),
     );
   }
 
-  Widget _categorias(){
+  Widget _categorias(ClassRestaurant rest){
 
     final _aux = Card(
                 child: Image.asset("lib/src/Sources/categorias/Bebidasyjugos.png"),
@@ -98,32 +106,55 @@ class RestaurantBody extends StatelessWidget {
                 elevation: 0.0,
                 margin: EdgeInsets.all(8.0),
               );
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0),
-          child: Text("Categorias",style: _title,),
+
+    final List<Categorias> vectorCategorias = rest.resCategories;
+    print("### VECTOR CATEGIRIAS == ## $vectorCategorias");
+
+    List<Widget> vectorWidgetsCategorias = 
+    (vectorCategorias != null)?
+    vectorCategorias.map((cat) {
+      return Container(
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10.0),
+          color: Colors.white,
         ),
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            children: <Widget>[
-              SizedBox(width: 12.0,),
-              _aux,
-              _aux,
-              _aux,
-              _aux,
-              _aux,
-              _aux,
-              _aux,
-              _aux,
-              _aux,
-              _aux,
-            ],
+        width: 120.0,
+        height: 120.0,
+        margin: EdgeInsets.all(8.0),
+        
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          
+          children: <Widget>[
+            Image.network(cat.informacion["logo"]??"https://es.freelogodesign.org/Content/img/logo-samples/flooop.png",width: 80.0, height: 80.0, fit: BoxFit.cover, ),
+            Text(cat.informacion["name"]??"Cargando..",style: _title,)
+          ],
+        ),
+      );
+    })?.toList():
+    [_aux,_aux,_aux,_aux];
+
+    return Container(
+      width: double.infinity,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            child: Text("Categorias",style: _title,),
           ),
-        )
-      ],
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: <Widget>[
+                SizedBox(width: 12.0,),
+                ...vectorWidgetsCategorias
+              ],
+            ),
+          )
+        ],
+      ),
     );
   }
 
@@ -192,7 +223,7 @@ class RestaurantBody extends StatelessWidget {
   }
 
   Widget _btnOpinar(BuildContext context){
-    ModelProvider prov = Provider.of<ModelProvider>(context,listen: false);
+    // ModelProvider prov = Provider.of<ModelProvider>(context,listen: false);
     return InkWell(
       onTap: () {
         // prov.indexPageRestaurant = 1;

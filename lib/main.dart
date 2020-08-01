@@ -3,6 +3,8 @@ import 'package:guimyapp/src/Pages/AuthUser/LoginUser.dart';
 import 'package:guimyapp/src/Pages/AuthUser/RegisterUser.dart';
 import 'package:guimyapp/src/Pages/SplashPage.dart';
 import 'package:guimyapp/src/PreferensUser/PreferenciasUsuario.dart';
+import 'package:guimyapp/src/Provider/ClassRespQr.dart';
+import 'package:guimyapp/src/Provider/ClassRestaurant.dart';
 import 'package:guimyapp/src/Provider/ModelProvider.dart';
 import 'package:guimyapp/src/Provider/ModelReportConsultasMensajeria.dart';
 import 'package:guimyapp/src/Provider/ModelTopRest.dart';
@@ -39,6 +41,8 @@ Future<void> main() async {
           ChangeNotifierProvider(create: (context) => new ModelProvider()),
           ChangeNotifierProvider(create: (context) => new ModelTopRest()),
           ChangeNotifierProvider(create: (context) => new ModelReportConsultasMensajerias()),
+          ChangeNotifierProvider(create: (context) => new ClassRestaurant()),
+          ChangeNotifierProvider(create: (context) => new ClassRespQr()),
         ],
         child: MyApp()
       ),
