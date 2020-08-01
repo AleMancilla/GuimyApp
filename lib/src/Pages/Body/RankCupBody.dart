@@ -1,9 +1,24 @@
 // RankCupBody
 import 'package:flutter/material.dart';
+import 'package:guimyapp/src/Provider/ClassMisions.dart';
+import 'package:guimyapp/src/Provider/ModelProvider.dart';
 import 'package:guimyapp/src/Widgets/retosProgress.dart';
+import 'package:provider/provider.dart';
+// import 'package:guimyapp/src/BaseDeDatos/GraphQl.dart';
+// import 'package:guimyapp/src/Provider/ClassMisions.dart';
+// import 'package:guimyapp/src/Widgets/retosProgress.dart';
+// import 'package:provider/provider.dart';
+// GraphQLClass graphQl = new GraphQLClass();
 class RankCupBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final ClassMisions mision = Provider.of<ClassMisions>(context);
+
+    final listaMisiones = mision.listaMisiones;
+
+    List<Widget> listaMisionesWidget = (listaMisiones != null )? listaMisiones.map((OneMision mision) {
+      return RetosProgress(progress: "0/${mision.misionNeedsTotal}",title: mision.misionNeedsAction,porcentageProg: 0,);
+    }).toList():[Container()];
     return Container(
       padding: EdgeInsets.only(top: 60.0,bottom: 50.0),
       color: Colors.pink[50],
@@ -14,25 +29,15 @@ class RankCupBody extends StatelessWidget {
           children: [
             SizedBox(height: 30.0,),
             _TopRango(),
-            Divider(),
-            RetosProgress(title: "Escanear 20 restaurantes diferentes",progress: "1/20",porcentageProg: 20,),
-            Divider(),
-            RetosProgress(title: "Escanear 20 restaurantes diferentes",progress: "1/20",porcentageProg: 40,),
-            Divider(),
-            RetosProgress(title: "Escanear 20 restaurantes diferentes",progress: "1/20",porcentageProg: 10,),
-            Divider(),
-            RetosProgress(title: "Escanear 20 restaurantes diferentes",progress: "1/20",porcentageProg: 50,),
-            Divider(),
-            RetosProgress(title: "Escanear 20 restaurantes diferentes",progress: "1/20",porcentageProg: 80,),
-            Divider(),
-            RetosProgress(title: "Escanear 20 restaurantes diferentes",progress: "1/20",porcentageProg: 20,),
-            Divider(),
+            ...listaMisionesWidget,
             SizedBox(height: 30.0,),
           ],
         ),
       ),
     );
   }
+
+  
 }
 
 class _TopRango extends StatefulWidget {
@@ -44,6 +49,7 @@ class __TopRangoState extends State<_TopRango> {
 
   @override
   Widget build(BuildContext context) {
+    ModelProvider prov = Provider.of<ModelProvider>(context);
     final size = MediaQuery.of(context).size;
     return Container(
       // color: Colors.red,
@@ -58,7 +64,8 @@ class __TopRangoState extends State<_TopRango> {
                 children: [
                   CircleAvatar(
                     radius: 65.0,
-                    child: Icon(Icons.plus_one),
+                    // child: Icon(Icons.plus_one),
+                    backgroundImage: NetworkImage(prov.userAvatar),
                   ),
                   Container(
                     margin: EdgeInsets.symmetric(vertical: 10.0),

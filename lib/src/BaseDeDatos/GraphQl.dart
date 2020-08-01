@@ -61,6 +61,18 @@ const String readRestaurant = r'''
 
 ''';
 
+const String readMissions = r'''
+  query MyQuery {
+    misions {
+      gives_points
+      name
+      id
+      needs_action
+      needs_total
+    }
+  }
+''';
+
 
 
 // ####### mutacion #######
@@ -176,6 +188,26 @@ class GraphQLClass {
     // print("### mapa restaurante: $restaurants_by_pk");
     Map resultado = result.data;
     return resultado;
+  }
+
+  Future<Map> ejecutarConsultaMisiones()async{
+
+    final QueryOptions options = QueryOptions(
+        documentNode: gql(readMissions),
+        // variables: <String, dynamic>{
+        //   // "token" : token
+        // },
+    );
+
+    final QueryResult result = await _client.query(options);
+    if (result.hasException) {
+        print(result.exception.toString());
+    }
+    print("### ${result.data}");
+    final Map misiones = await result.data;
+    print("### $misiones");
+
+    return misiones;
   }
 
 

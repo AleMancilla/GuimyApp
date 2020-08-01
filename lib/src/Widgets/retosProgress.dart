@@ -11,7 +11,7 @@ class RetosProgress extends StatelessWidget {
     double _width = size.width-40;
     return Container(
       width: size.width,
-      margin: EdgeInsets.symmetric(horizontal: 20.0),
+      margin: EdgeInsets.symmetric(horizontal: 20.0,vertical: 10.0),
       child: Column(
         children: [
           Row(

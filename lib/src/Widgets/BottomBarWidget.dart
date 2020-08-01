@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:guimyapp/src/BaseDeDatos/GraphQl.dart';
+import 'package:guimyapp/src/Provider/ClassMisions.dart';
 import 'package:guimyapp/src/Provider/ModelProvider.dart';
 import 'package:provider/provider.dart';
 
-
+GraphQLClass graphQl = new GraphQLClass();
 class BottomBarWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -36,8 +38,27 @@ class BottomBarWidget extends StatelessWidget {
         Container(width: 25.0,),
         // Image.asset("lib/src/Sources/IconsBar/Iconhome.png",fit: BoxFit.cover,width: 35.0,),
         InkWell(onTap: (){Provider.of<ModelProvider>(context,listen: false).indexPage=3;},child: Icon(Icons.pin_drop,color: Colors.white,size: 35.0,)),
-        InkWell(onTap: (){Provider.of<ModelProvider>(context,listen: false).indexPage=4;},child: Image.asset("lib/src/Sources/IconsBar/sports-and-competition.png",fit: BoxFit.cover,width: 25.0,)),
+        InkWell(onTap: ()async{
+          Provider.of<ModelProvider>(context,listen: false).indexPage=4;
+          ClassMisions mision = Provider.of<ClassMisions>(context,listen: false);
+          await _cargarMisiones(mision);
+          // mision.listaMisiones = await listaMisiones;
+          },child: Image.asset("lib/src/Sources/IconsBar/sports-and-competition.png",fit: BoxFit.cover,width: 25.0,)),
       ],
     );
+  }
+
+  _cargarMisiones(ClassMisions mision)async{
+
+    final Map misiones = await graphQl.ejecutarConsultaMisiones();
+    // graphQl.ejecutarConsultaMisiones();
+    // misiones.listaMisiones = misiones["misions"];
+
+    mision.listaMisiones = misiones["misions"];
+    // final List listaMisiones =  mision.cargarMisiones(misiones["misions"]);
+    // print("##################################");
+    // print(listaMisiones?? "no hay datos ");
+    // return listaMisiones;
+    // return null;
   }
 }
