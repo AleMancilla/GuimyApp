@@ -11,11 +11,13 @@ import 'package:guimyapp/src/Pages/Body/RankCupBody.dart';
 import 'package:guimyapp/src/Pages/Body/RankUserBody.dart';
 import 'package:guimyapp/src/Pages/Body/RegaloBody.dart';
 import 'package:guimyapp/src/Pages/Body/ReportarBody.dart';
+import 'package:guimyapp/src/Pages/Body/RestaurandBody.dart';
 import 'package:guimyapp/src/Pages/Body/StarBody.dart';
 import 'package:guimyapp/src/Provider/ModelProvider.dart';
 import 'package:guimyapp/src/Widgets/AppBarWidgetP.dart';
 import 'package:guimyapp/src/Widgets/BottomBarWidget.dart';
 import 'package:provider/provider.dart';
+import 'package:qrscan/qrscan.dart' as scanner;
 // import 'package:shared_preferences/shared_preferences.dart';
 
 GraphQLClass graphQl = new GraphQLClass();
@@ -133,13 +135,28 @@ class _HomePageState extends State<HomePage> {
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: FloatingActionButton(
           elevation: 5.0,
-          onPressed: (){},
+          onPressed: ()=>_readQR(),
           backgroundColor: Colors.white,
           child: FaIcon(FontAwesomeIcons.qrcode,color: Colors.red,),
         ),
         //bottomNavigationBar: BottomBarWidget(),
       ),
     );
+  }
+
+  _readQR()async{
+    String cameraScanResult = '';  
+    try {
+      cameraScanResult =await scanner.scan();
+    } catch (e) {
+      cameraScanResult = e.toString();
+    }
+    if(cameraScanResult != null){
+      print(" ### $cameraScanResult");
+      ModelProvider prov = Provider.of<ModelProvider>(context,listen: false);
+      prov.indexPage = 11;
+    }
+    
   }
 
   Widget _returnPage(int index){
@@ -173,6 +190,9 @@ class _HomePageState extends State<HomePage> {
         break;
       case 10:
         return ReportarBody();
+        break;
+      case 11:
+        return RestaurantBody();
         break;
       default:
         return HomeBody();
