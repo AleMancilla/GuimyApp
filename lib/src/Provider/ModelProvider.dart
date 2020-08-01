@@ -21,6 +21,12 @@ class ModelProvider extends ChangeNotifier{
     this._indexPage=index;
     notifyListeners();
   }
+  int _indexPageRestaurant = 0;
+  int get indexPageRestaurant => this._indexPageRestaurant;
+  set indexPageRestaurant(int index){
+    this._indexPageRestaurant=index;
+    notifyListeners();
+  }
 
   //##################### auth ########################33
   // Current State User

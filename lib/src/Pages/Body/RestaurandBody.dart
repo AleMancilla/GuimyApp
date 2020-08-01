@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:guimyapp/src/Provider/ModelProvider.dart';
+import 'package:guimyapp/src/Widgets/AppBarRestaurant.dart';
+import 'package:provider/provider.dart';
 
 class RestaurantBody extends StatelessWidget {
 
   final TextStyle _title = TextStyle(color: Colors.orange[700],fontWeight: FontWeight.w600);
-  final TextStyle _styleTitle = TextStyle(color: Colors.white, fontWeight: FontWeight.bold,fontSize: 20.0);
+  final TextStyle _styleTitle = TextStyle(color: Colors.orange[700], fontWeight: FontWeight.bold,fontSize: 30.0);
   final TextStyle _styleSubTitle = TextStyle(color: Colors.white, fontWeight: FontWeight.w500,fontSize: 14.0);
     
   @override
   Widget build(BuildContext context) {
+    ModelProvider prov = Provider.of<ModelProvider>(context);
     return Container(
       padding: EdgeInsets.only(top: 60.0,bottom: 50.0),
       color: Colors.grey[300],
@@ -19,7 +23,8 @@ class RestaurantBody extends StatelessWidget {
             // SizedBox(height: 30.0,),
             _appBody(),
             // Spacer()
-            _bodyRestaurant()
+            if(prov.indexPageRestaurant == 0)_bodyRestaurant(context),
+            if(prov.indexPageRestaurant == 1)_bodyRestaurantReserva(context),
           ],
         ),
       ),
@@ -29,70 +34,43 @@ class RestaurantBody extends StatelessWidget {
 
 
   Widget _appBody(){
-  return Container(
-      padding: EdgeInsets.symmetric(horizontal: 30.0),
-      width: double.infinity,
-      height: 150.0,
-      decoration: BoxDecoration(
-        // color: Colors.red,
-        gradient: LinearGradient(
-          colors: [Colors.red,Colors.red[900]],
-          begin: FractionalOffset.topCenter,
-          end: FractionalOffset.bottomCenter
-        ),
-
-      ),alignment: Alignment.centerLeft,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text("Bienvenid(a)", style: _styleSubTitle,),
-                Text("El Fundo del abuelo", style: _styleTitle, overflow: TextOverflow.ellipsis,),
-              ],
-            ),
-          ),
-          CircleAvatar(
-            backgroundColor: Colors.white,
-            radius: 50.0,
-          )
-        ],
-      ),
-    );
+  return AppBodyRestaurant(nameRestaurant: "El fundo del abuelo",);
   }
 
 
-  Widget _bodyRestaurant(){
+  Widget _bodyRestaurant(BuildContext context){
     return Column(
       children: <Widget>[
-        _btnReservar(),
+        _btnReservar(context),
         _conocenos(),
         _categorias(),
         _galeria(),
         _opiniones(),
-        _btnOpinar(),
+        _btnOpinar(context),
         SizedBox(height: 20.0,)
       ],
     );
   }
 
-  Widget _btnReservar(){
+  Widget _btnReservar(BuildContext context){
+    ModelProvider prov = Provider.of<ModelProvider>(context,listen: false);
     return Container(
       margin: EdgeInsets.only(left: 20.0,top: 20.0,right: 20.0),
       child: Row(
         children: <Widget>[
           Spacer(),
-          Container(
-            decoration: BoxDecoration(
-              color: Colors.orange,
-              borderRadius: BorderRadius.circular(50.0)
+          InkWell(
+            onTap: () {
+              prov.indexPageRestaurant = 1;
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.orange,
+                borderRadius: BorderRadius.circular(50.0)
+              ),
+              padding: EdgeInsets.symmetric(horizontal: 30.0,vertical: 10.0),
+              child: Text("Reservar",style: _styleSubTitle,),
             ),
-            padding: EdgeInsets.symmetric(horizontal: 30.0,vertical: 10.0),
-            child: Text("Reservar",style: _styleSubTitle,),
           )
         ],
       ),
@@ -213,22 +191,104 @@ class RestaurantBody extends StatelessWidget {
     );
   }
 
-  Widget _btnOpinar(){
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 50.0,vertical: 10.0),
-      alignment: Alignment.center,
-      padding: EdgeInsets.symmetric(vertical: 10.0),
-      width: double.infinity,
-      child: Text("Opinar",style: _styleSubTitle,),
-      decoration: BoxDecoration(
-        color: Colors.orange,
-        borderRadius: BorderRadius.circular(50.0)
-      ),
+  Widget _btnOpinar(BuildContext context){
+    ModelProvider prov = Provider.of<ModelProvider>(context,listen: false);
+    return InkWell(
+      onTap: () {
+        // prov.indexPageRestaurant = 1;
+      },
+      child: Container(
+        margin: EdgeInsets.symmetric(horizontal: 50.0,vertical: 10.0),
+        alignment: Alignment.center,
+        padding: EdgeInsets.symmetric(vertical: 10.0),
+        width: double.infinity,
+        child: Text("Opinar",style: _styleSubTitle,),
+        decoration: BoxDecoration(
+          color: Colors.orange,
+          borderRadius: BorderRadius.circular(50.0)
+        ),
 
+      ),
+    );
+  }
+
+
+  _bodyRestaurantReserva(BuildContext context){
+    ModelProvider prov = Provider.of<ModelProvider>(context,listen: false);
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 20.0,horizontal: 30.0),
+      child: Column(
+        children: <Widget>[
+          Text("Reserva",style: _styleTitle,),
+          _inputNombre(),
+          _inputNombre(),
+          _inputNombre(),
+          _inputNombre(),
+          _inputNombre(),
+          Row(
+            children: <Widget>[
+              Expanded(
+                child: InkWell(
+                  onTap: () {
+                    prov.indexPageRestaurant = 0;
+                  },
+                  child: Container(
+                    alignment: Alignment.center,
+                    padding: EdgeInsets.symmetric(vertical: 10.0),
+                    margin: EdgeInsets.symmetric(horizontal: 20.0,vertical: 10.0),
+                    width: double.maxFinite,
+                    decoration: BoxDecoration(
+                      color: Colors.transparent,
+                      borderRadius: BorderRadius.circular(50.0),
+                      border: Border.all(color: Colors.orange,width: 2.0)
+                    ),
+                    child: Text("Cancel", style: TextStyle(color: Colors.orange[800], fontWeight: FontWeight.w600),),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: Container(
+                  alignment: Alignment.center,
+                  padding: EdgeInsets.symmetric(vertical: 10.0),
+                  margin: EdgeInsets.symmetric(horizontal: 20.0,vertical: 10.0),
+                  width: double.maxFinite,
+                  decoration: BoxDecoration(
+                    color: Colors.orange,
+                    borderRadius: BorderRadius.circular(50.0),
+                    border: Border.all(color: Colors.orange,width: 2.0)
+                  ),
+                  child: Text("Solicitar", style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),),
+                ),
+              ),
+            ],
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _inputNombre(){
+    return Container(
+      margin: EdgeInsets.all(8.0),
+      child: TextField(
+        decoration: InputDecoration(
+          fillColor: Colors.white,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(50.0)
+          ),
+          hintText: "Nombre",
+          alignLabelWithHint: false,
+          filled: true
+        ),
+        keyboardType: TextInputType.text,
+        textInputAction: TextInputAction.done,
+      ),
     );
   }
 
 }
+//"El Fundo del abuelo"
+
 
 class _Opiniones extends StatelessWidget {
   @override
