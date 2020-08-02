@@ -23,10 +23,10 @@ class CuponBody extends StatelessWidget {
                 children: [
                   Container(height: 20.0,),
                   _inputCode(),
-                  Image(image: AssetImage("lib/src/Sources/Rangos/RangoTragoncito.png"),height: 150.0,),
+                  Image(image: AssetImage("lib/src/Sources/Logos/ticket.png"),height: 200.0,fit: BoxFit.cover,),
                   SizedBox(height: 80.0,),
                   Text("¿Quieres ganar"   ,style: TextStyle(color: Colors.orange[200], fontSize: 24.0,fontWeight: FontWeight.bold,),),
-                  Text("2 pedidos gratis?",style: TextStyle(color: Colors.orange[200], fontSize: 28.0,fontWeight: FontWeight.bold,),),
+                  Text("15% de descuento?",style: TextStyle(color: Colors.orange[200], fontSize: 28.0,fontWeight: FontWeight.bold,),),
                   Text("invita a tus amigos",style: TextStyle(color: Colors.orange[200], fontSize: 18.0),),
                   _codeShare(),
                   _SeccionCopyShare("CODIG COPIADO"),

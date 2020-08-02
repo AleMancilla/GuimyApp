@@ -16,7 +16,7 @@ class HomeBody extends StatelessWidget {
             Container(
               margin: EdgeInsets.all(10.0),
               height: 150.0,
-              child: Placeholder( )
+              child: Image.asset("lib/src/Sources/Logos/baner1.png")
             ),
             SizedBox(
               height: 20.0,
@@ -43,7 +43,7 @@ class __BodySupPartState extends State<_BodySupPart> {
       children: [
         Container(
           width: size.width,
-          height: size.height/2,
+          height: 350,
           child: PageView(
             controller: _controllerPage,
 
@@ -84,7 +84,7 @@ class __BodySupPartState extends State<_BodySupPart> {
               ),
             ),
             Container(
-              height: size.height/2,
+              height: 350,
             )
             ]
           )
@@ -109,7 +109,7 @@ class __BodySupPartState extends State<_BodySupPart> {
               ),
             ),
             Container(
-              height: size.height/2,
+              height: 350,
             )
             ]
           )
@@ -132,7 +132,10 @@ class _ItemBodySupPart extends StatelessWidget {
       ),
       margin: EdgeInsets.symmetric(horizontal: 10.0),
       width: size.width-20,
-      height: size.height/2,
+      height: 350,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(20.0),
+        child: Image.asset("lib/src/Sources/Logos/panel1.png", fit: BoxFit.cover,)),
     );
   }
 }

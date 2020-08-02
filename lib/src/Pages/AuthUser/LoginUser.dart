@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:guimyapp/src/Provider/ModelProvider.dart';
 import 'package:guimyapp/src/Widgets/BackGroundWidget.dart';
@@ -39,8 +40,10 @@ class _LoginUserState extends State<LoginUser> {
           //color: Colors.blue,
           height: 200.0,
           width: double.infinity,
-          child: Container(
-            decoration: BoxDecoration( image:  DecorationImage(image: imagen.image)),
+          child: SlideInUp(
+            child: Container(
+              decoration: BoxDecoration( image:  DecorationImage(image: imagen.image)),
+            ),
           )
           
           
