@@ -1,15 +1,80 @@
 import 'package:flutter/material.dart';
+import 'package:guimyapp/src/BaseDeDatos/GraphQl.dart';
+import 'package:guimyapp/src/Provider/ClassReserva.dart';
 import 'package:guimyapp/src/Provider/ClassRestaurant.dart';
 import 'package:guimyapp/src/Provider/ModelProvider.dart';
 import 'package:guimyapp/src/Widgets/AppBarRestaurant.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-class RestaurantBody extends StatelessWidget {
+class MaxPersonas {
+  int id;
+  int cantidad;
+  MaxPersonas(this.id, this.cantidad);
+ 
+  static List<MaxPersonas> getProblems() {
+    return <MaxPersonas>[
+      MaxPersonas(1, 1),
+      MaxPersonas(2, 2),
+      MaxPersonas(3, 3),
+      MaxPersonas(4, 4),
+      MaxPersonas(5, 5),
+      MaxPersonas(6, 6),
+      MaxPersonas(7, 7),
+      MaxPersonas(8, 8),
+    ];
+  }
+}
 
+GraphQLClass graphQl = new GraphQLClass();
+
+class RestaurantBody extends StatefulWidget {
+
+  @override
+  _RestaurantBodyState createState() => _RestaurantBodyState();
+}
+
+class _RestaurantBodyState extends State<RestaurantBody> {
   final TextStyle _title = TextStyle(color: Colors.orange[700],fontWeight: FontWeight.w600);
+
   final TextStyle _styleTitle = TextStyle(color: Colors.orange[700], fontWeight: FontWeight.bold,fontSize: 30.0);
+
   final TextStyle _styleSubTitle = TextStyle(color: Colors.white, fontWeight: FontWeight.w500,fontSize: 14.0);
-    
+  DateTime selectedData = DateTime.now();
+  final DateFormat dateFormat = DateFormat('yyyy-MM-dd HH:mm');
+
+  List<MaxPersonas> _companies = MaxPersonas.getProblems();
+  List<DropdownMenuItem<MaxPersonas>> _dropdownMenuItems;
+  MaxPersonas _selectedProblem;
+
+  @override
+  void initState() {
+    _dropdownMenuItems = buildDropdownMenuItems(_companies);
+    _selectedProblem = _dropdownMenuItems[0].value;
+    super.initState();
+  }
+
+
+  onChangeDropdownItem(MaxPersonas selectedProblem) {
+    setState(() {
+      _selectedProblem = selectedProblem;
+    });
+  }
+
+  List<DropdownMenuItem<MaxPersonas>> buildDropdownMenuItems(List problems) {
+    List<DropdownMenuItem<MaxPersonas>> items = List();
+    for (MaxPersonas problem in problems) {
+      items.add(
+        DropdownMenuItem(
+          value: problem,
+          child: Text(problem.cantidad.toString()),
+        ),
+      );
+    }
+    return items;
+  }
+
+
   @override
   Widget build(BuildContext context) {
     ModelProvider prov = Provider.of<ModelProvider>(context);
@@ -35,12 +100,10 @@ class RestaurantBody extends StatelessWidget {
     );
   }
 
-
   Widget _appBody(ClassRestaurant rest){
   
   return AppBodyRestaurant(nameRestaurant: rest.resName??"cargando..",urlLogo: (rest.resLogo!= null)?rest.resLogo:"https://img.icons8.com/doodle/48/000000/chef-hat--v1.png",);
   }
-
 
   Widget _bodyRestaurant(BuildContext context, ClassRestaurant rest){
     return Container(
@@ -53,6 +116,7 @@ class RestaurantBody extends StatelessWidget {
           _galeria(),
           _opiniones(),
           _btnOpinar(context),
+          
           SizedBox(height: 20.0,)
         ],
       ),
@@ -243,19 +307,21 @@ class RestaurantBody extends StatelessWidget {
     );
   }
 
-
   _bodyRestaurantReserva(BuildContext context){
     ModelProvider prov = Provider.of<ModelProvider>(context,listen: false);
+    ClassReserva reserva = Provider.of<ClassReserva>(context,listen: false);
+    ClassRestaurant restaurant = Provider.of<ClassRestaurant>(context,listen: false);
     return Container(
       margin: EdgeInsets.symmetric(vertical: 20.0,horizontal: 30.0),
       child: Column(
         children: <Widget>[
           Text("Reserva",style: _styleTitle,),
-          _inputNombre(),
-          _inputNombre(),
-          _inputNombre(),
-          _inputNombre(),
-          _inputNombre(),
+          _inputNombre(reserva),
+          _inputApellido(reserva),
+          _inputNumeroID(reserva),
+          _inputMaxPersonas(reserva),
+          _seleccionarFechaHora(context,reserva),
+          _inputMensaje(reserva),
           Row(
             children: <Widget>[
               Expanded(
@@ -278,17 +344,37 @@ class RestaurantBody extends StatelessWidget {
                 ),
               ),
               Expanded(
-                child: Container(
-                  alignment: Alignment.center,
-                  padding: EdgeInsets.symmetric(vertical: 10.0),
-                  margin: EdgeInsets.symmetric(horizontal: 20.0,vertical: 10.0),
-                  width: double.maxFinite,
-                  decoration: BoxDecoration(
-                    color: Colors.orange,
-                    borderRadius: BorderRadius.circular(50.0),
-                    border: Border.all(color: Colors.orange,width: 2.0)
+                child: InkWell(
+                  onTap: () async {
+                    // print(prov.uid);
+                    // print(prov.userId);
+                    // print(prov.userIdGraphql);
+                    reserva.userID = prov.userIdGraphql;
+                    reserva.restaurantID = restaurant.restID;
+
+                    await graphQl.insertarReserva(
+                      reserva.userID, 
+                      reserva.reservafirstName, 
+                      reserva.reservalastName, 
+                      reserva.reservanumeroIdentidad, 
+                      reserva.reservamaxPersons, 
+                      reserva.reservadate, 
+                      reserva.reservamessage, 
+                      reserva.restaurantID
+                      );
+                  },
+                  child: Container(
+                    alignment: Alignment.center,
+                    padding: EdgeInsets.symmetric(vertical: 10.0),
+                    margin: EdgeInsets.symmetric(horizontal: 20.0,vertical: 10.0),
+                    width: double.maxFinite,
+                    decoration: BoxDecoration(
+                      color: Colors.orange,
+                      borderRadius: BorderRadius.circular(50.0),
+                      border: Border.all(color: Colors.orange,width: 2.0)
+                    ),
+                    child: Text("Solicitar", style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),),
                   ),
-                  child: Text("Solicitar", style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),),
                 ),
               ),
             ],
@@ -298,7 +384,7 @@ class RestaurantBody extends StatelessWidget {
     );
   }
 
-  Widget _inputNombre(){
+  Widget _inputNombre(ClassReserva reserva){
     return Container(
       margin: EdgeInsets.all(8.0),
       child: TextField(
@@ -307,16 +393,179 @@ class RestaurantBody extends StatelessWidget {
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(50.0)
           ),
-          hintText: "Nombre",
+          hintText: "Nombres",
           alignLabelWithHint: false,
           filled: true
         ),
         keyboardType: TextInputType.text,
         textInputAction: TextInputAction.done,
+        onChanged: (value) {
+          reserva.reservafirstName = value;
+          // print(value);
+        },
       ),
     );
   }
 
+  Widget _inputApellido(ClassReserva reserva){
+    return Container(
+      margin: EdgeInsets.all(8.0),
+      child: TextField(
+        decoration: InputDecoration(
+          fillColor: Colors.white,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(50.0)
+          ),
+          hintText: "Apellidos",
+          alignLabelWithHint: false,
+          filled: true
+        ),
+        keyboardType: TextInputType.text,
+        textInputAction: TextInputAction.done,
+        onChanged: (value) {
+          reserva.reservalastName = value;
+        },
+      ),
+    );
+  }
+
+  Widget _inputNumeroID(ClassReserva reserva){
+    return Container(
+      margin: EdgeInsets.all(8.0),
+      child: TextField(
+        decoration: InputDecoration(
+          fillColor: Colors.white,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(50.0)
+          ),
+          hintText: "Numero de identidad",
+          alignLabelWithHint: false,
+          filled: true
+        ),
+        keyboardType: TextInputType.number,
+        textInputAction: TextInputAction.done,
+        onChanged: (value) {
+          reserva.reservanumeroIdentidad = value;
+        },
+      ),
+    );
+  }
+
+  Widget _inputMaxPersonas(ClassReserva reserva){
+    return Column(
+      children: <Widget>[
+        Text("Max. de personas"),
+        Container(
+          // color: Colors.red,
+          margin: EdgeInsets.symmetric(horizontal: 10.0),
+          padding: EdgeInsets.symmetric(horizontal: 30.0),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(50.0),
+            border: Border.all(color: Colors.black45)
+          ),
+          child: DropdownButton(
+            value: _selectedProblem,
+            items: _dropdownMenuItems,
+            onChanged: (value) {
+              
+              onChangeDropdownItem(value);
+              print(value.cantidad);
+              reserva.reservamaxPersons = value.cantidad;
+            },
+
+            isExpanded: true,
+          ),
+        ),
+      ],
+    );
+  }
+
+  _seleccionarFechaHora(BuildContext context,ClassReserva reserva){
+    return Container(
+      width: double.infinity,
+      margin: EdgeInsets.symmetric(horizontal: 20.0,vertical: 10.0),
+      child: Column(
+        children: <Widget>[
+          Text(dateFormat.format(selectedData)),
+          GestureDetector(
+            onTap: () async {
+              final selectedData = await _selecDate(context);
+              print("## DATE $selectedData");
+
+              final selectTime = await _selectedTime(context);
+              print("## TIME $selectTime");
+              reserva.reservadate = "${selectedData.year}-${selectedData.month}-${selectedData.day} ${selectTime.hour}:${selectTime.minute}";
+
+              setState(() {
+                this.selectedData = DateTime(
+                  selectedData?.year,
+                  selectedData?.month,
+                  selectedData?.day,
+                  selectTime?.hour,
+                  selectTime?.minute
+
+                )??DateTime.now();
+              });
+            },
+            child: Container(
+              // height: 50.0,
+              width: double.infinity,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(50.0),
+                border: Border.all(color: Colors.black45)
+              ),
+              child: Text("Seleccione Dia y Hora de reserva",style: TextStyle(fontSize: 12.0),),
+              padding: EdgeInsets.symmetric(horizontal: 30.0,vertical: 20.0),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  _inputMensaje(ClassReserva reserva){
+    return Container(
+      // color: Colors.red,
+      // height: 200.0,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20.0),
+        border: Border.all(color: Colors.black45)
+      ),
+      margin: EdgeInsets.only(bottom: 10.0),
+      padding: EdgeInsets.all(10.0),
+      width: double.infinity,
+      child: TextField(
+        // expands: true,
+        maxLines: 5,
+        decoration: InputDecoration(
+          hintText: "Mensaje",
+          // border: OutlineInputBorder(),
+          
+          filled: true,
+        ),
+        onChanged: (value) {
+          reserva.reservamessage = value;
+        },
+      ),
+    );
+  }
+
+  Future<TimeOfDay> _selectedTime(BuildContext context) {
+    final now = DateTime.now();
+    
+    return showTimePicker(context: context, initialTime: TimeOfDay(hour: now.hour, minute: now.minute));
+  }
+
+  Future<DateTime> _selecDate(BuildContext context)=>showDatePicker(
+                context: context, 
+                initialDate: DateTime.now().add(Duration(seconds: 1)), 
+                firstDate: DateTime.now(), 
+                lastDate: DateTime(2023)
+              );
 }
 //"El Fundo del abuelo"
 

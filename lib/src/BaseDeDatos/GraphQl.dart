@@ -95,6 +95,21 @@ final String _insertUser = r"""
   }
 }
   """;
+final String _insertReserva = r"""
+  mutation MyMutation($user: uuid, $first_names: String, $last_names: String, $userDNI: String, $max_guests: smallint, $date: timestamptz, $message: String, $rest: uuid!) {
+  insert_reservations_one(object: {user: $user, first_names: $first_names, last_names: $last_names, ID: $userDNI, max_guests: $max_guests, date: $date, message: $message, restaurant: $rest}) {
+    first_names
+    last_names
+    date
+    max_guests
+    message
+    restaurant
+  }
+}
+
+  """;
+
+  
 
 
 
@@ -208,6 +223,52 @@ class GraphQLClass {
     print("### $misiones");
 
     return misiones;
+  }
+
+
+  insertarReserva(
+    String userID,
+    String reservafirstName,
+    String reservalastName,
+    String reservanumeroIdentidad,
+    int    reservamaxPersons,
+    String reservadate,
+    String reservamessage,
+    String restaurantID
+  )async{
+
+    final MutationOptions options = MutationOptions(
+      documentNode: gql(_insertReserva),
+      variables: <String, dynamic>{
+        "user"        : userID,
+        "first_names" : reservafirstName,
+        "last_names"  : reservalastName,
+        "userDNI"     : reservanumeroIdentidad,
+        "max_guests"  : reservamaxPersons,
+        "date"        : reservadate,
+        "message"     : reservamessage,
+        "rest"        : restaurantID
+      },
+    );
+
+    final QueryResult result = await _client.mutate(options);
+
+    if (result.hasException) {
+        print(result.exception.toString());
+        
+        return;
+    }
+    print(result.data);
+
+    // final bool isStarred =
+    //     result.data['action']['starrable']['viewerHasStarred'] as bool;
+
+    // if (isStarred) {
+    //   print('Thanks for your star!');
+    //   return;
+    // }
+
+
   }
 
 

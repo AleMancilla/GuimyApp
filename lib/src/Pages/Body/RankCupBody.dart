@@ -17,7 +17,7 @@ class RankCupBody extends StatelessWidget {
     final listaMisiones = mision.listaMisiones;
 
     List<Widget> listaMisionesWidget = (listaMisiones != null )? listaMisiones.map((OneMision mision) {
-      return RetosProgress(progress: "0/${mision.misionNeedsTotal}",title: mision.misionNeedsAction,porcentageProg: 0,);
+      return RetosProgress(progress: "0/${mision.misionNeedsTotal}",title: mision.misionNeedsAction,porcentageProg: 0,puntos: mision.misionGivePoints,);
     }).toList():[Container()];
     return Container(
       padding: EdgeInsets.only(top: 60.0,bottom: 50.0),

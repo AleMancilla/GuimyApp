@@ -3,8 +3,9 @@ class RetosProgress extends StatelessWidget {
   final String title;
   final String progress;
   final int porcentageProg;
+  final int puntos;
 
-  const RetosProgress({@required this.title,@required this.progress, this.porcentageProg = 0}) ;
+  const RetosProgress({@required this.title,@required this.progress, this.porcentageProg = 0, this.puntos = 0}) ;
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -18,7 +19,7 @@ class RetosProgress extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Expanded(child: Text("$title", style: TextStyle(color: Colors.redAccent,fontWeight: FontWeight.bold),overflow: TextOverflow.clip,)),
-              Text("100 pts", style: TextStyle(color: Colors.redAccent,fontWeight: FontWeight.bold,fontSize: 18.0),)
+              Text("$puntos pts", style: TextStyle(color: Colors.redAccent,fontWeight: FontWeight.bold,fontSize: 18.0),)
             ],
           ),
           Stack(
