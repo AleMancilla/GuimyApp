@@ -1,5 +1,9 @@
-import 'package:flutter/material.dart';
+import 'dart:io';
 
+import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+final _picker = ImagePicker();
+File imagen;
 class ItemConsultasTree extends StatefulWidget {
   @override
   _ItemConsultasTreeState createState() => _ItemConsultasTreeState();
@@ -86,33 +90,7 @@ class _ItemConsultasTreeState extends State<ItemConsultasTree> {
                 ),
               ),
             ),
-            Wrap(
-              // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: WrapCrossAlignment.center,
-              children: <Widget>[
-                Column(
-                  children: <Widget>[
-                    Text("Inserte una imagen",style: _subtitleStyle),
-                    Container(
-                      width: 100.0,
-                      height: 100.0,
-                      color: Colors.grey,
-                    )
-                  ],
-                ),
-
-                Container(
-                  margin: EdgeInsets.symmetric(vertical: 20.0),
-                  padding: EdgeInsets.symmetric(horizontal: 20.0,vertical: 10.0),
-                  // color: Colors.orange,
-                  decoration: BoxDecoration(
-                    color: Colors.orange,
-                    borderRadius: BorderRadius.circular(50.0)
-                  ),
-                  child: Text("Insertar Imagen",style: _textBotonStyle),
-                ) 
-              ],
-            ),
+            _insertarImagen(_subtitleStyle, _textBotonStyle),
 
             Container(
               margin: EdgeInsets.symmetric(vertical: 20.0),
@@ -128,6 +106,51 @@ class _ItemConsultasTreeState extends State<ItemConsultasTree> {
         ),
       ),
     );
+  }
+
+  _insertarImagen(TextStyle _subtitleStyle, TextStyle _textBotonStyle) {
+
+    
+    return Wrap(
+            // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            children: <Widget>[
+              Column(
+                children: <Widget>[
+                  Text("Inserte una imagen",style: _subtitleStyle),
+                  Container(
+                    width: 100.0,
+                    height: 100.0,
+                    color: Colors.grey,
+                    child: (imagen!=null)?
+                    Image(image: FileImage(imagen),fit: BoxFit.cover,)
+                    :
+                    CircularProgressIndicator() ,
+                  )
+                ],
+              ),
+
+              GestureDetector(
+                onTap: () async{
+                  final pickedFile = await _picker.getImage(source: ImageSource.gallery);
+                  imagen = File(pickedFile.path);
+                  setState(() {
+                    
+                  });
+                },
+                child: Container(
+                  margin: EdgeInsets.symmetric(vertical: 20.0),
+                  padding: EdgeInsets.symmetric(horizontal: 20.0,vertical: 10.0),
+                  // color: Colors.orange,
+                  decoration: BoxDecoration(
+                    color: Colors.orange,
+                    borderRadius: BorderRadius.circular(50.0)
+                  ),
+                  child: Text("Insertar Imagen",style: _textBotonStyle),
+                ),
+              ) 
+            ],
+          );
   }
 }
 

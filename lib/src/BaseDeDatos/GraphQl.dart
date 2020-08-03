@@ -129,6 +129,19 @@ final String _insertComentarioRest = r"""
 }
   """;
 
+
+final String _insertReportar = r"""
+  mutation MyMutation($state: String, $category:String,$tag: String, $msg: String, $img: String, $userID: uuid) {
+  insert_chats_one(object: {state: $state, category: $category, tag: $tag, message: $msg, image: $img, sender: $userID}) {
+    category
+    image
+    message
+    tag
+    state
+  }
+}
+  """;
+
   
 
 
@@ -349,6 +362,52 @@ class GraphQLClass {
 
     return repositories;
   }
+
+
+  insertarReportar(
+    {
+      String estado,
+      String categoria,
+      String tag,
+      String msg,
+      String imgUrl,
+      String userID
+    }
+  )async{
+
+    final MutationOptions options = MutationOptions(
+      documentNode: gql(_insertReportar),
+      variables: <String, dynamic>{
+        "state"     : estado,
+        "category"  : categoria,
+        "tag"       : tag,
+        "msg"       : msg,
+        "img"       : imgUrl,
+        "userID"    : userID
+      },
+    );
+
+    final QueryResult result = await _client.mutate(options);
+
+    if (result.hasException) {
+        print(result.exception.toString());
+        
+        return;
+    }
+    print(result.data);
+
+    // final bool isStarred =
+    //     result.data['action']['starrable']['viewerHasStarred'] as bool;
+
+    // if (isStarred) {
+    //   print('Thanks for your star!');
+    //   return;
+    // }
+    return result.data;
+
+  }
+
+
 
 
 }

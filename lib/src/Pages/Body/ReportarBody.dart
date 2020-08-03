@@ -1,12 +1,8 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:guimyapp/src/Pages/Body/ConsultasMensajerias/ConsultasBody.dart';
-import 'package:guimyapp/src/Pages/Body/ConsultasMensajerias/ItemConsultasFive.dart';
+import 'package:guimyapp/src/Pages/Body/ConsultasMensajerias/ItemReportar.dart';
 import 'package:guimyapp/src/Pages/Body/ConsultasMensajerias/ItemConsultasFour.dart';
-import 'package:guimyapp/src/Pages/Body/ConsultasMensajerias/ItemConsultasOne.dart';
-import 'package:guimyapp/src/Pages/Body/ConsultasMensajerias/ItemConsultasSix.dart';
-import 'package:guimyapp/src/Pages/Body/ConsultasMensajerias/ItemConsultasTree.dart';
-import 'package:guimyapp/src/Pages/Body/ConsultasMensajerias/ItemConsultasTwo.dart';
 import 'package:guimyapp/src/Pages/Body/ConsultasMensajerias/MensajeriaBody.dart';
 import 'package:guimyapp/src/Provider/ModelProvider.dart';
 import 'package:guimyapp/src/Provider/ModelReportConsultasMensajeria.dart';
@@ -94,22 +90,22 @@ class ReportarBody extends StatelessWidget {
         return  _PageViewMensajeriaConsultas();
         break;
       case 1:
-        return  ItemConsultasOne();
+        return  ItemReportar(title: "Tuve un problema con mi pedido",);
         break;
       case 2:
-        return  ItemConsultasTwo();
+        return  ItemReportar(title: "Mis canjes y promociones no funcionan",);
         break;
       case 3:
-        return  ItemConsultasTree();
+        return  ItemReportar(title: "Tuve una mala experiencia con el repartidor",);
         break;
       case 4:
         return  ItemConsultasFour();
         break;
       case 5:
-        return  ItemConsultasFive();
+        return  ItemReportar(title: "Tuve un problema con el pago",);
         break;
       case 6:
-        return  ItemConsultasSix();
+        return  ItemReportar(title: "Otro tipo de problema",);
         break;
       default:
         return  _PageViewMensajeriaConsultas();

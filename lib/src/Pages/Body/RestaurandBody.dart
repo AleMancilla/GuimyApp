@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
 
+
 class MaxPersonas {
   int id;
   int cantidad;
@@ -362,8 +363,8 @@ class _RestaurantBodyState extends State<RestaurantBody> {
             Toast.show("Gracias por tu comentario", context, duration: Toast.LENGTH_LONG, gravity:  Toast.CENTER);
             // comentarios = 
             _control.text = "";
-            print("####################33");
-            print(rest.comentarios);
+            // print("####################33");
+            // print(rest.comentarios);
             await rest.nuevoComentario(respuesta["insert_restaurant_comments_one"]);
             // List<Comentario> comentarios2 = rest.comentarios;
             // rest.llenarwidgetsComentarios (comentarios2);
