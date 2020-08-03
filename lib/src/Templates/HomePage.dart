@@ -171,12 +171,16 @@ class _HomePageState extends State<HomePage> {
 
       ClassRespQr resqr = Provider.of<ClassRespQr>(context,listen: false);
       resqr.cargarRespuesta(jsonPrueba);
-      print("##%## prueba Json ${resqr.restaurantID}");
+      // print("##%## prueba Json ${resqr.restaurantID}");
 
       Map datos = await graphQl.consultarRestaurante(resqr.restaurantID);
-      print("### resultado DATOS: $datos");
+      // print("### resultado DATOS: $datos");
 
       rest.cargarDatos(datos);
+
+      Map comentarios = await graphQl.ejecutarConsultaComentarios(rest.restID);
+      print("### resultado DATOS: $comentarios");
+      rest.cargarComentarios(comentarios);
 
       
       // print("##%## prueba Json ${resqr.sucursalID}");

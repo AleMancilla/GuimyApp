@@ -12,10 +12,10 @@ class ClassMisions with ChangeNotifier{
   
 
    List cargarMisiones(List misions){
-     List<OneMision> misiones = misions.map((m) {
+     List<OneMision> misiones = misions?.map((m) {
       //  print("##%%%%%%%##  $m");
        return new OneMision(m);
-     }).toList();
+     })?.toList()??[];
     return misiones;
    }
 

@@ -1,5 +1,7 @@
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:guimyapp/src/Pages/Body/RestaurandBody.dart';
 
 class ClassRestaurant with ChangeNotifier {
   String _restID;
@@ -12,6 +14,41 @@ class ClassRestaurant with ChangeNotifier {
   String _resManager;
   String _resLogo;
   List<Categorias> _resCategories;
+
+  List<Comentario> _comentarios;
+
+  // List<Widget> _widgetsComentarios;
+  
+
+  // List get widgetsComentarios => this._widgetsComentarios;
+  // set widgetsComentarios(List<Comentario> comentarios){
+  //   this._comentarios = comentarios?.map((Comentario comentario) {
+  //     return Opiniones(comentario: comentario.comentary,autor: comentario.nameComplete,);
+  //   })?.toList()??[];
+  //   notifyListeners();
+  // }
+
+
+  List<Comentario> get comentarios => this._comentarios;
+  set comentarios(List lista){
+    this._comentarios = lista.map((comentario) {
+      return Comentario(comentario["NameComplete"], comentario["commentary"], comentario["date_public"]);
+    })?.toList()??[];
+    notifyListeners();
+  }
+
+  nuevoComentario(comentario){
+    this._comentarios.add(Comentario(comentario["NameComplete"], comentario["commentary"], comentario["date_public"]));
+    notifyListeners();
+  }
+
+  String _comentarioUser;
+
+  String get comentarioUser => this._comentarioUser;
+  set comentarioUser(String coment){
+    this._comentarioUser = coment;
+    notifyListeners();
+  }
 
   
 
@@ -62,7 +99,6 @@ class ClassRestaurant with ChangeNotifier {
     this._resCategories = categoriasJson.map((categoria) {
       return Categorias(categoria["category"],categoria["restaurant"],categoria["information"]);
     }).toList();
-    
   }
 
   cargarDatos(Map datos){
@@ -90,6 +126,11 @@ class ClassRestaurant with ChangeNotifier {
     // print("______##______ ");
     // print("resCategories = ... ${resCategories[0].imprimir()}");
     // print("resCategories = ... ${resCategories[1].imprimir()}");
+  }
+
+  cargarComentarios(Map datos){
+    comentarios = datos["restaurant_comments"];
+    //notifyListeners();
   }
 
 
@@ -131,4 +172,30 @@ class Categorias{
     print(" _informacion description = ${_informacion["description"]}");
   }
 
+}
+
+class Comentario{
+  String _nameComplete;
+  String _comentary;
+  String _datepublic;
+
+  Comentario(String name, String comentari, String date){
+    nameComplete = name;
+    comentary = comentari;
+    datepublic = date;
+  }
+
+  String get nameComplete => this._nameComplete;
+  String get comentary => this._comentary;
+  String get datepublic => this._datepublic;
+
+  set nameComplete(String dato){
+    this._nameComplete=dato;
+  }
+  set comentary(String dato){
+    this._comentary=dato;
+  }
+  set datepublic(String dato){
+    this._datepublic=dato;
+  }
 }

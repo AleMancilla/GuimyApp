@@ -54,7 +54,7 @@ class BottomBarWidget extends StatelessWidget {
     // graphQl.ejecutarConsultaMisiones();
     // misiones.listaMisiones = misiones["misions"];
 
-    mision.listaMisiones = misiones["misions"];
+    mision.listaMisiones = misiones["missions"];
     // final List listaMisiones =  mision.cargarMisiones(misiones["misions"]);
     // print("##################################");
     // print(listaMisiones?? "no hay datos ");

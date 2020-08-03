@@ -6,6 +6,7 @@ import 'package:guimyapp/src/Provider/ModelProvider.dart';
 import 'package:guimyapp/src/Widgets/AppBarRestaurant.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:toast/toast.dart';
 
 class MaxPersonas {
   int id;
@@ -47,10 +48,13 @@ class _RestaurantBodyState extends State<RestaurantBody> {
   List<DropdownMenuItem<MaxPersonas>> _dropdownMenuItems;
   MaxPersonas _selectedProblem;
 
+  TextEditingController _control = new TextEditingController();
+
   @override
   void initState() {
     _dropdownMenuItems = buildDropdownMenuItems(_companies);
     _selectedProblem = _dropdownMenuItems[0].value;
+    _control.addListener(() { });
     super.initState();
   }
 
@@ -114,7 +118,7 @@ class _RestaurantBodyState extends State<RestaurantBody> {
           _conocenos(rest),
           _categorias(rest),
           _galeria(),
-          _opiniones(),
+          _opiniones(rest),
           _btnOpinar(context),
           
           SizedBox(height: 20.0,)
@@ -267,43 +271,120 @@ class _RestaurantBodyState extends State<RestaurantBody> {
     );
   }
 
-  Widget _opiniones(){
-    return Padding(
-      padding: const EdgeInsets.all(20.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text("Opiniones",style: _title,),
-          Column(
+  Widget _opiniones(ClassRestaurant rest){
+
+    List<Comentario> comentarios = rest.comentarios;
+
+    // rest.llenarwidgetsComentarios (comentarios);
+
+    List<Widget> widgetsComentarios = comentarios?.map((Comentario comentario) {
+      return Opiniones(comentario: comentario.comentary,autor: comentario.nameComplete,);
+    })?.toList()??[Container()];
+
+    print("object ###%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+
+
+    return Column(
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              _Opiniones(),
-              _Opiniones(),
-              _Opiniones()
+              Text("Opiniones",style: _title,),
+              Column(
+                children: widgetsComentarios,
+              )
             ],
-          )
-        ],
-      ),
+          ),
+        ),
+        
+      ],
     );
   }
 
   Widget _btnOpinar(BuildContext context){
+    ClassRestaurant rest = Provider.of<ClassRestaurant>(context,listen: false);
+    ModelProvider prov = Provider.of<ModelProvider>(context,listen: false);
     // ModelProvider prov = Provider.of<ModelProvider>(context,listen: false);
-    return InkWell(
-      onTap: () {
-        // prov.indexPageRestaurant = 1;
-      },
-      child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 50.0,vertical: 10.0),
-        alignment: Alignment.center,
-        padding: EdgeInsets.symmetric(vertical: 10.0),
-        width: double.infinity,
-        child: Text("Opinar",style: _styleSubTitle,),
-        decoration: BoxDecoration(
-          color: Colors.orange,
-          borderRadius: BorderRadius.circular(50.0)
-        ),
 
-      ),
+    return Column(
+      children: <Widget>[
+        Text("Dejanos tu comentario", style: TextStyle(color: Colors.orange, fontSize: 20.0, fontWeight: FontWeight.w600),),
+        Container(
+          // color: Colors.red,
+          // height: 200.0,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(20.0),
+            border: Border.all(color: Colors.black45)
+          ),
+          margin: EdgeInsets.symmetric(horizontal: 20.0,),
+          padding: EdgeInsets.all(10.0),
+          width: double.infinity,
+          child: TextField(
+            // expands: true,
+            maxLines: 5,
+            decoration: InputDecoration(
+              hintText: "Comentario aqui..",
+              // border: OutlineInputBorder(),
+              
+              filled: true,
+            ),
+            onChanged: (value) {
+              rest.comentarioUser = _control.text;
+              // print("#################");
+              // print(_control.text);
+              // print(_control.value);
+              // print(_control.toString());
+
+              // _control.value;
+              // _control.text = value + "x";
+            },
+
+            controller: _control,
+          ),
+        ),
+        InkWell(
+          onTap: () async {
+            // prov.indexPage = 11;
+            final respuesta = await graphQl.insertarComentarioRest(
+              prov.userIdGraphql,
+              rest.restID,
+              rest.comentarioUser,
+              prov.userName,
+            );
+
+
+            // Map comentarios = await graphQl.ejecutarConsultaComentarios(rest.restID);
+            // print("### resultado DATOS: $comentarios");
+            // await rest.cargarComentarios(comentarios);
+            Toast.show("Gracias por tu comentario", context, duration: Toast.LENGTH_LONG, gravity:  Toast.CENTER);
+            // comentarios = 
+            _control.text = "";
+            print("####################33");
+            print(rest.comentarios);
+            await rest.nuevoComentario(respuesta["insert_restaurant_comments_one"]);
+            // List<Comentario> comentarios2 = rest.comentarios;
+            // rest.llenarwidgetsComentarios (comentarios2);
+            setState(() {
+              
+            });
+          },
+          child: Container(
+            margin: EdgeInsets.symmetric(horizontal: 50.0,vertical: 10.0),
+            alignment: Alignment.center,
+            padding: EdgeInsets.symmetric(vertical: 10.0),
+            width: double.infinity,
+            child: Text("Opinar",style: _styleSubTitle,),
+            decoration: BoxDecoration(
+              color: Colors.orange,
+              borderRadius: BorderRadius.circular(50.0)
+            ),
+
+          ),
+        ),
+      ],
     );
   }
 
@@ -570,7 +651,10 @@ class _RestaurantBodyState extends State<RestaurantBody> {
 //"El Fundo del abuelo"
 
 
-class _Opiniones extends StatelessWidget {
+class Opiniones extends StatelessWidget {
+  final String comentario;
+  final String autor;
+  Opiniones({@required this.comentario,@required this.autor});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -583,7 +667,7 @@ class _Opiniones extends StatelessWidget {
       padding: EdgeInsets.all(10.0),
       child: ConstrainedBox(
         constraints: BoxConstraints(
-          maxHeight: 80.0,
+          // maxHeight: 80.0,
           minHeight: 50.0
         ),
         child: Column(
@@ -591,7 +675,7 @@ class _Opiniones extends StatelessWidget {
           children: <Widget>[
             Row(
               children: <Widget>[
-                Expanded(child: Text("Anonimo")),
+                Expanded(child: Text("$autor")),
                 Row(
                   children: <Widget>[
                     Icon(Icons.star,color: Colors.orange,),
@@ -603,13 +687,13 @@ class _Opiniones extends StatelessWidget {
                 ),
               ],
             ),
-            Expanded(child: Text("In elit cupidatat magna non sint officia.", overflow: TextOverflow.ellipsis,)),
-            Row(
-              children: <Widget>[
-                Spacer(),
-                Text("ver mas..."),
-              ],
-            )
+            Container(child: Text("$comentario", overflow: TextOverflow.fade,)),
+            // Row(
+            //   children: <Widget>[
+            //     Spacer(),
+            //     Text("ver mas..."),
+            //   ],
+            // )
           ],
         ),
       ),

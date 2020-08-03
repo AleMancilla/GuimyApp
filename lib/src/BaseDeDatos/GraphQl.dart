@@ -63,7 +63,7 @@ const String readRestaurant = r'''
 
 const String readMissions = r'''
   query MyQuery {
-    misions {
+    missions {
       gives_points
       name
       id
@@ -71,6 +71,17 @@ const String readMissions = r'''
       needs_total
     }
   }
+''';
+
+
+const String readComentarios = r'''
+  query MyQuery($idRest: uuid) {
+  restaurant_comments(where: {idRestaurant: {_eq: $idRest}}) {
+    NameComplete
+    commentary
+    date_public
+  }
+}
 ''';
 
 
@@ -107,6 +118,15 @@ final String _insertReserva = r"""
   }
 }
 
+  """;
+final String _insertComentarioRest = r"""
+  mutation MyMutation($idUser: uuid, $idRest: uuid, $coment: String, $name:String) {
+  insert_restaurant_comments_one(object: {idUser: $idUser, idRestaurant: $idRest, commentary: $coment, NameComplete: $name}) {
+    commentary
+    date_public
+    NameComplete
+  }
+}
   """;
 
   
@@ -226,6 +246,45 @@ class GraphQLClass {
   }
 
 
+  insertarComentarioRest(
+    String idUser,
+    String idRest,
+    String coment,
+    String name,
+  )async{
+
+    final MutationOptions options = MutationOptions(
+      documentNode: gql(_insertComentarioRest),
+      variables: <String, dynamic>{
+        "idUser": idUser,
+        "idRest": idRest,
+        "coment": coment,
+        "name"  : name
+      },
+    );
+
+    final QueryResult result = await _client.mutate(options);
+
+    if (result.hasException) {
+        print(result.exception.toString());
+        
+        return;
+    }
+    print(result.data);
+
+    // final bool isStarred =
+    //     result.data['action']['starrable']['viewerHasStarred'] as bool;
+
+    // if (isStarred) {
+    //   print('Thanks for your star!');
+    //   return;
+    // }
+    return result.data;
+
+  }
+
+
+
   insertarReserva(
     String userID,
     String reservafirstName,
@@ -269,6 +328,26 @@ class GraphQLClass {
     // }
 
 
+  }
+
+  ejecutarConsultaComentarios(String idRest)async{
+
+    final QueryOptions options = QueryOptions(
+        documentNode: gql(readComentarios),
+        variables: <String, dynamic>{
+          "idRest": idRest
+        },
+    );
+
+    final QueryResult result = await _client.query(options);
+    if (result.hasException) {
+        print(result.exception.toString());
+    }
+    print("### ${result.data}");
+    final Map repositories = await result.data;
+    print("### $repositories");
+
+    return repositories;
   }
 
 
