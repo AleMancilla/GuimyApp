@@ -85,6 +85,20 @@ const String readComentarios = r'''
 ''';
 
 
+const String readMesages = r'''
+  query MyQuery($idUser: uuid) {
+  chats(where: {sender: {_eq: $idUser}}) {
+    image
+    message
+    tag
+    state
+    created_at
+  }
+}
+''';
+
+
+
 
 // ####### mutacion #######
 
@@ -138,6 +152,7 @@ final String _insertReportar = r"""
     message
     tag
     state
+    created_at
   }
 }
   """;
@@ -406,6 +421,29 @@ class GraphQLClass {
     return result.data;
 
   }
+
+
+
+  ejecutarConsultaMensajes(String idUsuario)async{
+
+    final QueryOptions options = QueryOptions(
+        documentNode: gql(readMesages),
+        variables: <String, dynamic>{
+          "idUser": idUsuario
+        },
+    );
+
+    final QueryResult result = await _client.query(options);
+    if (result.hasException) {
+        print(result.exception.toString());
+    }
+    print("### ${result.data}");
+    final repositories = await result.data["chats"];
+    print("### $repositories");
+
+    return repositories;
+  }
+
 
 
 

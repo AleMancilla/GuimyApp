@@ -4,6 +4,7 @@ import 'package:guimyapp/src/Pages/Body/ConsultasMensajerias/ConsultasBody.dart'
 import 'package:guimyapp/src/Pages/Body/ConsultasMensajerias/ItemReportar.dart';
 import 'package:guimyapp/src/Pages/Body/ConsultasMensajerias/ItemConsultasFour.dart';
 import 'package:guimyapp/src/Pages/Body/ConsultasMensajerias/MensajeriaBody.dart';
+import 'package:guimyapp/src/Provider/ClassMensajeProblem.dart';
 import 'package:guimyapp/src/Provider/ModelProvider.dart';
 import 'package:guimyapp/src/Provider/ModelReportConsultasMensajeria.dart';
 import 'package:provider/provider.dart';
@@ -49,8 +50,10 @@ class ReportarBody extends StatelessWidget {
                     child: _TopIndexPage("Consultas",0)
                   ),
                   GestureDetector(
-                    onTap: () {
-
+                    onTap: () async{
+                      ClassMensajeProblem problem = Provider.of<ClassMensajeProblem>(context,listen: false);
+                      ModelProvider prov = Provider.of<ModelProvider>(context,listen: false);
+                      problem.listaMsj = await gpql.ejecutarConsultaMensajes(prov.userIdGraphql);
                       int numAux = Provider.of<ModelReportConsultasMensajerias>(context, listen: false).bodyPage;
                       if(numAux ==0){
                         Provider.of<ModelReportConsultasMensajerias>(context, listen: false).currentPage = 1;

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:guimyapp/src/BaseDeDatos/GraphQl.dart';
+import 'package:guimyapp/src/GraphQL/GraphQl.dart';
 import 'package:guimyapp/src/Provider/ClassReserva.dart';
 import 'package:guimyapp/src/Provider/ClassRestaurant.dart';
 import 'package:guimyapp/src/Provider/ModelProvider.dart';

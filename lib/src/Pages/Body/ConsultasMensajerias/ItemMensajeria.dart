@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 
 class ItemMensajeria extends StatelessWidget {
+  final String tag;
+  final String mesage;
+  final String state;
+  final String date;
+
+  const ItemMensajeria({@required this.tag, @required this.mesage, @required this.state, @required this.date});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -29,12 +35,13 @@ class ItemMensajeria extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text("Mis canjes"),
+              Text("$tag"),
+              Text("$mesage"),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Text("➤ En revision"),
-                  Text("20/10/2020"),
+                  Text("➤ $state"),
+                  Text("$date"),
                 ],
               )
             ],

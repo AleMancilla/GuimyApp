@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
+import 'package:guimyapp/src/Pages/Body/ConsultasMensajerias/ItemMensajeria.dart';
 import 'package:http/http.dart' as http;
 import 'package:mime_type/mime_type.dart';
 // import 'package:mime_type/mime_type.dart';
@@ -52,6 +53,80 @@ class ClassMensajeProblem with ChangeNotifier{
     print(respData);
     return respData['secure_url'];
   }
+
+
+
+  ////////////////////////////////////
+  ///
+  List _listaMsj;
+  List _listaMsjWidget;
+
+  set listaMsj(List msg){
+    
+    this._listaMsj = msg;
+    listaMsjWidget = this._listaMsj;
+    notifyListeners();
+  }
+  List get listaMsjWidget =>this._listaMsjWidget;
+  set listaMsjWidget(List msg){
+    this._listaMsjWidget = this._listaMsj?.map((mensaje) {
+      return ItemMensajeria(
+        tag     : mensaje["tag"],
+        mesage  : mensaje["message"],
+        state   : mensaje["state"],
+        date    : mensaje["created_at"].toString().substring(0,10)
+      );
+    })?.toList();
+    notifyListeners();
+  }
+  agregarUnMensajeMAP( item){
+    print("---------------------------------------------");
+    print(item);
+    print("---------------------------------------------");
+    this._listaMsj.add(
+      item
+    );
+    print("---------------------------------------------");
+    print(this._listaMsj);
+    print("---------------------------------------------");
+
+    notifyListeners();
+  }
+
+  agregarUnMensaje( item){
+    print("---------------------------------------------");
+    print(item);
+    print("---------------------------------------------");
+    this._listaMsjWidget.add(
+      ItemMensajeria(
+        tag     : item["tag"],
+        mesage  : item["message"],
+        state   : item["state"],
+        date    : item["created_at"].toString().substring(0,10)
+      )
+    );
+    print("---------------------------------------------");
+    print(this._listaMsjWidget);
+    print("---------------------------------------------");
+
+    notifyListeners();
+  }
+  
+  
+  //  cargarmensajes(){
+  //   //  print("%%%%%%^^^^^^^^%%%%%%%%%%%%");
+  //   //   print(this._listaMsj); 
+  //     this._listaMsjWidget = this._listaMsj?.map((mensaje) {
+  //     return ItemMensajeria(
+  //       tag     : mensaje["tag"],
+  //       mesage  : mensaje["message"],
+  //       state   : mensaje["state"],
+  //       date    : mensaje["created_at"].toString().substring(0,10)
+  //     );
+  //   })?.toList();
+  //   // notifyListeners();
+  //  }
+
 
 
 }

@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:guimyapp/src/BaseDeDatos/GraphQl.dart';
+import 'package:guimyapp/src/GraphQL/GraphQl.dart';
 import 'package:mime_type/mime_type.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';

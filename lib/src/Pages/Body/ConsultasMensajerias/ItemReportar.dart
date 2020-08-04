@@ -14,7 +14,7 @@ import 'package:toast/toast.dart';
 final _picker = ImagePicker();
 File imagen;
 
-String _problema ="";
+String _problema ="Tuve un problema con mi pedido";
 String _mensajeProblema ="";
 // ignore: must_be_immutable
 class ItemReportar extends StatefulWidget {
@@ -85,6 +85,7 @@ class _ItemReportarState extends State<ItemReportar> {
               child: DropdownButton(
                 value: _selectedProblem,
                 items: _dropdownMenuItems,
+
                 onChanged: (Problem valor){
                   onChangeDropdownItem(valor);
                   _problema = valor.name;
@@ -118,6 +119,7 @@ class _ItemReportarState extends State<ItemReportar> {
             _insertarImagen(_subtitleStyle, _textBotonStyle),
             GestureDetector(
               onTap: () async {
+                  Toast.show("Reporte enviado..", context, duration: Toast.LENGTH_LONG, gravity:  Toast.BOTTOM);
                   ClassMensajeProblem _sendProblem = Provider.of<ClassMensajeProblem>(context, listen: false);
                   ModelProvider _prov = Provider.of<ModelProvider>(context,listen: false);
                   
@@ -131,7 +133,7 @@ class _ItemReportarState extends State<ItemReportar> {
                   _sendProblem.tag = _problema;
                   _sendProblem.msg = _mensajeProblema;
 
-                  await graphQl.insertarReportar(
+                  Map respuesta = await graphQl.insertarReportar(
                     categoria: "$title",
                     estado: "En revision",
                     tag: _sendProblem.tag,
@@ -140,14 +142,16 @@ class _ItemReportarState extends State<ItemReportar> {
                     userID: _prov.userIdGraphql
                   );
 
-
+                  print("&&&&&&&&& $respuesta");
+                  _sendProblem.agregarUnMensaje(respuesta["insert_chats_one"]);
+                  _sendProblem.agregarUnMensajeMAP(respuesta["insert_chats_one"]);
+                  print(" LISTA MENSAJES ${_sendProblem.listaMsjWidget}");
                   _sendProblem.tag = "";
                   _sendProblem.msg = "";
                   _sendProblem.urlImagen="";
                   _mensajeProblema="";
                   imagen = null;
                   Provider.of<ModelReportConsultasMensajerias>(context, listen: false).bodyPage =0;
-                  Toast.show("Reporte enviado..", context, duration: Toast.LENGTH_LONG, gravity:  Toast.BOTTOM);
 
               },
               child: Container(
@@ -164,6 +168,7 @@ class _ItemReportarState extends State<ItemReportar> {
 
             GestureDetector(
               onTap: () async {
+                  Toast.show("Mensaje cancelado", context, duration: Toast.LENGTH_LONG, gravity:  Toast.BOTTOM);
                   ClassMensajeProblem _sendProblem = Provider.of<ClassMensajeProblem>(context, listen: false);
                   // ModelProvider _prov = Provider.of<ModelProvider>(context,listen: false);
                   
@@ -193,7 +198,6 @@ class _ItemReportarState extends State<ItemReportar> {
                   _mensajeProblema="";
                   imagen = null;
                   Provider.of<ModelReportConsultasMensajerias>(context, listen: false).bodyPage =0;
-                  Toast.show("Mensaje cancelado", context, duration: Toast.LENGTH_LONG, gravity:  Toast.BOTTOM);
 
               },
               child: Container(

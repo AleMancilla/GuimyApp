@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:guimyapp/src/BaseDeDatos/GraphQl.dart';
+import 'package:guimyapp/src/GraphQL/GraphQl.dart';
 import 'package:guimyapp/src/Provider/ClassMisions.dart';
 import 'package:guimyapp/src/Provider/ModelProvider.dart';
 import 'package:provider/provider.dart';
