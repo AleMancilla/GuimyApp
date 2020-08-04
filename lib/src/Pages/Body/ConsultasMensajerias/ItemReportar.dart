@@ -136,7 +136,7 @@ class _ItemReportarState extends State<ItemReportar> {
                   Map respuesta = await graphQl.insertarReportar(
                     categoria: "$title",
                     estado: "En revision",
-                    tag: _sendProblem.tag,
+                    tag: _sendProblem.tag, 
                     msg: _sendProblem.msg,
                     imgUrl: _sendProblem.urlImagen??"sin imagen",
                     userID: _prov.userIdGraphql

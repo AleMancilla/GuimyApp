@@ -93,6 +93,7 @@ const String readMesages = r'''
     tag
     state
     created_at
+    category
   }
 }
 ''';

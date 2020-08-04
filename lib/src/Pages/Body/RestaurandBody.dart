@@ -1,3 +1,5 @@
+
+
 import 'package:flutter/material.dart';
 import 'package:guimyapp/src/GraphQL/GraphQl.dart';
 import 'package:guimyapp/src/Provider/ClassReserva.dart';
@@ -43,7 +45,7 @@ class _RestaurantBodyState extends State<RestaurantBody> {
 
   final TextStyle _styleSubTitle = TextStyle(color: Colors.white, fontWeight: FontWeight.w500,fontSize: 14.0);
   DateTime selectedData = DateTime.now();
-  final DateFormat dateFormat = DateFormat('yyyy-MM-dd HH:mm');
+  final DateFormat dateFormat = DateFormat('dd/MM/yy HH:mm');
 
   List<MaxPersonas> _companies = MaxPersonas.getProblems();
   List<DropdownMenuItem<MaxPersonas>> _dropdownMenuItems;
@@ -98,6 +100,8 @@ class _RestaurantBodyState extends State<RestaurantBody> {
             // Spacer()
             if(prov.indexPageRestaurant == 0)_bodyRestaurant(context,rest),
             if(prov.indexPageRestaurant == 1)_bodyRestaurantReserva(context),
+            // if(prov.indexPageRestaurant == 2)Container(color: Colors.black,width: double.infinity,height: 200.0,),
+            // if(prov.indexPageRestaurant == 3)Container(color: Colors.blue,width: double.infinity,height: 200.0,),
           ],
         ),
       ),
@@ -427,23 +431,29 @@ class _RestaurantBodyState extends State<RestaurantBody> {
               ),
               Expanded(
                 child: InkWell(
-                  onTap: () async {
+                  onTap: () async{
                     // print(prov.uid);
                     // print(prov.userId);
                     // print(prov.userIdGraphql);
+                    
                     reserva.userID = prov.userIdGraphql;
                     reserva.restaurantID = restaurant.restID;
 
-                    await graphQl.insertarReserva(
-                      reserva.userID, 
-                      reserva.reservafirstName, 
-                      reserva.reservalastName, 
-                      reserva.reservanumeroIdentidad, 
-                      reserva.reservamaxPersons, 
-                      reserva.reservadate, 
-                      reserva.reservamessage, 
-                      reserva.restaurantID
-                      );
+                    prov.indexPage = 12;
+                    Future.delayed(Duration(seconds: 3),(){
+                        prov.indexPage = 13;
+                      });
+                      // cargarNuevaPagina(prov);
+                    // await graphQl.insertarReserva(
+                    //   reserva.userID, 
+                    //   reserva.reservafirstName, 
+                    //   reserva.reservalastName, 
+                    //   reserva.reservanumeroIdentidad, 
+                    //   reserva.reservamaxPersons, 
+                    //   reserva.reservadate, 
+                    //   reserva.reservamessage, 
+                    //   reserva.restaurantID
+                    //   );
                   },
                   child: Container(
                     alignment: Alignment.center,
@@ -465,6 +475,7 @@ class _RestaurantBodyState extends State<RestaurantBody> {
       ),
     );
   }
+
 
   Widget _inputNombre(ClassReserva reserva){
     return Container(
@@ -569,7 +580,7 @@ class _RestaurantBodyState extends State<RestaurantBody> {
       margin: EdgeInsets.symmetric(horizontal: 20.0,vertical: 10.0),
       child: Column(
         children: <Widget>[
-          Text(dateFormat.format(selectedData)),
+          Text("Fecha de reserva: ${dateFormat.format(selectedData)}", style: TextStyle(fontWeight: FontWeight.bold),),
           GestureDetector(
             onTap: () async {
               final selectedData = await _selecDate(context);
@@ -577,7 +588,7 @@ class _RestaurantBodyState extends State<RestaurantBody> {
 
               final selectTime = await _selectedTime(context);
               print("## TIME $selectTime");
-              reserva.reservadate = "${selectedData.year}-${selectedData.month}-${selectedData.day} ${selectTime.hour}:${selectTime.minute}";
+              reserva.reservadate = "${selectedData.toString().substring(0,10)} ${selectTime.toString().substring(10,15)}";
 
               setState(() {
                 this.selectedData = DateTime(

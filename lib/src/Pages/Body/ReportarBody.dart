@@ -1,5 +1,6 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:guimyapp/src/GraphQL/GraphQl.dart';
 import 'package:guimyapp/src/Pages/Body/ConsultasMensajerias/ConsultasBody.dart';
 import 'package:guimyapp/src/Pages/Body/ConsultasMensajerias/ItemReportar.dart';
 import 'package:guimyapp/src/Pages/Body/ConsultasMensajerias/ItemConsultasFour.dart';
@@ -8,6 +9,7 @@ import 'package:guimyapp/src/Provider/ClassMensajeProblem.dart';
 import 'package:guimyapp/src/Provider/ModelProvider.dart';
 import 'package:guimyapp/src/Provider/ModelReportConsultasMensajeria.dart';
 import 'package:provider/provider.dart';
+GraphQLClass gpql = new GraphQLClass();
 class ReportarBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

@@ -71,7 +71,7 @@ class ClassMensajeProblem with ChangeNotifier{
   set listaMsjWidget(List msg){
     this._listaMsjWidget = this._listaMsj?.map((mensaje) {
       return ItemMensajeria(
-        tag     : mensaje["tag"],
+        tag     : mensaje["category"],
         mesage  : mensaje["message"],
         state   : mensaje["state"],
         date    : mensaje["created_at"].toString().substring(0,10)
@@ -80,23 +80,23 @@ class ClassMensajeProblem with ChangeNotifier{
     notifyListeners();
   }
   agregarUnMensajeMAP( item){
-    print("---------------------------------------------");
-    print(item);
-    print("---------------------------------------------");
+    // print("---------------------------------------------");
+    // print(item);
+    // print("---------------------------------------------");
     this._listaMsj.add(
       item
     );
-    print("---------------------------------------------");
-    print(this._listaMsj);
-    print("---------------------------------------------");
+    // print("---------------------------------------------");
+    // print(this._listaMsj);
+    // print("---------------------------------------------");
 
     notifyListeners();
   }
 
   agregarUnMensaje( item){
-    print("---------------------------------------------");
-    print(item);
-    print("---------------------------------------------");
+    // print("---------------------------------------------");
+    // print(item);
+    // print("---------------------------------------------");
     this._listaMsjWidget.add(
       ItemMensajeria(
         tag     : item["tag"],
@@ -105,9 +105,9 @@ class ClassMensajeProblem with ChangeNotifier{
         date    : item["created_at"].toString().substring(0,10)
       )
     );
-    print("---------------------------------------------");
-    print(this._listaMsjWidget);
-    print("---------------------------------------------");
+    // print("---------------------------------------------");
+    // print(this._listaMsjWidget);
+    // print("---------------------------------------------");
 
     notifyListeners();
   }
