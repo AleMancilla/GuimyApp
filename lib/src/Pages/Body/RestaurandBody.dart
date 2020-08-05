@@ -441,8 +441,8 @@ class _RestaurantBodyState extends State<RestaurantBody> {
 
                     prov.indexPage = 12;
                     Future.delayed(Duration(seconds: 3),(){
-                        prov.indexPage = 13;
-                      });
+                      prov.indexPage = 13;
+                    });
                       // cargarNuevaPagina(prov);
                     // await graphQl.insertarReserva(
                     //   reserva.userID, 

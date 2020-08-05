@@ -55,7 +55,7 @@ class ConfirmarReserva extends StatelessWidget {
             onTap: () async{
             Toast.show("Gracias por su reserva", context, duration: Toast.LENGTH_LONG, gravity:  Toast.CENTER);
               
-
+ 
               await graphQl.insertarReserva(
                 reserva.userID, 
                 reserva.reservafirstName, 
@@ -76,7 +76,11 @@ class ConfirmarReserva extends StatelessWidget {
                 reserva.reservamessage = "";
                 reserva.restaurantID = "";
                 prov.indexPageRestaurant = 0;
-                prov.indexPage = 11;
+
+                prov.indexPage = 14;
+                Future.delayed(Duration(seconds: 7),(){
+                  prov.indexPage = 11;
+                });
             },
             child: Container(
               decoration: BoxDecoration(

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:guimyapp/src/GraphQL/GraphQl.dart';
+import 'package:guimyapp/src/Pages/Body/CompartirReserva.dart';
 import 'package:guimyapp/src/Pages/Body/ConfirmarReserva.dart';
 // import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:guimyapp/src/Pages/Body/CuponBody.dart';
@@ -230,6 +231,9 @@ class _HomePageState extends State<HomePage> {
         break;
       case 13:
         return ConfirmarReserva();
+        break;
+      case 14:
+        return CompartirReserva();
         break;
       default:
         return HomeBody();
