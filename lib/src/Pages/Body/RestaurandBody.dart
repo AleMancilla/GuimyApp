@@ -100,6 +100,7 @@ class _RestaurantBodyState extends State<RestaurantBody> {
             // Spacer()
             if(prov.indexPageRestaurant == 0)_bodyRestaurant(context,rest),
             if(prov.indexPageRestaurant == 1)_bodyRestaurantReserva(context),
+            // if(prov.indexPageRestaurant == 1)_bodyRestaurantReserva(context),
             // if(prov.indexPageRestaurant == 2)Container(color: Colors.black,width: double.infinity,height: 200.0,),
             // if(prov.indexPageRestaurant == 3)Container(color: Colors.blue,width: double.infinity,height: 200.0,),
           ],
@@ -114,7 +115,7 @@ class _RestaurantBodyState extends State<RestaurantBody> {
   return AppBodyRestaurant(nameRestaurant: rest.resName??"cargando..",urlLogo: (rest.resLogo!= null)?rest.resLogo:"https://img.icons8.com/doodle/48/000000/chef-hat--v1.png",);
   }
 
-  Widget _bodyRestaurant(BuildContext context, ClassRestaurant rest){
+  _bodyRestaurant(BuildContext context, ClassRestaurant rest){
     return Container(
       width: double.infinity,
       child: Column(

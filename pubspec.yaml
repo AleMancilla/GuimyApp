@@ -43,6 +43,7 @@ dependencies:
   mime_type: 
   qrscan: ^0.2.17
   intl: ^0.16.1
+  google_maps_flutter: ^0.5.29
 
 dev_dependencies:
   flutter_test:
