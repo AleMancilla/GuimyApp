@@ -25,6 +25,7 @@ import 'package:guimyapp/src/Widgets/AppBarWidgetP.dart';
 import 'package:guimyapp/src/Widgets/BottomBarWidget.dart';
 import 'package:provider/provider.dart';
 import 'package:qrscan/qrscan.dart' as scanner;
+import 'package:toast/toast.dart';
 // import 'package:shared_preferences/shared_preferences.dart';
 
 GraphQLClass graphQl = new GraphQLClass();
@@ -163,29 +164,35 @@ class _HomePageState extends State<HomePage> {
       // print(" ### $cameraScanResult");
       ModelProvider prov = Provider.of<ModelProvider>(context,listen: false);
       ClassRestaurant rest = Provider.of<ClassRestaurant>(context,listen: false);
-      prov.indexPage = 11;
+      
       //m
       cameraScanResult = cameraScanResult.substring(1,cameraScanResult.length-1);
-      Map jsonPrueba = json.decode(cameraScanResult);
 
+      try {
+        prov.indexPage = 11;
+        Map jsonPrueba = json.decode(cameraScanResult);
+        // print("##%## prueba Json ${jsonPrueba["restaurant"]}");
+        // print("##%## prueba Json ${jsonPrueba["sucursal"]}");
 
-      // print("##%## prueba Json ${jsonPrueba["restaurant"]}");
-      // print("##%## prueba Json ${jsonPrueba["sucursal"]}");
+        ClassRespQr resqr = Provider.of<ClassRespQr>(context,listen: false);
+        resqr.cargarRespuesta(jsonPrueba);
+        // print("##%## prueba Json ${resqr.restaurantID}");
 
-      ClassRespQr resqr = Provider.of<ClassRespQr>(context,listen: false);
-      resqr.cargarRespuesta(jsonPrueba);
-      // print("##%## prueba Json ${resqr.restaurantID}");
+        Map datos = await graphQl.consultarRestaurante(resqr.restaurantID);
+        // print("### resultado DATOS: $datos");
 
-      Map datos = await graphQl.consultarRestaurante(resqr.restaurantID);
-      // print("### resultado DATOS: $datos");
+        rest.cargarDatos(datos);
 
-      rest.cargarDatos(datos);
+        Map comentarios = await graphQl.ejecutarConsultaComentarios(rest.restID);
+        print("### resultado DATOS: $comentarios");
+        rest.cargarComentarios(comentarios);
 
-      Map comentarios = await graphQl.ejecutarConsultaComentarios(rest.restID);
-      print("### resultado DATOS: $comentarios");
-      rest.cargarComentarios(comentarios);
+      } catch (e) {
+        print("##########%%%^^^######### $e");
+        prov.indexPage = 0;
+        Toast.show("Error al tratar de leer el QR", context, duration: Toast.LENGTH_LONG, gravity:  Toast.BOTTOM);
 
-      
+      }
       // print("##%## prueba Json ${resqr.sucursalID}");
     }
     

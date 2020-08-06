@@ -13,6 +13,8 @@
         android:label="guimyapp"
         android:icon="@mipmap/ic_launcher"
         android:requestLegacyExternalStorage="true">
+        <meta-data android:name="com.google.android.geo.API_KEY"
+               android:value="AIzaSyDhqs3RQ2KWiz6CXlEEfWAqCvTPT9ZL4j8"/>  
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

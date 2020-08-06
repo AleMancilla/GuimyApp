@@ -118,7 +118,7 @@ class _SeccionCopyShare extends StatelessWidget {
         children: [
           GestureDetector(
             onTap: (){
-              Toast.show("Codigo copiado", context, duration: Toast.LENGTH_SHORT, gravity:  Toast.BOTTOM);
+              Toast.show("Codigo copiado", context, duration: Toast.LENGTH_LONG, gravity:  Toast.BOTTOM);
               // print("####### COPIADO");
               Clipboard.setData(ClipboardData(text: frase));
             },
