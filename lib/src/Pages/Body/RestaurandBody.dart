@@ -124,6 +124,7 @@ class _RestaurantBodyState extends State<RestaurantBody> {
           _conocenos(rest),
           _categorias(rest),
           _galeria(),
+          _platos(),
           _opiniones(rest),
           _btnOpinar(context),
           
@@ -272,6 +273,69 @@ class _RestaurantBodyState extends State<RestaurantBody> {
               _aux,
             ],
           ),
+        )
+      ],
+    );
+  }
+
+  Widget _platos(){
+    final Widget _aux =
+     InkWell(
+       onTap: () {
+         Navigator.pushNamed(context, "/Plato");
+       },
+      child: Column(
+        children: <Widget>[
+          Container(
+            margin: EdgeInsets.all(5.0),
+            child: ClipRRect(
+              // borderRadius: BorderRadius.circular(10.0),
+              child: Container(
+                margin: EdgeInsets.symmetric(horizontal: 5.0,vertical: 5.0),
+                decoration: BoxDecoration(
+                  color: Colors.transparent,
+                  // borderRadius: BorderRadius.circular(20.0),
+                  // shape: BoxShape.circle
+                ),
+                child:CircleAvatar(
+                  radius: 45.0,
+                  backgroundImage: AssetImage("lib/src/Sources/loadingimage/jar-loading.gif"),
+                  backgroundColor: Colors.white,
+                  // child: Image.asset("lib/src/Sources/loadingimage/jar-loading.gif",height: 100.0,width: 100.0,))
+                ),
+              ),
+            )
+          ),
+          Container(
+            width: 100,
+            child: Text("Fetuchin a la carbonera", overflow: TextOverflow.clip,textAlign: TextAlign.center,)
+          )
+        ],
+      ),
+    );
+    
+    
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15.0),
+          child: Text("Platos",style: _title,),
+        ),
+        Wrap(
+          children: <Widget>[
+            SizedBox(width: 12.0,),
+            _aux,
+            _aux,
+            _aux,
+            _aux,
+            _aux,
+            _aux,
+            _aux,
+            _aux,
+            _aux,
+            _aux,
+          ],
         )
       ],
     );

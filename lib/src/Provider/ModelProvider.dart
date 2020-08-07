@@ -78,8 +78,8 @@ class ModelProvider extends ChangeNotifier{
         _userId = _authResult.user.uid;
       }
     } catch (e) {
-    Toast.show("Error inesperado: $e..", context, duration: Toast.LENGTH_LONG, gravity:  Toast.TOP);
-      print("Error encontrado en $e");
+    Toast.show("Error de Registro : $e..", context, duration: Toast.LENGTH_LONG, gravity:  Toast.TOP);
+      print("Error de Registro $e");
     }
     print("###############################3");
     // onStartUp();

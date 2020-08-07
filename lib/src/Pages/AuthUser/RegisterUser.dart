@@ -14,6 +14,7 @@ import 'package:toast/toast.dart';
 
 File _image;
 File _imageUrl;
+bool _addPhoto = false;
 
  
 class RegisterUser extends StatefulWidget {
@@ -114,7 +115,7 @@ class _RegisterUserState extends State<RegisterUser> {
       child: Column(
         children: <Widget>[
           _mostrarFoto(),
-          Row(
+          if(_addPhoto)Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
               GestureDetector(
@@ -146,16 +147,31 @@ class _RegisterUserState extends State<RegisterUser> {
       print("##### IMAGE  ${_image?.path}");
       return ClipRRect(
         borderRadius: BorderRadius.circular(100.0),
-        child: Image(
-          image: 
-          (_image == null)?
-          AssetImage(  _image?.path ?? "lib/src/Sources/loadingimage/no-image.png" )
-          :
-          FileImage(_image),
-          height: 200.0,
-          width: 200.0,
-          fit: BoxFit.cover,
-        ),
+        
+        child: (_image == null)?
+          GestureDetector(
+            onTap: () {
+              if(_addPhoto) { _addPhoto = false;}
+              else{_addPhoto = true;}
+              print(_addPhoto);
+              setState(() {
+                
+              });
+            },
+            child: CircleAvatar(
+              radius: 50.0,
+              backgroundColor: Colors.white,
+              child: Icon(Icons.add,size: 50.0,color: Colors.grey,),
+            ),
+          )
+          : 
+          Image(
+            image: 
+            FileImage(_image),
+            height: 100.0,
+            width: 100.0,
+            fit: BoxFit.cover,
+          ),
       );
     }
   }
@@ -248,7 +264,7 @@ class _RegisterUserState extends State<RegisterUser> {
       ),
     );
   }
-
+  bool _showPassword = false;
   Widget _inputPass(){
     return Container(
       margin: EdgeInsets.all(8.0),
@@ -259,12 +275,21 @@ class _RegisterUserState extends State<RegisterUser> {
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(50.0)
           ),
-          hintText: "Password",
+          labelText: "Password",
           alignLabelWithHint: false,
-          filled: true
+          filled: true,
+          suffixIcon: IconButton(
+            icon: Icon(Icons.remove_red_eye,color: this._showPassword? Colors.blue:Colors.grey,),
+             
+            onPressed: () {
+              setState(() {
+                this._showPassword = !this._showPassword;
+              });
+            },
+          )
         ),
         //keyboardType: TextInputType.visiblePassword,
-        obscureText: true,
+        obscureText: !this._showPassword,
         textInputAction: TextInputAction.done,
       ),
     );
@@ -289,7 +314,7 @@ class _RegisterUserState extends State<RegisterUser> {
     );
   }
 
-
+  
   Widget _inputPais(){
     // falta controller
     return Container(
@@ -337,6 +362,7 @@ class _RegisterUserState extends State<RegisterUser> {
         _currentUser.userCountry = _countryController.toString();
         _currentUser.userPhone = _phoneNumber.text;
         _currentUser.extencionPhone = _extencion;
+
         final dato = await _funcionCargarDatos(_currentUser);
         _currentUser.userAvatar = dato;
         
@@ -440,7 +466,7 @@ class _RegisterUserState extends State<RegisterUser> {
       valor = await currentUser.subirImagen(_image);
     }else{
       print("####### _image es null");
-      valor = "";
+      valor = "https://cdn3.iconfinder.com/data/icons/avatars-round-flat/33/avat-01-512.png";
     }    
     return valor;
   }
@@ -473,7 +499,7 @@ void _signUpUser(String email, String pass, BuildContext context) async {
       Navigator.pushReplacementNamed(context, "/homePage"); 
     }
   } catch (e) {
-    Toast.show("Error inesperado: $e..", context, duration: Toast.LENGTH_LONG, gravity:  Toast.TOP);
+    Toast.show("Error de datos: $e..", context, duration: Toast.LENGTH_LONG, gravity:  Toast.TOP);
     print(e);
   }
 }

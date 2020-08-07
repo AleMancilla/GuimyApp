@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:guimyapp/src/Pages/AuthUser/LoginUser.dart';
 import 'package:guimyapp/src/Pages/AuthUser/RegisterUser.dart';
+import 'package:guimyapp/src/Pages/Body/PlatoPage.dart';
 import 'package:guimyapp/src/Pages/SplashPage.dart';
 import 'package:guimyapp/src/PreferensUser/PreferenciasUsuario.dart';
 import 'package:guimyapp/src/Provider/ClassMensajeProblem.dart';
@@ -81,6 +82,7 @@ class MyApp extends StatelessWidget {
         "/Login"    : (BuildContext context) => LoginUser(),
         "/Register" : (BuildContext context) => RegisterUser(),
         "/homePage" : (BuildContext context) => HomePage(),
+        "/Plato" : (BuildContext context) => PlatoPage(),
       },
     );
   }
