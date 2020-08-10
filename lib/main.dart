@@ -13,6 +13,7 @@ import 'package:guimyapp/src/Provider/ModelProvider.dart';
 import 'package:guimyapp/src/Provider/ModelReportConsultasMensajeria.dart';
 import 'package:guimyapp/src/Provider/ModelTopRest.dart';
 import 'package:guimyapp/src/Templates/HomePage.dart';
+import 'package:guimyapp/src/Templates/UltimasVisitasPage.dart';
 import 'package:guimyapp/src/root/root.dart';
 // import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:provider/provider.dart';
@@ -83,6 +84,7 @@ class MyApp extends StatelessWidget {
         "/Register" : (BuildContext context) => RegisterUser(),
         "/homePage" : (BuildContext context) => HomePage(),
         "/Plato" : (BuildContext context) => PlatoPage(),
+        "/UltimasVisitasPage" : (BuildContext context) => UltimasVistasPage(),
       },
     );
   }
