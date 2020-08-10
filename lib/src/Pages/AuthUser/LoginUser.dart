@@ -109,7 +109,7 @@ class _LoginUserState extends State<LoginUser> {
       ),
     );
   }
-
+  bool _showPassword = false;
   Widget _inputPass(){
     return Container(
       margin: EdgeInsets.all(8.0),
@@ -122,11 +122,21 @@ class _LoginUserState extends State<LoginUser> {
           ),
           hintText: "Password",
           alignLabelWithHint: false,
-          filled: true
+          filled: true,
+          suffixIcon: IconButton(
+            icon: Icon(Icons.remove_red_eye,color: this._showPassword? Colors.blue:Colors.grey,),
+             
+            onPressed: () {
+              setState(() {
+                this._showPassword = !this._showPassword;
+              });
+            },
+          )
         ),
         //keyboardType: TextInputType.visiblePassword,
-        obscureText: true,
+        obscureText: !this._showPassword,
         textInputAction: TextInputAction.done,
+        
       ),
     );
   }
