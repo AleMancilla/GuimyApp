@@ -227,6 +227,7 @@ class _RegisterUserState extends State<RegisterUser> {
 
   Widget _inputNombre(){
     return Container(
+      height: 50.0,
       margin: EdgeInsets.all(8.0),
       child: TextField(
         controller: _fullNameController,
@@ -247,6 +248,7 @@ class _RegisterUserState extends State<RegisterUser> {
 
   Widget _inputEmail(){
     return Container(
+      height: 50.0,
       margin: EdgeInsets.all(8.0),
       child: TextField(
         controller: _emailController,
@@ -267,6 +269,7 @@ class _RegisterUserState extends State<RegisterUser> {
   bool _showPassword = false;
   Widget _inputPass(){
     return Container(
+      height: 50.0,
       margin: EdgeInsets.all(8.0),
       child: TextField(
         controller: _passController,
@@ -275,7 +278,7 @@ class _RegisterUserState extends State<RegisterUser> {
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(50.0)
           ),
-          labelText: "Password",
+          hintText: "Password",
           alignLabelWithHint: false,
           filled: true,
           suffixIcon: IconButton(
@@ -296,6 +299,7 @@ class _RegisterUserState extends State<RegisterUser> {
   }
   Widget _inputPhone(){
     return Container(
+      height: 50.0,
       margin: EdgeInsets.all(8.0),
       child: TextField(
         controller: _phoneNumber,
@@ -318,6 +322,7 @@ class _RegisterUserState extends State<RegisterUser> {
   Widget _inputPais(){
     // falta controller
     return Container(
+      height: 50.0,
       width: double.infinity,
       decoration: BoxDecoration(
         border: new Border.all(color: Colors.grey[600],width: 1.0),

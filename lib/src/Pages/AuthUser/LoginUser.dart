@@ -92,6 +92,7 @@ class _LoginUserState extends State<LoginUser> {
 
   Widget _inputEmail(){
     return Container(
+      height: 50.0,
       margin: EdgeInsets.all(8.0),
       child: TextField(
         controller: _email,
@@ -112,6 +113,7 @@ class _LoginUserState extends State<LoginUser> {
   bool _showPassword = false;
   Widget _inputPass(){
     return Container(
+      height: 50.0,
       margin: EdgeInsets.all(8.0),
       child: TextField(
         controller: _password,
